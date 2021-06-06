@@ -91,7 +91,7 @@ return [
             'prefix_indexes' => true,
         ],
 
-        'mongodb' => [
+        /*'mongodb' => [
             'drive' => 'mongodb',
             'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '27017'),
@@ -100,6 +100,16 @@ return [
             'password' => env('DB_PASSWORD'),
             'options' => [
                 'database' => 'styde'
+            ]
+        ],*/
+        'mongodb' => [
+            'drive' => 'mongodb',
+            'dsn' => 'mongodb+srv://willy:will3148@cluster0.fic8d.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+            'database' => env('DB_DATABASE'),
+            //'username' => env('DB_USERNAME'),
+            //'password' => env('DB_PASSWORD'),
+            'options' => [
+                'database' => 'meditop_go'
             ]
         ]
     ],
