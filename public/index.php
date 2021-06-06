@@ -50,7 +50,6 @@ $kernel = $app->make(Kernel::class);
 //$request = Illuminate\Http\Request::capture()
 $response = tap($kernel->handle(
     $request = Illuminate\Http\Request::capture()
-    //$request = App\Http\Custom\Request::capture()
 ))->send();
 
 $kernel->terminate($request, $response);
