@@ -3,7 +3,8 @@ use Illuminate\Http\Request as Base;
 
 class Request extends Base {
 
-    public function isSecure() {
+    public function isSecure(): bool
+    {
         $isSecure = parent::isSecure();
         if ($isSecure) {
             return true;
