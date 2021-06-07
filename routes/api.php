@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,30 +19,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/hola', function(Request $request){
-   return Response::json([
-        'hello' => 'Hola mundo'
-    ], 200);
-});
+//public routes
+Route::post('/sanctum/login', [AuthController::class, 'getToken']);
 
-Route::post('/sanctum/token', function (Request $request) {
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-        'device_name' => 'required',
-    ]);
-    $user = User::where('email', $request->email)->first();
-    if (! $user || ! Hash::check($request->password, $user->password)) {
-        throw ValidationException::withMessages([
-            'email' => ['The provided credentials are incorrect.'],
-        ]);
-    }
-    return $user->createToken($request->device_name)->plainTextToken;
+//private routes
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/sanctum/user', [AuthController::class, 'getUser']);
+    Route::delete('/sanctum/revoke', [AuthController::class, 'revokeUser']);
 });
-
-Route::middleware('auth:sanctum')->get('/user/revoke', function (Request $request) {
-    $user = $request->user();
-    $user->tokens()->delete();
-    return 'tokens eliminados';
-});
-
