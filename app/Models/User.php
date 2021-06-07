@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     //use HasFactory, Notifiable;
     protected $connection = 'mongodb';
-    protected $collection = 'user';
+    protected $collection = 'users';
 
     protected $fillable = [
         'name',
