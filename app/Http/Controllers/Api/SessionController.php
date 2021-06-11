@@ -46,10 +46,10 @@ class SessionController extends Controller
         $fields = $request->validate([
             'name' => 'required|string',
             'last_name' => 'required|string',
-            'ci' => 'required|numeric',
-            'cellphone' => 'required|numeric',
+            'ci' => 'required|string|min:4',
+            'cellphone' => 'required|string|min:4',
             'birthday' => 'required|date',
-            'sex' => 'required|string|min:1|max:0',
+            'sex' => 'required|string|min:1|max:1',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|confirmed'
         ]);
