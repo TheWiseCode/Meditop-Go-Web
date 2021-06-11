@@ -37,7 +37,7 @@ class SessionController extends Controller
                 'password' => Hash::make($data['password'])
             ]);
 
-            $person = Person::create([
+            /*$person = Person::create([
                 'name' => $data['name'],
                 'last_name' => $data['last_name'],
                 'ci' => $data['ci'],
@@ -52,9 +52,10 @@ class SessionController extends Controller
             $response = [
                 'person' => $person,
                 'token' => $token
-            ];
+            ];*/
             $session->commitTransaction();
-            return response($response, 201);
+            //return response($response, 201);
+            return response(201);
         } catch (Exception $e) {
             $session->abortTransaction();
             return response(['error' => ['message' => 'Error registro no completado']],
