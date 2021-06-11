@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Persons;
+use App\Models\Person;
 use Illuminate\Http\Request;
 
 class PersonsController extends Controller
@@ -41,10 +41,10 @@ class PersonsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Persons  $persons
+     * @param  \App\Models\Person  $persons
      * @return \Illuminate\Http\Response
      */
-    public function show(Persons $persons)
+    public function show(Person $persons)
     {
         //
     }
@@ -52,10 +52,10 @@ class PersonsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Persons  $persons
+     * @param  \App\Models\Person  $persons
      * @return \Illuminate\Http\Response
      */
-    public function edit(Persons $persons)
+    public function edit(Person $persons)
     {
         //
     }
@@ -64,10 +64,10 @@ class PersonsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Persons  $persons
+     * @param  \App\Models\Person  $persons
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Persons $persons)
+    public function update(Request $request, Person $persons)
     {
         //
     }
@@ -75,10 +75,10 @@ class PersonsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Persons  $persons
+     * @param  \App\Models\Person  $persons
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Persons $persons)
+    public function destroy(Person $persons)
     {
         //
     }
