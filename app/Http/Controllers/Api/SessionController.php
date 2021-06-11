@@ -43,7 +43,7 @@ class SessionController extends Controller
 
     public function registerPerson(Request $request)
     {
-        dd($request);
+        //dd($request);
         $data = $request->validate([
             'name' => 'required|string',
             'last_name' => 'required|string',
