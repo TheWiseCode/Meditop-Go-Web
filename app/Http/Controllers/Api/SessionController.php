@@ -20,7 +20,6 @@ class SessionController extends Controller
         //($request->request);
         $session = DB::connection('mongodb')->getMongoClient();
         $session->startTransaction();
-        dd($session);
         try {
             $data = $request->validate([
                 'name' => 'required|string',
@@ -32,12 +31,11 @@ class SessionController extends Controller
                 'email' => 'required|email|unique:users,persons',
                 'password' => 'required|string|confirmed'
             ]);
-            //throw \Exception('db error testing');
-            /*$user = User::create([
+            $user = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password'])
-            ]);*/
+            ]);
 
             $person = Person::create([
                 'name' => $data['name'],
@@ -50,15 +48,13 @@ class SessionController extends Controller
                 'password' => Hash::make($data['password'])
             ]);
 
-            /*$token = $user->createToken('token' . $data['name'])->plainTextToken;
+            $token = $user->createToken('token' . $data['name'])->plainTextToken;
             $response = [
                 'person' => $person,
                 'token' => $token
-            ];*/
+            ];
             $session->commitTransaction();
-            return response(['error' => ['message' => 'Error registro no completado']],
-                500);
-            //return response($response, 201);
+            return response($response, 201);
         } catch (Exception $e) {
             $session->abortTransaction();
             return response(['error' => ['message' => 'Error registro no completado']],
