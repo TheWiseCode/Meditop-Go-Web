@@ -89,9 +89,9 @@ return [
             'database' => env('DB_DATABASE'),
             //'username' => env('DB_USERNAME'),
             //'password' => env('DB_PASSWORD'),
-            'options' => [
-                'database' => 'meditop_go'
-            ]
+//            'options' => [
+//                'database' => 'meditop_go'
+//            ]
         ]
     ],
 
@@ -125,7 +125,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [

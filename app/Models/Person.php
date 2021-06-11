@@ -9,7 +9,7 @@ class Person extends Model
 {
     //use HasFactory;
 
-    protected $connection = 'mongodb';
+    //protected $connection = 'mongodb';
     protected $collection = 'persons';
 
     protected $fillable = [
