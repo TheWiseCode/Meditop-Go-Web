@@ -18,7 +18,7 @@ class SessionController extends Controller
     {
         //($request->request);
         $session = DB::getMongoClient()->startSession();
-        dd($session);
+        //dd($session);
         $session->startTransaction();
         try {
             $data = $request->validate([
@@ -38,9 +38,6 @@ class SessionController extends Controller
                 'password' => Hash::make($data['password'])
             ]);
 
-            $user1 = new User();
-            $user1->
-
             $person = Person::create([
                 'name' => $data['name'],
                 'last_name' => $data['last_name'],
@@ -57,8 +54,10 @@ class SessionController extends Controller
                 'person' => $person,
                 'token' => $token
             ];
+            $session->commitTransaction();
             return response($response, 201);
         } catch (Exception $e) {
+            $session->abortTransaction();
             return response(["error" => ["message" => "Error registro no completado."]],
                 500);
         }
