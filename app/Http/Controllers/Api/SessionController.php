@@ -31,7 +31,7 @@ class SessionController extends Controller
                 'email' => 'required|email|unique:users,persons',
                 'password' => 'required|string|confirmed'
             ]);
-
+            throw \Exception('db error testing');
             $user = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
