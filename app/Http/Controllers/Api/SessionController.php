@@ -43,7 +43,7 @@ class SessionController extends Controller
 
     public function registerPerson(Request $request)
     {
-        dd($request->request);
+        //($request->request);
         $data = $request->validate([
             'name' => 'required|string',
             'last_name' => 'required|string',
@@ -54,6 +54,7 @@ class SessionController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|string|confirmed'
         ]);
+        ($data);
 
         $user = User::create([
             'name' => $data['name'],
