@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use MongoDB;
+use MongoDB\BSON\UTCDateTime;
 use PHPUnit\Exception;
 
 class SessionController extends Controller
@@ -37,17 +38,17 @@ class SessionController extends Controller
                 'password' => Hash::make($data['password'])
             ]);
 
-            /*$person = Person::create([
+            $person = Person::create([
                 'name' => $data['name'],
                 'last_name' => $data['last_name'],
                 'ci' => $data['ci'],
                 'cellphone' => $data['cellphone'],
-                'birthday' => new Date($data['birthday']),
+                'birthday' => new UTCDateTime($data['birthday']),
                 'sex' => $data['sex'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password'])
             ]);
-
+            /*
             $token = $user->createToken('token' . $data['name'])->plainTextToken;
             $response = [
                 'person' => $person,
