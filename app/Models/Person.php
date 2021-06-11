@@ -20,6 +20,6 @@ class Person extends Model
         'birthday',
         'sex',
         'email',
-        'password',
+        'password'
     ];
 }

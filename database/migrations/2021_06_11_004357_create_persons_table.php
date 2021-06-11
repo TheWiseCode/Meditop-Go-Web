@@ -16,12 +16,12 @@ class CreatePersonsTable extends Migration
         Schema::create('persons', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('lastName');
-            $table->string('ci')->unique();
+            $table->string('last_name');
+            $table->string('ci');
             $table->string('cellphone');
             $table->date('birthday');
             $table->char('sex');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->string('password');
             $table->timestamps();
         });
