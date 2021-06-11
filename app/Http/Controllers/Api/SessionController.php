@@ -15,7 +15,7 @@ class SessionController extends Controller
 
     public function registerPerson(Request $request)
     {
-        $validation = Validator::make($request->all(),[
+        $validation = Validator::make($request->all(), [
             'name' => 'required|string',
             'last_name' => 'required|string',
             'ci' => 'required|string|min:4',
@@ -25,7 +25,7 @@ class SessionController extends Controller
             'email' => 'required|email|unique:users,persons',
             'password' => 'required|string|confirmed'
         ]);
-        if($validation->fails()){
+        if ($validation->fails()) {
             return response(['error' => ['message' => 'Errores en parametros de peticion']],
                 500);
         }
@@ -58,8 +58,29 @@ class SessionController extends Controller
         }
     }
 
-    public function login(Request $request){
-
+    public function login(Request $request)
+    {
+        $data = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string'
+        ]);
+        $user = User::where('email', $data['email'])->first();
+        if (!$user) {
+            return response([
+                'message' => 'Correo electronico no encontrado',
+            ], 401);
+        }
+        if(!Hash::check($data['password'], $user->password)){
+            return response([
+                'message' => 'Contraseña incorrecta',
+            ], 401);
+        }
+        $token = $user->createToken('token'.$user->name)->plainTextToken;
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+        return response($response, 201);
     }
 }
 
