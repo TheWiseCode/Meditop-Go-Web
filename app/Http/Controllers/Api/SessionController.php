@@ -18,8 +18,8 @@ class SessionController extends Controller
     public function registerPerson(Request $request)
     {
         //($request->request);
-        $session = DB::connection('mongodb')->getMongoClient();
-        $session->startTransaction();
+        /*$session = DB::connection('mongodb')->getMongoClient();
+        $session->startTransaction();*/
         try {
             $data = $request->validate([
                 'name' => 'required|string',
@@ -53,11 +53,11 @@ class SessionController extends Controller
                 'person' => $person,
                 'token' => $token
             ];*/
-            $session->commitTransaction();
+            //$session->commitTransaction();
             //return response($response, 201);
             return response(201);
         } catch (Exception $e) {
-            $session->abortTransaction();
+            //$session->abortTransaction();
             return response(['error' => ['message' => 'Error registro no completado']],
                 500);
         }
