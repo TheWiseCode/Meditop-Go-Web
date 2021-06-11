@@ -31,7 +31,7 @@ class SessionController extends Controller
                 'email' => 'required|email|unique:users,persons',
                 'password' => 'required|string|confirmed'
             ]);
-            throw \Exception('db error testing');
+            //throw \Exception('db error testing');
             $user = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
@@ -55,10 +55,12 @@ class SessionController extends Controller
                 'token' => $token
             ];
             $session->commitTransaction();
-            return response($response, 201);
+            return response(['error' => ['message' => 'Error registro no completado']],
+                500);
+            //return response($response, 201);
         } catch (Exception $e) {
             $session->abortTransaction();
-            return response(["error" => ["message" => "Error registro no completado."]],
+            return response(['error' => ['message' => 'Error registro no completado']],
                 500);
         }
     }
