@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use MongoDB;
 use PHPUnit\Exception;
 
 class SessionController extends Controller
@@ -17,9 +18,9 @@ class SessionController extends Controller
     public function registerPerson(Request $request)
     {
         //($request->request);
-        $session = DB::getMongoClient()->startSession();
-        //dd($session);
+        $session = DB::connection('mongodb')->getMongoClient();
         $session->startTransaction();
+        dd($session);
         try {
             $data = $request->validate([
                 'name' => 'required|string',
@@ -49,11 +50,11 @@ class SessionController extends Controller
                 'password' => Hash::make($data['password'])
             ]);
 
-            $token = $user->createToken('token' . $data['name'])->plainTextToken;
+            /*$token = $user->createToken('token' . $data['name'])->plainTextToken;
             $response = [
                 'person' => $person,
                 'token' => $token
-            ];
+            ];*/
             $session->commitTransaction();
             return response(['error' => ['message' => 'Error registro no completado']],
                 500);
