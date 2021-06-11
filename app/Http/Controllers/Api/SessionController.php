@@ -83,12 +83,15 @@ class SessionController extends Controller
         return response($response, 201);
     }
 
+    public function getUser(Request $request){
+        return $request->user();
+    }
     public function logout(Request $request)
     {
         $user = $request->user();
         $user->currentAccessToken()->delete();
         return [
-            'message' => 'Sesion cerrado'
+            'message' => 'Sesion cerrada'
         ];
     }
 }
