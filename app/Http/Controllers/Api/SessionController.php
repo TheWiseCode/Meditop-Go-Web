@@ -70,17 +70,26 @@ class SessionController extends Controller
                 'message' => 'Correo electronico no encontrado',
             ], 401);
         }
-        if(!Hash::check($data['password'], $user->password)){
+        if (!Hash::check($data['password'], $user->password)) {
             return response([
                 'message' => 'Contraseña incorrecta',
             ], 401);
         }
-        $token = $user->createToken('token'.$user->name)->plainTextToken;
+        $token = $user->createToken('token' . $user->name)->plainTextToken;
         $response = [
             'user' => $user,
             'token' => $token
         ];
         return response($response, 201);
+    }
+
+    public function logout(Request $request)
+    {
+        $user = $request->user();
+        $user->currentAccessToken()->delete();
+        return [
+            'message' => 'Sesion cerrado'
+        ];
     }
 }
 

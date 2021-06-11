@@ -30,4 +30,6 @@ Route::post('/login', [SessionController::class, 'login']);
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/sanctum/user', [AuthController::class, 'getUser']);
     Route::delete('/sanctum/revoke', [AuthController::class, 'revokeUser']);
+
+    Route::delete('/logout', [SessionController::class, 'logout']);
 });
