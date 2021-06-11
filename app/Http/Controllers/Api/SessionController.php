@@ -81,6 +81,10 @@ class SessionController extends Controller
             'token' => $token
         ];
         return response($response, 201);
+        /*$user->tokens()->delete();
+        return response()->json([
+            'message' => 'Token elimnado'
+        ],201);*/
     }
 
     public function getUser(Request $request){
