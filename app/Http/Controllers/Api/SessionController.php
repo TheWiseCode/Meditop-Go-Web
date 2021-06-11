@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Person;
 use App\Models\User;
-use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use PHPUnit\Exception;
 
@@ -16,6 +17,9 @@ class SessionController extends Controller
     public function registerPerson(Request $request)
     {
         //($request->request);
+        $session = DB::getMongoClient()->startSession();
+        dd($session);
+        $session->startTransaction();
         try {
             $data = $request->validate([
                 'name' => 'required|string',
@@ -34,12 +38,15 @@ class SessionController extends Controller
                 'password' => Hash::make($data['password'])
             ]);
 
+            $user1 = new User();
+            $user1->
+
             $person = Person::create([
                 'name' => $data['name'],
                 'last_name' => $data['last_name'],
                 'ci' => $data['ci'],
                 'cellphone' => $data['cellphone'],
-                'birthday' => new DateTime($data['birthday']),
+                'birthday' => new Date($data['birthday']),
                 'sex' => $data['sex'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password'])
