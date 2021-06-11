@@ -32,11 +32,11 @@ class SessionController extends Controller
                 'password' => 'required|string|confirmed'
             ]);
             //throw \Exception('db error testing');
-            $user = User::create([
+            /*$user = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password'])
-            ]);
+            ]);*/
 
             $person = Person::create([
                 'name' => $data['name'],
