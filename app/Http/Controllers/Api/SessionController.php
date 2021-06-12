@@ -7,7 +7,6 @@ use App\Models\Person;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use PHPUnit\Exception;
 
 class SessionController extends Controller
@@ -88,7 +87,8 @@ class SessionController extends Controller
 
     public function getUser(Request $request)
     {
-        return $request->user();
+        $person = Person::where('email', $request->user()->email)->first();
+        return $person;
     }
 
     public function logout(Request $request)
