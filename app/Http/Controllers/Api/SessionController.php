@@ -15,7 +15,7 @@ class SessionController extends Controller
 
     public function registerPerson(Request $request)
     {
-        $validation = Validator::make($request->all(), [
+        $data = $request->validate([
             'name' => 'required|string',
             'last_name' => 'required|string',
             'ci' => 'required|string|min:4',
@@ -23,30 +23,27 @@ class SessionController extends Controller
             'birthday' => 'required|date',
             'sex' => 'required|string|min:1|max:1',
             'email' => 'required|email|unique:users,persons',
-            'password' => 'required|string|confirmed'
+            'password' => 'required|string|confirmed',
+            'token_name' => 'string'
         ]);
-        if ($validation->fails()) {
-            return response(['error' => ['message' => 'Errores en parametros de peticion']],
-                500);
-        }
         try {
             $user = User::create([
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-                'password' => Hash::make($request->input('password'))
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password'])
             ]);
 
             $person = Person::create([
-                'name' => $request->input('name'),
-                'last_name' => $request->input('last_name'),
-                'ci' => $request->input('ci'),
-                'cellphone' => $request->input('cellphone'),
-                'birthday' => $request->input('birthday'),
-                'sex' => $request->input('sex'),
-                'email' => $request->input('email'),
-                'password' => Hash::make($request->input('password'),)
+                'name' => $data['name'],
+                'last_name' => $data['last_name'],
+                'ci' => $data['ci'],
+                'cellphone' => $data['cellphone'],
+                'birthday' => $data['birthday'],
+                'sex' => $data['sex'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']), 'token_name' => 'string'
             ]);
-            $token = $user->createToken('token' . $user->name)->plainTextToken;
+            $token = $user->createToken($data['token_name'])->plainTextToken;
             $response = [
                 'person' => $person,
                 'token' => $token
@@ -63,7 +60,7 @@ class SessionController extends Controller
         $data = $request->validate([
             'email' => 'required|email',
             'password' => 'required|string',
-            'token_name' => 'required|string'
+            'token_name' => 'string'
         ]);
         $person = Person::where('email', $data['email'])->first();
         if (!$person) {
@@ -89,9 +86,11 @@ class SessionController extends Controller
         ],201);*/
     }
 
-    public function getUser(Request $request){
+    public function getUser(Request $request)
+    {
         return $request->user();
     }
+
     public function logout(Request $request)
     {
         $user = $request->user();
