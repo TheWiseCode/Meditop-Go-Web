@@ -71,8 +71,7 @@ class SessionController extends Controller
                 'message' => 'Correo electronico no encontrado',
             ], 401);
         }
-        $user = User::where('email', $person->email)->get();
-        dd($user);
+        $user = User::where('email', $person->email)->first();
         if (!Hash::check($data['password'], $user->password)) {
             return response([
                 'message' => 'Contraseña incorrecta',
