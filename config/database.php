@@ -85,8 +85,8 @@ return [
         ],*/
         'mongodb' => [
             'drive' => 'mongodb',
-            'dsn' => 'mongodb+srv://willy:will3148@cluster0.fic8d.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
-            'database' => env('DB_DATABASE'),
+            'dsn' => 'mongodb+srv://willy:will3148@cluster0.fic8d.mongodb.net/meditop_go?retryWrites=true&w=majority',
+            'database' => 'meditop_go',
             //'username' => env('DB_USERNAME'),
             //'password' => env('DB_PASSWORD'),
 //            'options' => [

@@ -62,22 +62,24 @@ class SessionController extends Controller
     {
         $data = $request->validate([
             'email' => 'required|email',
-            'password' => 'required|string'
+            'password' => 'required|string',
+            'token_name' => 'required|string'
         ]);
-        $user = User::where('email', $data['email'])->first();
-        if (!$user) {
+        $person = Person::where('email', $data['email'])->first();
+        if (!$person) {
             return response([
                 'message' => 'Correo electronico no encontrado',
             ], 401);
         }
+        $user = User::where('email', $person->email)->get();
         if (!Hash::check($data['password'], $user->password)) {
             return response([
                 'message' => 'Contraseña incorrecta',
             ], 401);
         }
-        $token = $user->createToken('token' . $user->name)->plainTextToken;
+        $token = $user->createToken($data['token_name'])->plainTextToken;
         $response = [
-            'user' => $user,
+            'person' => $person,
             'token' => $token
         ];
         return response($response, 201);
