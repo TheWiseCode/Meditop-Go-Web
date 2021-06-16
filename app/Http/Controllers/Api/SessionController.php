@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Person;
 use App\Models\User;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use MongoDB\BSON\UTCDateTime;
 use PHPUnit\Exception;
 
 class SessionController extends Controller
@@ -32,12 +34,15 @@ class SessionController extends Controller
                 'password' => Hash::make($data['password'])
             ]);
 
+            $date = new DateTime($data['birthday']);
+            $mongo_date = new UTCDateTime($date->getTimestamp());
+            //DateTime::createFromFormat()
             $person = Person::create([
                 'name' => $data['name'],
                 'last_name' => $data['last_name'],
                 'ci' => $data['ci'],
                 'cellphone' => $data['cellphone'],
-                'birthday' => $data['birthday'],
+                'birthday' => $mongo_date,
                 'sex' => $data['sex'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']), 'token_name' => 'string'
@@ -88,6 +93,7 @@ class SessionController extends Controller
     public function getUser(Request $request)
     {
         $person = Person::where('email', $request->user()->email)->first();
+        dd($person);
         return $person;
     }
 
