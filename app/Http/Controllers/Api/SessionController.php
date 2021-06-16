@@ -35,7 +35,7 @@ class SessionController extends Controller
             ]);
 
             $date = new DateTime($data['birthday']);
-            $mongo_date = new UTCDateTime($date->getTimestamp());
+            $mongo_date = new UTCDateTime($date->getTimestamp() * 1000);
             //DateTime::createFromFormat()
             $person = Person::create([
                 'name' => $data['name'],
@@ -93,7 +93,7 @@ class SessionController extends Controller
     public function getUser(Request $request)
     {
         $person = Person::where('email', $request->user()->email)->first();
-        dd($person);
+        //dd($request->user()->id);
         return $person;
     }
 

@@ -12,6 +12,7 @@ class Account extends Model
     protected $fillable = [
         'number',
         'balance',
+        'opened_account',
         'id_user'
     ];
 }
