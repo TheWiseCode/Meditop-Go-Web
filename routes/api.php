@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\Api\SessionController;
 use App\Http\Controllers\Api\TransactionController;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user', [SessionController::class, 'getUser']);
     Route::delete('/logout', [SessionController::class, 'logout']);
 
-    Route::post('/transaction/pay', [TransactionController::class, 'abonar']);
+    Route::post('/account/open', [AccountController::class, 'abrir']);
+    Route::post('/transaction/deposit', [TransactionController::class, 'abonar']);
     Route::post('/transaction/extract', [TransactionController::class, 'retirar']);
 });

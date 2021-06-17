@@ -16,4 +16,8 @@ class Transaction extends Model
         'coin_type',
         'id_account'
     ];
+
+    public function account(){
+        return $this->belongsTo(Account::class);
+    }
 }

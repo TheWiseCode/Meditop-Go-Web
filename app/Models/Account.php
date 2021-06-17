@@ -15,4 +15,25 @@ class Account extends Model
         'opened_account',
         'id_user'
     ];
+
+    public function transaction(){
+        return $this->hasOne(Transaction::class);
+    }
+
+    public static function findId($id){
+        /*$acc = Account::whereRaw([
+            '_id' => ['60ca9543ce4400009a0000ab']
+        ])->get();*/
+
+        //$amount = DB::collection('accounts')->select(['balance'])->where('_id', '60ca8b1ace4400009a0000a6')->first()['_id'];
+        $account = null;
+        $all_accounts = Account::all();
+        foreach($all_accounts as $acc){
+            if($acc->id == $id){
+                $account = $acc;
+                break;
+            }
+        }
+        return $account;
+    }
 }
