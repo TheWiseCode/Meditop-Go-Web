@@ -35,8 +35,8 @@ class TransactionController extends Controller
             'id_account' => $id
         ]);
         return response([
-            'message' => 'Transaccion realizada',
-            'transacton' => $tran
+            'message' => 'Transaccion de deposito realizada',
+            'transaction' => $tran
         ], 201);
     }
 
@@ -66,8 +66,8 @@ class TransactionController extends Controller
             'id_account' => new ObjectId($data['id_account'])
         ]);
         return response([
-            'message' => 'Transaccion realizada',
-            'transacton' => $tran
+            'message' => 'Transaccion de retiro realizada',
+            'transaction' => $tran
         ], 201);
     }
 }

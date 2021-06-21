@@ -11,16 +11,15 @@ use MongoDB\BSON\UTCDateTime;
 
 class AccountController extends Controller
 {
-    public function abrir(Request $request){
-        $data = $request->validate([
-            'number' => 'required|string|min:4',
-            'id_user' => 'required|string'
-        ]);
+    public function abrir(Request $request)
+    {
+        $id_user = $request->user()->id;
         $opened_account = Carbon::now();
-        $time = new UTCDateTime($opened_account->getTimestamp()*1000);
-        $id = new  ObjectId($data['id_user']);
+        $time = new UTCDateTime($opened_account->getTimestamp() * 1000);
+        $id = new  ObjectId($id_user);
+        $number = Account::getNewNumber($id_user);
         $account = Account::create([
-            'number' => $data['number'],
+            'number' => strval($number),
             'balance' => 0,
             'opened_account' => $time,
             'id_user' => $id
@@ -29,5 +28,19 @@ class AccountController extends Controller
             'message' => 'Apertura de cuenta exitosa',
             'account' => $account
         ], 201);
+    }
+
+    public function getCuentas(Request $request)
+    {
+        $id_user = $request->user()->id;
+        $accounts = Account::all();
+        $result = [];
+        foreach ($accounts as $acc) {
+            if ($acc->id_user == $id_user)
+                array_push($result, $acc);
+        }
+        return response([
+            'data' => $result
+        ], 200);
     }
 }

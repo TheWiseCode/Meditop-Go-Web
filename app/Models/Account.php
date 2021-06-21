@@ -16,11 +16,13 @@ class Account extends Model
         'id_user'
     ];
 
-    public function transaction(){
+    public function transaction()
+    {
         return $this->hasOne(Transaction::class);
     }
 
-    public static function findId($id){
+    public static function findId($id)
+    {
         /*$acc = Account::whereRaw([
             '_id' => ['60ca9543ce4400009a0000ab']
         ])->get();*/
@@ -28,12 +30,27 @@ class Account extends Model
         //$amount = DB::collection('accounts')->select(['balance'])->where('_id', '60ca8b1ace4400009a0000a6')->first()['_id'];
         $account = null;
         $all_accounts = Account::all();
-        foreach($all_accounts as $acc){
-            if($acc->id == $id){
+        foreach ($all_accounts as $acc) {
+            if ($acc->id == $id) {
                 $account = $acc;
                 break;
             }
         }
         return $account;
+    }
+
+    public static function getNewNumber($id)
+    {
+        $accounts = Account::orderBy('number', 'desc')->get();
+        $account = null;
+        foreach($accounts as $acc){
+            if($acc->id_user == $id) {
+                $account = $acc;
+                break;
+            }
+        }
+        if($account == null)
+            return 1000;
+        return intval($account->number) + 1;
     }
 }
