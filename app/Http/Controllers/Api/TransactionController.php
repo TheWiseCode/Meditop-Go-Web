@@ -47,7 +47,7 @@ class TransactionController extends Controller
             'coin_type' => 'required|string|min:1',
             'id_account' => 'required|string'
         ]);
-        $account = Account::findId($data['id']);
+        $account = Account::findId($data['id_account']);
         if($account->balance < $data['amount']){
             return response([
                 'message' => 'Saldo insuficiente para retirar'
