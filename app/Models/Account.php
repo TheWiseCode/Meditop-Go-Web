@@ -41,16 +41,7 @@ class Account extends Model
 
     public static function getNewNumber($id)
     {
-        $accounts = Account::orderBy('number', 'desc')->get();
-        $account = null;
-        foreach($accounts as $acc){
-            if($acc->id_user == $id) {
-                $account = $acc;
-                break;
-            }
-        }
-        if($account == null)
-            return 1000;
+        $account = Account::select('number')->orderBy('number', 'desc')->first();
         return intval($account->number) + 1;
     }
 }
