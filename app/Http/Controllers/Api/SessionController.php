@@ -42,6 +42,7 @@ class SessionController extends Controller
             $number = Account::getNewNumber($user->id);
             $account = Account::create([
                 'number' => strval($number),
+                'type' => 'Caja de ahorro',
                 'balance' => 0,
                 'opened_account' => $time,
                 'id_user' => $idd

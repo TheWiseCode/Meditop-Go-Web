@@ -17,7 +17,6 @@ class TransactionController extends Controller
 
     public function abonar(Request $request)
     {
-        //DB::beginTransaction();
         try {
             $data = $request->validate([
                 'type' => 'required|string',
@@ -39,13 +38,11 @@ class TransactionController extends Controller
                 'coin_type' => $data['coin_type'],
                 'id_account' => $id
             ]);
-            //DB::commit();
             return response([
                 'message' => 'Transaccion de deposito realizada',
                 'transaction' => $tran
             ], 201);
         }catch (Exception $e) {
-            //DB::rollBack();
             return response([
                 'message' => 'Error al realizar la transaccion',
             ], 500);
@@ -53,7 +50,6 @@ class TransactionController extends Controller
     }
 
     public function retirar(Request $request){
-        //DB::beginTransaction();
         try {
             $data = $request->validate([
                 'type' => 'required|string',
@@ -79,13 +75,11 @@ class TransactionController extends Controller
                 'coin_type' => $data['coin_type'],
                 'id_account' => new ObjectId($data['id_account'])
             ]);
-            //DB::commit();
             return response([
                 'message' => 'Transaccion de retiro realizada',
                 'transaction' => $tran
             ], 201);
         }catch (Exception $e) {
-            //DB::rollBack();
             return response([
                 'message' => 'Error al realizar la transaccion',
             ], 500);
