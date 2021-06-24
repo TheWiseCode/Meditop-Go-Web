@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Account;
 use App\Models\Person;
 use App\Models\User;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\UTCDateTime;
 use PHPUnit\Exception;
 
@@ -33,7 +36,16 @@ class SessionController extends Controller
                 'email' => $data['email'],
                 'password' => Hash::make($data['password'])
             ]);
-
+            $opened_account = Carbon::now();
+            $time = new UTCDateTime($opened_account->getTimestamp() * 1000);
+            $idd = new  ObjectId($user->id);
+            $number = Account::getNewNumber($user->id);
+            $account = Account::create([
+                'number' => strval($number),
+                'balance' => 0,
+                'opened_account' => $time,
+                'id_user' => $idd
+            ]);
             $date = new DateTime($data['birthday']);
             $mongo_date = new UTCDateTime($date->getTimestamp() * 1000);
             //DateTime::createFromFormat()
