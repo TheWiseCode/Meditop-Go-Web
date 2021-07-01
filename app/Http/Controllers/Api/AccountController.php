@@ -17,7 +17,7 @@ class AccountController extends Controller
         $opened_account = Carbon::now();
         $time = new UTCDateTime($opened_account->getTimestamp() * 1000);
         $id = new  ObjectId($id_user);
-        $number = Account::getNewNumber($id_user);
+        $number = Account::getNewNumber();
         $account = Account::create([
             'number' => strval($number),
             'balance' => 0,

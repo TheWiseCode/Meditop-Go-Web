@@ -39,7 +39,7 @@ class SessionController extends Controller
             $opened_account = Carbon::now();
             $time = new UTCDateTime($opened_account->getTimestamp() * 1000);
             $idd = new  ObjectId($user->id);
-            $number = Account::getNewNumber($user->id);
+            $number = Account::getNewNumber();
             $account = Account::create([
                 'number' => strval($number),
                 'type' => 'Caja de ahorro',
