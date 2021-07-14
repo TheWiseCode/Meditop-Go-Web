@@ -6,7 +6,6 @@ use Jenssegers\Mongodb\Eloquent\Model as Model;
 
 class Transaction extends Model
 {
-    protected $connection = 'mongodb';
     protected $collection = 'transactions';
 
     protected $fillable = [
