@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAccountsTable extends Migration
+class CreateVerificationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::create('verifications', function (Blueprint $table) {
             $table->id();
-            $table->string('number')->unique();
-            $table->string('type');
-            $table->decimal('balance', 6, 2);
-            $table->date('opened_account');
-            $table->foreignId('id_user');
+            $table->dateTime('hora')->default('now');
+            $table->string('estado');
+            $table->foreignId('id_doctor')->references('id')->on('doctors');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accounts');
+        Schema::dropIfExists('verifications');
     }
 }

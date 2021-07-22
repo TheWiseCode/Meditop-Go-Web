@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Jenssegers\Mongodb\Eloquent\Model as Model;
 
 class Person extends Model
 {
@@ -18,7 +17,6 @@ class Person extends Model
         'cellphone',
         'birthday',
         'sex',
-        'email',
-        'password'
+        'email'
     ];
 }
