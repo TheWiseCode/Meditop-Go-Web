@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Diagnostic extends Model
 {
     use HasFactory;
+
+    protected $table = 'diagnostics';
+    protected $fillable = [
+      'id_consult', 'detail', 'time'
+    ];
 }

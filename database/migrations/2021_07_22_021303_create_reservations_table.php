@@ -16,9 +16,9 @@ class CreateReservationsTable extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->unsignedFloat('total');
-            $table->dateTime('reserva');
-            $table->dateTime('consulta');
-            $table->string('estado');
+            $table->dateTime('time_reservation');
+            $table->dateTime('time_consult');
+            $table->string('state');
             $table->timestamps();
         });
     }

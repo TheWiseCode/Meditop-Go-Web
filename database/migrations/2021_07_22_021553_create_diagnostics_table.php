@@ -15,9 +15,9 @@ class CreateDiagnosticsTable extends Migration
     {
         Schema::create('diagnostics', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_consulta')->references('id')->on('consults');
-            $table->string('detalle');
-            $table->dateTime('fechahora');
+            $table->foreignId('id_consult')->references('id')->on('consults');
+            $table->string('detail');
+            $table->dateTime('time');
             $table->timestamps();
         });
     }

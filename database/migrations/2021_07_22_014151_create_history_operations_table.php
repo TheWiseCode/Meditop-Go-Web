@@ -15,10 +15,10 @@ class CreateHistoryOperationsTable extends Migration
     {
         Schema::create('history_operations', function (Blueprint $table) {
             $table->id();
-            $table->string('doctor_operacion');
-            $table->string('descripcion');
-            $table->date('fecha');
-            $table->foreignId('id_paciente')->references('id')->on('pacients');
+            $table->string('doctor_operation');
+            $table->string('description');
+            $table->date('date');
+            $table->foreignId('id_patient')->references('id')->on('patients');
             $table->timestamps();
         });
     }

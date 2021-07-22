@@ -15,13 +15,13 @@ class CreateConsultsTable extends Migration
     {
         Schema::create('consults', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('fechahora');
-            $table->string('estado');
-            $table->string('url_consulta');
+            $table->dateTime('time');
+            $table->string('state');
+            $table->string('url_jitsi');
             $table->unsignedInteger('min_duration');
             $table->foreignId('id_doctor')->references('id')->on('doctors');
-            $table->foreignId('id_paciente')->references('id')->on('pacients');
-            $table->foreignId('id_reservacion')->references('id')->on('reservations');
+            $table->foreignId('id_patient')->references('id')->on('patients');
+            $table->foreignId('id_reservation')->references('id')->on('reservations');
             $table->timestamps();
         });
     }

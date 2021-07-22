@@ -16,7 +16,7 @@ class CreateAdminsTable extends Migration
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_person')->references('id')->on('persons');
-            $table->string('profesion');
+            $table->string('profession');
             $table->timestamps();
         });
     }

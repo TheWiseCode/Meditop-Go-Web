@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\OfertSpecialty;
+use App\Models\OfferSpecialty;
 use Illuminate\Http\Request;
 
 class OfertSpecialtyController extends Controller
@@ -41,10 +41,10 @@ class OfertSpecialtyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\OfertSpecialty  $ofertSpecialty
+     * @param  \App\Models\OfferSpecialty  $ofertSpecialty
      * @return \Illuminate\Http\Response
      */
-    public function show(OfertSpecialty $ofertSpecialty)
+    public function show(OfferSpecialty $ofertSpecialty)
     {
         //
     }
@@ -52,10 +52,10 @@ class OfertSpecialtyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\OfertSpecialty  $ofertSpecialty
+     * @param  \App\Models\OfferSpecialty  $ofertSpecialty
      * @return \Illuminate\Http\Response
      */
-    public function edit(OfertSpecialty $ofertSpecialty)
+    public function edit(OfferSpecialty $ofertSpecialty)
     {
         //
     }
@@ -64,10 +64,10 @@ class OfertSpecialtyController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\OfertSpecialty  $ofertSpecialty
+     * @param  \App\Models\OfferSpecialty  $ofertSpecialty
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, OfertSpecialty $ofertSpecialty)
+    public function update(Request $request, OfferSpecialty $ofertSpecialty)
     {
         //
     }
@@ -75,10 +75,10 @@ class OfertSpecialtyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\OfertSpecialty  $ofertSpecialty
+     * @param  \App\Models\OfferSpecialty  $ofertSpecialty
      * @return \Illuminate\Http\Response
      */
-    public function destroy(OfertSpecialty $ofertSpecialty)
+    public function destroy(OfferSpecialty $ofertSpecialty)
     {
         //
     }

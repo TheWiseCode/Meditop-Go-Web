@@ -15,8 +15,8 @@ class CreatePrescriptionsTable extends Migration
     {
         Schema::create('prescriptions', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('fechahora');
-            $table->string('detalle');
+            $table->dateTime('time');
+            $table->string('detail');
             $table->foreignId('id_consult')->references('id')->on('consults');
             $table->timestamps();
         });

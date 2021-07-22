@@ -15,8 +15,8 @@ class CreateVerificationsTable extends Migration
     {
         Schema::create('verifications', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('hora')->default('now');
-            $table->string('estado');
+            $table->dateTime('time')->default('now');
+            $table->string('state');
             $table->foreignId('id_doctor')->references('id')->on('doctors');
             $table->timestamps();
         });

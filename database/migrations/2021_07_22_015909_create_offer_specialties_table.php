@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOfertSpecialtiesTable extends Migration
+class CreateOfferSpecialtiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateOfertSpecialtiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('ofert_specialties', function (Blueprint $table) {
+        Schema::create('offer_specialties', function (Blueprint $table) {
             $table->id();
-            $table->string('dias_horario');//Abstraccion se guardará la inicial separada con |
+            $table->string('schedule_days');//Abstraccion se guardará la inicial separada con |
             //EJM: L|M|X|J|V|S|D|
-            $table->time('horario');
+            $table->time('schedule_time');
             $table->foreignId('id_doctor')->references('id')->on('doctors');
-            $table->foreignId('id_enfermedad')->references('id')->on('specialties');
+            $table->foreignId('id_disease')->references('id')->on('specialties');
             $table->timestamps();
         });
     }

@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\OfertSpecialty;
+use App\Models\OfferSpecialty;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OfertSpecialtyFactory extends Factory
@@ -12,7 +12,7 @@ class OfertSpecialtyFactory extends Factory
      *
      * @var string
      */
-    protected $model = OfertSpecialty::class;
+    protected $model = OfferSpecialty::class;
 
     /**
      * Define the model's default state.

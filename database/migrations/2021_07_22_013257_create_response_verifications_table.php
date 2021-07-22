@@ -15,9 +15,9 @@ class CreateResponseVerificationsTable extends Migration
     {
         Schema::create('response_verifications', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('hora');
-            $table->boolean('respuesta');
-            $table->string('detalle');
+            $table->dateTime('time');
+            $table->boolean('response');
+            $table->string('detail');
             $table->foreignId('id_verification')->references('id')->on('verifications');
             $table->timestamps();
         });

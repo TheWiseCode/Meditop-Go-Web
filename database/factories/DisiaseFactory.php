@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Disiase;
+use App\Models\Disease;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DisiaseFactory extends Factory
@@ -12,7 +12,7 @@ class DisiaseFactory extends Factory
      *
      * @var string
      */
-    protected $model = Disiase::class;
+    protected $model = Disease::class;
 
     /**
      * Define the model's default state.

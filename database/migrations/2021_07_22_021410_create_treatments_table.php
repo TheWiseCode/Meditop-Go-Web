@@ -15,11 +15,11 @@ class CreateTreatmentsTable extends Migration
     {
         Schema::create('treatments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_medicamento')->references('id')->on('medicines');
-            $table->foreignId('id_receta')->references('id')->on('prescriptions');
-            $table->unsignedInteger('horario');
-            $table->unsignedInteger('dias');
-            $table->unsignedInteger('cantidad');
+            $table->foreignId('id_medicine')->references('id')->on('medicines');
+            $table->foreignId('id_prescription')->references('id')->on('prescriptions');
+            $table->unsignedInteger('schedule');
+            $table->unsignedInteger('days');
+            $table->unsignedInteger('amount');
             $table->timestamps();
         });
     }

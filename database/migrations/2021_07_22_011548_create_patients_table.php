@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePacientsTable extends Migration
+class CreatePatientsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreatePacientsTable extends Migration
      */
     public function up()
     {
-        Schema::create('pacients', function (Blueprint $table) {
+        Schema::create('patients', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_person')->references('id')->on('persons');
-            $table->string('tipo_sangre');
-            $table->string('alergias');
+            $table->string('blood_type');
+            $table->string('allergy');
             $table->timestamps();
         });
     }

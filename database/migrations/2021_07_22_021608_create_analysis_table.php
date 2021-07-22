@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAnalysesTable extends Migration
+class CreateAnalysisTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateAnalysesTable extends Migration
      */
     public function up()
     {
-        Schema::create('analyses', function (Blueprint $table) {
+        Schema::create('analysis', function (Blueprint $table) {
             $table->id();
-            $table->string('detalle');
-            $table->foreignId('id_consulta')->references('id')->on('consults');
+            $table->string('detail');
+            $table->foreignId('id_consult')->references('id')->on('consults');
             $table->timestamps();
         });
     }

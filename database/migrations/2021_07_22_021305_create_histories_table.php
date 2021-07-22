@@ -15,10 +15,10 @@ class CreateHistoriesTable extends Migration
     {
         Schema::create('histories', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('fechahora');
-            $table->string('descripcion');
+            $table->dateTime('time');
+            $table->string('description');
             $table->foreignId('id_doctor')->references('id')->on('doctors');
-            $table->foreignId('id_consulta')->references('id')->on('consults');
+            $table->foreignId('id_consult')->references('id')->on('consults');
             $table->timestamps();
         });
     }
