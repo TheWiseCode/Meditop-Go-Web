@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
-use App\Models\Medicine;
+use App\Http\Controllers\Controller;
+use App\Models\Verification;
 use Illuminate\Http\Request;
 
-class MedicineController extends Controller
+class VerificationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +42,10 @@ class MedicineController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Medicine  $medicine
+     * @param  \App\Models\Verification  $verification
      * @return \Illuminate\Http\Response
      */
-    public function show(Medicine $medicine)
+    public function show(Verification $verification)
     {
         //
     }
@@ -52,10 +53,10 @@ class MedicineController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Medicine  $medicine
+     * @param  \App\Models\Verification  $verification
      * @return \Illuminate\Http\Response
      */
-    public function edit(Medicine $medicine)
+    public function edit(Verification $verification)
     {
         //
     }
@@ -64,10 +65,10 @@ class MedicineController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Medicine  $medicine
+     * @param  \App\Models\Verification  $verification
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Medicine $medicine)
+    public function update(Request $request, Verification $verification)
     {
         //
     }
@@ -75,10 +76,10 @@ class MedicineController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Medicine  $medicine
+     * @param  \App\Models\Verification  $verification
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Medicine $medicine)
+    public function destroy(Verification $verification)
     {
         //
     }

@@ -17,7 +17,7 @@ class CreateDoctorsTable extends Migration
             $table->id();
             $table->foreignId('id_person')->references('id')->on('persons');
             $table->string('reg_doctor');
-            $table->boolean('verified');
+            $table->boolean('verified')->default(false);
             $table->timestamps();
         });
     }

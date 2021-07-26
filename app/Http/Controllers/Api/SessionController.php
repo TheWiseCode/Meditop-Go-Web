@@ -3,15 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Account;
 use App\Models\Person;
 use App\Models\User;
 use Carbon\Carbon;
 use DateTime;
+use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use MongoDB\BSON\ObjectId;
-use MongoDB\BSON\UTCDateTime;
 use PHPUnit\Exception;
 
 class SessionController extends Controller
@@ -37,7 +35,7 @@ class SessionController extends Controller
                 'password' => Hash::make($data['password'])
             ]);
             $opened_account = Carbon::now();
-            $time = new UTCDateTime($opened_account->getTimestamp() * 1000);
+            /*$time = new UTCDateTime($opened_account->getTimestamp() * 1000);
             $idd = new  ObjectId($user->id);
             $number = Account::getNewNumber();
             $account = Account::create([
@@ -46,16 +44,16 @@ class SessionController extends Controller
                 'balance' => 0,
                 'opened_account' => $time,
                 'id_user' => $idd
-            ]);
+            ]);*/
             $date = new DateTime($data['birthday']);
-            $mongo_date = new UTCDateTime($date->getTimestamp() * 1000);
+            //$mongo_date = new UTCDateTime($date->getTimestamp() * 1000);
             //DateTime::createFromFormat()
             $person = Person::create([
                 'name' => $data['name'],
                 'last_name' => $data['last_name'],
                 'ci' => $data['ci'],
                 'cellphone' => $data['cellphone'],
-                'birthday' => $mongo_date,
+                //'birthday' => $mongo_date,
                 'sex' => $data['sex'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']), 'token_name' => 'string'
@@ -117,6 +115,21 @@ class SessionController extends Controller
         return [
             'message' => 'Sesion cerrada'
         ];
+    }
+
+    public function findEmail(Request $request)
+    {
+        $data = $request->validate([
+            'email' => 'required|email'
+        ]);
+        $email = User::where('email', $data['email'])->first();
+        if ($email != null) {
+            return response(
+                ['message' => 'Correo ya registrado']
+                , 406);
+        }
+        return response(['message' => 'Correo valido', 'email' => $email, 'data' => $data])
+            ->header('Content-type', 'text/plain');
     }
 }
 

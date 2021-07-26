@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
-use App\Models\Verification;
+use App\Http\Controllers\Controller;
+use App\Models\Person;
 use Illuminate\Http\Request;
 
-class VerificationController extends Controller
+class PersonsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +42,10 @@ class VerificationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Verification  $verification
+     * @param  \App\Models\Person  $persons
      * @return \Illuminate\Http\Response
      */
-    public function show(Verification $verification)
+    public function show(Person $persons)
     {
         //
     }
@@ -52,10 +53,10 @@ class VerificationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Verification  $verification
+     * @param  \App\Models\Person  $persons
      * @return \Illuminate\Http\Response
      */
-    public function edit(Verification $verification)
+    public function edit(Person $persons)
     {
         //
     }
@@ -64,10 +65,10 @@ class VerificationController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Verification  $verification
+     * @param  \App\Models\Person  $persons
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Verification $verification)
+    public function update(Request $request, Person $persons)
     {
         //
     }
@@ -75,10 +76,10 @@ class VerificationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Verification  $verification
+     * @param  \App\Models\Person  $persons
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Verification $verification)
+    public function destroy(Person $persons)
     {
         //
     }

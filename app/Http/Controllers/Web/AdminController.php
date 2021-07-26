@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web\Web;
 
-use App\Models\HistoryOperation;
+use App\Http\Controllers\Web\Controller;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 
-class HistoryOperationController extends Controller
+class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +42,10 @@ class HistoryOperationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\HistoryOperation  $historyOperation
+     * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function show(HistoryOperation $historyOperation)
+    public function show(Admin $admin)
     {
         //
     }
@@ -52,10 +53,10 @@ class HistoryOperationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\HistoryOperation  $historyOperation
+     * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function edit(HistoryOperation $historyOperation)
+    public function edit(Admin $admin)
     {
         //
     }
@@ -64,10 +65,10 @@ class HistoryOperationController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\HistoryOperation  $historyOperation
+     * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, HistoryOperation $historyOperation)
+    public function update(Request $request, Admin $admin)
     {
         //
     }
@@ -75,10 +76,10 @@ class HistoryOperationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\HistoryOperation  $historyOperation
+     * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function destroy(HistoryOperation $historyOperation)
+    public function destroy(Admin $admin)
     {
         //
     }

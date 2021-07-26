@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
-use App\Models\Prescription;
+use App\Http\Controllers\Controller;
+use App\Models\PacientDisiase;
 use Illuminate\Http\Request;
 
-class PrescriptionController extends Controller
+class PacientDisiaseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +42,10 @@ class PrescriptionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Prescription  $prescription
+     * @param  \App\Models\PacientDisiase  $pacientDisiase
      * @return \Illuminate\Http\Response
      */
-    public function show(Prescription $prescription)
+    public function show(PacientDisiase $pacientDisiase)
     {
         //
     }
@@ -52,10 +53,10 @@ class PrescriptionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Prescription  $prescription
+     * @param  \App\Models\PacientDisiase  $pacientDisiase
      * @return \Illuminate\Http\Response
      */
-    public function edit(Prescription $prescription)
+    public function edit(PacientDisiase $pacientDisiase)
     {
         //
     }
@@ -64,10 +65,10 @@ class PrescriptionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Prescription  $prescription
+     * @param  \App\Models\PacientDisiase  $pacientDisiase
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Prescription $prescription)
+    public function update(Request $request, PacientDisiase $pacientDisiase)
     {
         //
     }
@@ -75,10 +76,10 @@ class PrescriptionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Prescription  $prescription
+     * @param  \App\Models\PacientDisiase  $pacientDisiase
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Prescription $prescription)
+    public function destroy(PacientDisiase $pacientDisiase)
     {
         //
     }

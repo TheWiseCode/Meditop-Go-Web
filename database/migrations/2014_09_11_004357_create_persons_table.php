@@ -20,7 +20,7 @@ class CreatePersonsTable extends Migration
             $table->string('ci');
             $table->string('cellphone');
             $table->date('birthday');
-            $table->string('sex');
+            $table->enum('sex', ['M', 'F', 'O'])->default('O');
             $table->string('email')->unique();
             $table->timestamps();
         });

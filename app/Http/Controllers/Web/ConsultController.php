@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web\Web;
 
-use App\Models\Analysis;
+use App\Http\Controllers\Web\Controller;
+use App\Models\Consult;
 use Illuminate\Http\Request;
 
-class AnalysisController extends Controller
+class ConsultController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +42,10 @@ class AnalysisController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Analysis  $analysis
+     * @param  \App\Models\Consult  $consult
      * @return \Illuminate\Http\Response
      */
-    public function show(Analysis $analysis)
+    public function show(Consult $consult)
     {
         //
     }
@@ -52,10 +53,10 @@ class AnalysisController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Analysis  $analysis
+     * @param  \App\Models\Consult  $consult
      * @return \Illuminate\Http\Response
      */
-    public function edit(Analysis $analysis)
+    public function edit(Consult $consult)
     {
         //
     }
@@ -64,10 +65,10 @@ class AnalysisController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Analysis  $analysis
+     * @param  \App\Models\Consult  $consult
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Analysis $analysis)
+    public function update(Request $request, Consult $consult)
     {
         //
     }
@@ -75,10 +76,10 @@ class AnalysisController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Analysis  $analysis
+     * @param  \App\Models\Consult  $consult
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Analysis $analysis)
+    public function destroy(Consult $consult)
     {
         //
     }

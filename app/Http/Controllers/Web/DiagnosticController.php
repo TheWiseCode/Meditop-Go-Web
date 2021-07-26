@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
-use App\Models\OfferSpecialty;
+use App\Http\Controllers\Controller;
+use App\Models\Diagnostic;
 use Illuminate\Http\Request;
 
-class OfertSpecialtyController extends Controller
+class DiagnosticController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +42,10 @@ class OfertSpecialtyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\OfferSpecialty  $ofertSpecialty
+     * @param  \App\Models\Diagnostic  $diagnostic
      * @return \Illuminate\Http\Response
      */
-    public function show(OfferSpecialty $ofertSpecialty)
+    public function show(Diagnostic $diagnostic)
     {
         //
     }
@@ -52,10 +53,10 @@ class OfertSpecialtyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\OfferSpecialty  $ofertSpecialty
+     * @param  \App\Models\Diagnostic  $diagnostic
      * @return \Illuminate\Http\Response
      */
-    public function edit(OfferSpecialty $ofertSpecialty)
+    public function edit(Diagnostic $diagnostic)
     {
         //
     }
@@ -64,10 +65,10 @@ class OfertSpecialtyController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\OfferSpecialty  $ofertSpecialty
+     * @param  \App\Models\Diagnostic  $diagnostic
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, OfferSpecialty $ofertSpecialty)
+    public function update(Request $request, Diagnostic $diagnostic)
     {
         //
     }
@@ -75,10 +76,10 @@ class OfertSpecialtyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\OfferSpecialty  $ofertSpecialty
+     * @param  \App\Models\Diagnostic  $diagnostic
      * @return \Illuminate\Http\Response
      */
-    public function destroy(OfferSpecialty $ofertSpecialty)
+    public function destroy(Diagnostic $diagnostic)
     {
         //
     }

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
-use App\Models\ActionReservation;
+use App\Http\Controllers\Controller;
+use App\Models\Pacient;
 use Illuminate\Http\Request;
 
-class ActionReservationController extends Controller
+class PacientController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +42,10 @@ class ActionReservationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ActionReservation  $actionReservation
+     * @param  \App\Models\Pacient  $pacient
      * @return \Illuminate\Http\Response
      */
-    public function show(ActionReservation $actionReservation)
+    public function show(Pacient $pacient)
     {
         //
     }
@@ -52,10 +53,10 @@ class ActionReservationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ActionReservation  $actionReservation
+     * @param  \App\Models\Pacient  $pacient
      * @return \Illuminate\Http\Response
      */
-    public function edit(ActionReservation $actionReservation)
+    public function edit(Pacient $pacient)
     {
         //
     }
@@ -64,10 +65,10 @@ class ActionReservationController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ActionReservation  $actionReservation
+     * @param  \App\Models\Pacient  $pacient
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ActionReservation $actionReservation)
+    public function update(Request $request, Pacient $pacient)
     {
         //
     }
@@ -75,10 +76,10 @@ class ActionReservationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ActionReservation  $actionReservation
+     * @param  \App\Models\Pacient  $pacient
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ActionReservation $actionReservation)
+    public function destroy(Pacient $pacient)
     {
         //
     }

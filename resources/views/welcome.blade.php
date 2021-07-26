@@ -37,12 +37,12 @@
                 @if (Route::has('login'))
                     @auth
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}">Inicio</a>
+                            <a class="nav-link" href="{{ route('home') }}">{{__('Home')}}</a>
                         </li>
                     @else
-                        <a class="nav-link" href="{{ route('login') }}">Entrar</a>
+                        <a class="nav-link" href="{{ route('login') }}">{{__('Log in')}}</a>
                         @if(Route::has('register'))
-                            <a class="nav-link" href="{{ route('register') }}">Registrar</a>
+                            <a class="nav-link" href="{{ route('register') }}">{{__('Register')}}</a>
                         @endif
                     @endauth
                 @endif

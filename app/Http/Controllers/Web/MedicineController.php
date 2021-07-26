@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
-use App\Models\Consult;
+use App\Http\Controllers\Controller;
+use App\Models\Medicine;
 use Illuminate\Http\Request;
 
-class ConsultController extends Controller
+class MedicineController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +42,10 @@ class ConsultController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Consult  $consult
+     * @param  \App\Models\Medicine  $medicine
      * @return \Illuminate\Http\Response
      */
-    public function show(Consult $consult)
+    public function show(Medicine $medicine)
     {
         //
     }
@@ -52,10 +53,10 @@ class ConsultController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Consult  $consult
+     * @param  \App\Models\Medicine  $medicine
      * @return \Illuminate\Http\Response
      */
-    public function edit(Consult $consult)
+    public function edit(Medicine $medicine)
     {
         //
     }
@@ -64,10 +65,10 @@ class ConsultController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Consult  $consult
+     * @param  \App\Models\Medicine  $medicine
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Consult $consult)
+    public function update(Request $request, Medicine $medicine)
     {
         //
     }
@@ -75,10 +76,10 @@ class ConsultController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Consult  $consult
+     * @param  \App\Models\Medicine  $medicine
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Consult $consult)
+    public function destroy(Medicine $medicine)
     {
         //
     }

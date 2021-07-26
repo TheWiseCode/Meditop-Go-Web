@@ -18,7 +18,8 @@ class CreateReservationsTable extends Migration
             $table->unsignedFloat('total');
             $table->dateTime('time_reservation');
             $table->dateTime('time_consult');
-            $table->string('state');
+            $table->enum('state', ['pendiente', 'rechazada', 'cancelada', 'aceptada'])
+                ->default('pendiente');
             $table->timestamps();
         });
     }

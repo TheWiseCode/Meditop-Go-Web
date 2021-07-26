@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web\Web;
 
-use App\Models\Specialty;
+use App\Http\Controllers\Web\Controller;
+use App\Models\ActionReservation;
 use Illuminate\Http\Request;
 
-class SpecialtyController extends Controller
+class ActionReservationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +42,10 @@ class SpecialtyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Specialty  $specialty
+     * @param  \App\Models\ActionReservation  $actionReservation
      * @return \Illuminate\Http\Response
      */
-    public function show(Specialty $specialty)
+    public function show(ActionReservation $actionReservation)
     {
         //
     }
@@ -52,10 +53,10 @@ class SpecialtyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Specialty  $specialty
+     * @param  \App\Models\ActionReservation  $actionReservation
      * @return \Illuminate\Http\Response
      */
-    public function edit(Specialty $specialty)
+    public function edit(ActionReservation $actionReservation)
     {
         //
     }
@@ -64,10 +65,10 @@ class SpecialtyController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Specialty  $specialty
+     * @param  \App\Models\ActionReservation  $actionReservation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Specialty $specialty)
+    public function update(Request $request, ActionReservation $actionReservation)
     {
         //
     }
@@ -75,10 +76,10 @@ class SpecialtyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Specialty  $specialty
+     * @param  \App\Models\ActionReservation  $actionReservation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Specialty $specialty)
+    public function destroy(ActionReservation $actionReservation)
     {
         //
     }

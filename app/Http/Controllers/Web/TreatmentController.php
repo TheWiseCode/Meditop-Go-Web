@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
-use App\Models\Pacient;
+use App\Http\Controllers\Controller;
+use App\Models\Treatment;
 use Illuminate\Http\Request;
 
-class PacientController extends Controller
+class TreatmentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +42,10 @@ class PacientController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Pacient  $pacient
+     * @param  \App\Models\Treatment  $treatment
      * @return \Illuminate\Http\Response
      */
-    public function show(Pacient $pacient)
+    public function show(Treatment $treatment)
     {
         //
     }
@@ -52,10 +53,10 @@ class PacientController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Pacient  $pacient
+     * @param  \App\Models\Treatment  $treatment
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pacient $pacient)
+    public function edit(Treatment $treatment)
     {
         //
     }
@@ -64,10 +65,10 @@ class PacientController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pacient  $pacient
+     * @param  \App\Models\Treatment  $treatment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pacient $pacient)
+    public function update(Request $request, Treatment $treatment)
     {
         //
     }
@@ -75,10 +76,10 @@ class PacientController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Pacient  $pacient
+     * @param  \App\Models\Treatment  $treatment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pacient $pacient)
+    public function destroy(Treatment $treatment)
     {
         //
     }

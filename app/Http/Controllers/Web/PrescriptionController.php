@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
-use App\Models\Document;
+use App\Http\Controllers\Controller;
+use App\Models\Prescription;
 use Illuminate\Http\Request;
 
-class DocumentController extends Controller
+class PrescriptionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +42,10 @@ class DocumentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Document  $document
+     * @param  \App\Models\Prescription  $prescription
      * @return \Illuminate\Http\Response
      */
-    public function show(Document $document)
+    public function show(Prescription $prescription)
     {
         //
     }
@@ -52,10 +53,10 @@ class DocumentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Document  $document
+     * @param  \App\Models\Prescription  $prescription
      * @return \Illuminate\Http\Response
      */
-    public function edit(Document $document)
+    public function edit(Prescription $prescription)
     {
         //
     }
@@ -64,10 +65,10 @@ class DocumentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Document  $document
+     * @param  \App\Models\Prescription  $prescription
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Document $document)
+    public function update(Request $request, Prescription $prescription)
     {
         //
     }
@@ -75,10 +76,10 @@ class DocumentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Document  $document
+     * @param  \App\Models\Prescription  $prescription
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Document $document)
+    public function destroy(Prescription $prescription)
     {
         //
     }

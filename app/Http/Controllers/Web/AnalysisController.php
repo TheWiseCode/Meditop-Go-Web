@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web\Web;
 
-use App\Models\Disease;
+use App\Http\Controllers\Web\Controller;
+use App\Models\Analysis;
 use Illuminate\Http\Request;
 
-class DisiaseController extends Controller
+class AnalysisController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +42,10 @@ class DisiaseController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Disease  $disiase
+     * @param  \App\Models\Analysis  $analysis
      * @return \Illuminate\Http\Response
      */
-    public function show(Disease $disiase)
+    public function show(Analysis $analysis)
     {
         //
     }
@@ -52,10 +53,10 @@ class DisiaseController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Disease  $disiase
+     * @param  \App\Models\Analysis  $analysis
      * @return \Illuminate\Http\Response
      */
-    public function edit(Disease $disiase)
+    public function edit(Analysis $analysis)
     {
         //
     }
@@ -64,10 +65,10 @@ class DisiaseController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Disease  $disiase
+     * @param  \App\Models\Analysis  $analysis
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Disease $disiase)
+    public function update(Request $request, Analysis $analysis)
     {
         //
     }
@@ -75,10 +76,10 @@ class DisiaseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Disease  $disiase
+     * @param  \App\Models\Analysis  $analysis
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Disease $disiase)
+    public function destroy(Analysis $analysis)
     {
         //
     }

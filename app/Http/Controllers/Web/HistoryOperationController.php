@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
-use App\Models\PacientDisiase;
+use App\Http\Controllers\Controller;
+use App\Models\HistoryOperation;
 use Illuminate\Http\Request;
 
-class PacientDisiaseController extends Controller
+class HistoryOperationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +42,10 @@ class PacientDisiaseController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\PacientDisiase  $pacientDisiase
+     * @param  \App\Models\HistoryOperation  $historyOperation
      * @return \Illuminate\Http\Response
      */
-    public function show(PacientDisiase $pacientDisiase)
+    public function show(HistoryOperation $historyOperation)
     {
         //
     }
@@ -52,10 +53,10 @@ class PacientDisiaseController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\PacientDisiase  $pacientDisiase
+     * @param  \App\Models\HistoryOperation  $historyOperation
      * @return \Illuminate\Http\Response
      */
-    public function edit(PacientDisiase $pacientDisiase)
+    public function edit(HistoryOperation $historyOperation)
     {
         //
     }
@@ -64,10 +65,10 @@ class PacientDisiaseController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\PacientDisiase  $pacientDisiase
+     * @param  \App\Models\HistoryOperation  $historyOperation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PacientDisiase $pacientDisiase)
+    public function update(Request $request, HistoryOperation $historyOperation)
     {
         //
     }
@@ -75,10 +76,10 @@ class PacientDisiaseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\PacientDisiase  $pacientDisiase
+     * @param  \App\Models\HistoryOperation  $historyOperation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PacientDisiase $pacientDisiase)
+    public function destroy(HistoryOperation $historyOperation)
     {
         //
     }

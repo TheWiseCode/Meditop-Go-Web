@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Web\Web\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Web\Web\Controller;
 use App\Models\Account;
 use App\Models\Transaction;
 use Carbon\Carbon;
