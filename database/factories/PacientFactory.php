@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Pacient;
+use App\Models\Patient;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PacientFactory extends Factory
@@ -12,7 +12,7 @@ class PacientFactory extends Factory
      *
      * @var string
      */
-    protected $model = Pacient::class;
+    protected $model = Patient::class;
 
     /**
      * Define the model's default state.

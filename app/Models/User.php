@@ -29,4 +29,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getPerson(){
+        return Person::join('users', 'users.id_person', 'users.id')
+            ->where('users.id_person', $this->id)
+            ->first();
+    }
+    public function isAdmin(){
+        return $this->getPerson()->isAdmin();
+    }
 }

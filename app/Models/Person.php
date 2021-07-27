@@ -23,7 +23,7 @@ class Person extends Model
 
     public function isAdmin(): bool
     {
-        $person = Person::join('admins', 'admins.id_person', 'id')
+        $person = Person::join('admins', 'admins.id_person', 'persons.id')
             ->where('admins.id_person', $this->id)
             ->first();
         return $person != null;
@@ -31,7 +31,7 @@ class Person extends Model
 
     public function isDoctor(): bool
     {
-        $person = Person::join('doctors', 'doctors.id_person', 'id')
+        $person = Person::join('doctors', 'doctors.id_person', 'persons.id')
             ->where('doctors.id_person', $this->id)
             ->first();
         return $person != null;
@@ -39,7 +39,7 @@ class Person extends Model
 
     public function isPatient(): bool
     {
-        $person = Person::join('patients', 'patients.id_person', 'id')
+        $person = Person::join('patients', 'patients.id_person', 'persons.id')
             ->where('patients.id_person', $this->id)
             ->first();
         return $person != null;

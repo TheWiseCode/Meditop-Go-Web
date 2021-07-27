@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Patient;
 use App\Models\Person;
 use App\Models\User;
 use Carbon\Carbon;
 use DateTime;
-use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use PHPUnit\Exception;
@@ -24,39 +24,35 @@ class SessionController extends Controller
             'cellphone' => 'required|string|min:4',
             'birthday' => 'required|date',
             'sex' => 'required|string|min:1|max:1',
-            'email' => 'required|email|unique:users,persons',
+            'allergies' => 'required',
+            'type_blood' => 'required|string',
+            'email' => 'required|email|unique:users|unique:persons',
             'password' => 'required|string|confirmed',
             'token_name' => 'string'
         ]);
+        print('dale');
         try {
             $user = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password'])
             ]);
-            $opened_account = Carbon::now();
-            /*$time = new UTCDateTime($opened_account->getTimestamp() * 1000);
-            $idd = new  ObjectId($user->id);
-            $number = Account::getNewNumber();
-            $account = Account::create([
-                'number' => strval($number),
-                'type' => 'Caja de ahorro',
-                'balance' => 0,
-                'opened_account' => $time,
-                'id_user' => $idd
-            ]);*/
-            $date = new DateTime($data['birthday']);
-            //$mongo_date = new UTCDateTime($date->getTimestamp() * 1000);
-            //DateTime::createFromFormat()
             $person = Person::create([
                 'name' => $data['name'],
                 'last_name' => $data['last_name'],
                 'ci' => $data['ci'],
                 'cellphone' => $data['cellphone'],
-                //'birthday' => $mongo_date,
+                'birthday' => $data['birthday'],
                 'sex' => $data['sex'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']), 'token_name' => 'string'
+            ]);
+            $user->id_person = $person->id;
+            $user->save();
+            Patient::create([
+                'id_person' => $person->id,
+                'blood_type' => $data['type_blood'],
+                'allergy' => $data['allergies']
             ]);
             $token = $user->createToken($data['token_name'])->plainTextToken;
             $response = [
@@ -66,7 +62,7 @@ class SessionController extends Controller
             return response($response, 201);
         } catch (Exception $e) {
             return response(['error' => ['message' => 'Error registro no completado']],
-                500);
+                406);
         }
     }
 

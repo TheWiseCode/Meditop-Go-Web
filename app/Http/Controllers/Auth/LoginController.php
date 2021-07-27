@@ -50,7 +50,7 @@ class LoginController extends Controller
         }
 
         if ($this->attemptLogin($request)) {
-            dd('bien');
+            //dd('bien');
             return $this->sendLoginResponse($request);
         }
         dd('mal');
