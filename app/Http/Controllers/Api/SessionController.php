@@ -30,7 +30,6 @@ class SessionController extends Controller
             'password' => 'required|string|confirmed',
             'token_name' => 'string'
         ]);
-        print('dale');
         try {
             $user = User::create([
                 'name' => $data['name'],
