@@ -26,7 +26,7 @@ class VerificationController extends Controller
         if (!$user->getPerson()->isPatient()) {
             return redirect()->to('/home');
         }
-        return "Correo verificado";
+        return response(['message' => 'Correo enviado'], 200);
         //return redirect()->to('/');
     }
 
