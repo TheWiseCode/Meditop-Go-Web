@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Person;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -63,7 +64,8 @@ class UserController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['ci']),
-            'id_person' => $person->id
+            'id_person' => $person->id,
+            'email_verified_at' => Carbon::now()
         ]);
         Admin::create([
             'id_person' => $person->id,
