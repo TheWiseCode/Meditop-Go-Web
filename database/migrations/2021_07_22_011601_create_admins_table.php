@@ -17,6 +17,7 @@ class CreateAdminsTable extends Migration
             $table->id();
             $table->foreignId('id_person')->references('id')->on('persons');
             $table->string('profession');
+            $table->boolean('owner')->default(false);
             $table->timestamps();
         });
     }

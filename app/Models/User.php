@@ -8,7 +8,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable, HasApiTokens;
 
@@ -37,5 +37,9 @@ class User extends Authenticatable
     }
     public function isAdmin(){
         return $this->getPerson()->isAdmin();
+    }
+
+    public function isOwner(){
+        return $this->getPerson()->isOwner();
     }
 }

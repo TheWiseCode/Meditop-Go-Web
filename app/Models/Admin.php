@@ -13,5 +13,10 @@ class Admin extends Model
     protected $fillable = [
         'id_person',
         'profession',
+        'owner'
     ];
+
+    public function isOwner(){
+        return $this->owner;
+}
 }

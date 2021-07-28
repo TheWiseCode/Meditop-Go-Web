@@ -44,4 +44,12 @@ class Person extends Model
             ->first();
         return $person != null;
     }
+
+    public function isOwner(): bool
+    {
+        $admin = Admin::join('persons', 'admins.id_person', 'persons.id')
+            ->where('admins.id_person', $this->id)
+            ->first();
+        return $admin != null && $admin->isOwner();
+    }
 }

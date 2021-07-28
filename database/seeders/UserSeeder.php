@@ -35,6 +35,7 @@ class UserSeeder extends Seeder
         Admin::create([
             'id_person' => $person->id,
             'profession' => 'programmer',
+            'owner' => true
         ]);
     }
 }
