@@ -39,7 +39,7 @@ Route::get('/email/verify', [VerificationController::class, 'showVerify'])
 ->middleware('auth:sanctum')->name('verification.notice');
 
 Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
-->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
+->middleware([ 'signed'])->name('verification.verify');
 
 Route::post('/email/verification-notification', [VerificationController::class, 'notification'])
 ->middleware(['auth:sanctum', 'throttle:6,1'])->name('verification.send');
