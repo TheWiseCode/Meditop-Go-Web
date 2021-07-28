@@ -58,7 +58,7 @@ class SessionController extends Controller
                 'token' => $token
             ];*/
             //return response($response, 201);
-            return response(['message' => 'Verifique su correo para poder ingresar a la app'], 201);
+            return response(['message' => 'Se le ha enviado un correo de verificación, verifiquese para poder ingresar a la app'], 201);
         } catch (Exception $e) {
             return response(['message' => 'Error registro no completado'],
                 406);
@@ -79,6 +79,11 @@ class SessionController extends Controller
             ], 401);
         }
         $user = User::where('email', $person->email)->first();
+        if(!$user->verified_email_at){
+            return response([
+                'message' => 'Verifique su correo para poder ingresar',
+            ], 401);
+        }
         if (!Hash::check($data['password'], $user->password)) {
             return response([
                 'message' => 'Contraseña incorrecta',
