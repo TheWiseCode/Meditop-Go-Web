@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Admin;
 use App\Models\Person;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -30,7 +31,8 @@ class UserSeeder extends Seeder
             'name' => 'willy',
             'email' => 'willy4k@gmail.com',
             'password' => Hash::make('will3148'),
-            'id_person' => $person->id
+            'id_person' => $person->id,
+            'email_verified_at' => Carbon::now()
         ]);
         Admin::create([
             'id_person' => $person->id,
