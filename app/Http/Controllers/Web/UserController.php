@@ -65,7 +65,7 @@ class UserController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['ci']),
             'id_person' => $person->id,
-            'email_verified_at' => Carbon::now()
+            'email_verified_at' => now(),
         ]);
         Admin::create([
             'id_person' => $person->id,

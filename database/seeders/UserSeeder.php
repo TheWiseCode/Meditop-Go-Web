@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
             'email' => 'willy4k@gmail.com',
             'password' => Hash::make('will3148'),
             'id_person' => $person->id,
-            'email_verified_at' => Carbon::now()
+            'email_verified_at' => now(),
         ]);
         Admin::create([
             'id_person' => $person->id,
