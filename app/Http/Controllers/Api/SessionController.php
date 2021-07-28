@@ -59,6 +59,7 @@ class SessionController extends Controller
                 'token' => $token
             ];*/
             //return response($response, 201);
+            $user()->sendEmailVerificationNotification();
             return response(['message' => 'Verifique su correo para poder ingresar a la app'], 201);
         } catch (Exception $e) {
             return response(['message' => 'Error registro no completado'],
