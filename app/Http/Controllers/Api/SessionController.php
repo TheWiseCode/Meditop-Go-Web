@@ -84,7 +84,7 @@ class SessionController extends Controller
                 'message' => 'Contraseña incorrecta',
             ], 401);
         }
-        if($user->verified_email_at == null){
+        if($user->email_verified_at == null){
             return response([
                 'message' => 'Verifique su correo para poder ingresar',
             ], 401);
