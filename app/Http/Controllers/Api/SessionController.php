@@ -53,14 +53,15 @@ class SessionController extends Controller
                 'blood_type' => $data['type_blood'],
                 'allergy' => $data['allergies']
             ]);
-            $token = $user->createToken($data['token_name'])->plainTextToken;
+            /*$token = $user->createToken($data['token_name'])->plainTextToken;
             $response = [
                 'person' => $person,
                 'token' => $token
-            ];
-            return response($response, 201);
+            ];*/
+            //return response($response, 201);
+            return response(['message' => 'Verifique su correo para poder ingresar a la app'], 201);
         } catch (Exception $e) {
-            return response(['error' => ['message' => 'Error registro no completado']],
+            return response(['message' => 'Error registro no completado'],
                 406);
         }
     }
