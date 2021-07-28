@@ -114,5 +114,9 @@
 @endsection
 
 @section('styles')
-
+    <style>
+        label{
+            font-weight: bold;
+        }
+    </style>
 @endsection

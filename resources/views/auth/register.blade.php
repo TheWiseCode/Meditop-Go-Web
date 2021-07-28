@@ -299,8 +299,8 @@
                                         <div class="card-header">
                                             Documentos anexos
                                         </div>
-                                        {{--<div class="card-body" id="card-docs">
-                                            <div class="form-group row">
+                                        <div class="card-body" id="card-docs">
+                                            {{--<div class="form-group row">
                                                 <div class="col-md-6">
                                                     <input type="text" class="form-control" name="name_docs[]"
                                                            autofocus placeholder="Tipo documento">
@@ -309,8 +309,8 @@
                                                     <input type="file" class="form-control" name="docs[]"
                                                            autofocus placeholder="Archivo">
                                                 </div>
-                                            </div>
-                                        </div>--}}
+                                            </div>--}}
+                                        </div>
                                         <div class="card-footer">
                                             <button id="add-doc" type="button" class="btn btn-secondary float-right">
                                                 Añadir documento

@@ -30,7 +30,7 @@
                                 <td>Nombre</td>
                                 <td>Apellido</td>
                                 <td>Celular</td>
-                                <td>Correo</td>
+                                <td>Corre-o</td>
                                 <td>Tipo</td>
                                 <td>Opciones</td>
                             </tr>
@@ -51,7 +51,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="" class="btn btn-sm btn-secondary">Ver datos</a>
+                                        <a href="{{route('users.show', $pers->id_user)}}" class="btn btn-sm btn-secondary">Ver datos</a>
                                     </td>
                                 </tr>
                             @endforeach

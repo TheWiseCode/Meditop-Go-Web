@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\Doctor;
+use App\Models\Document;
 use App\Models\Person;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -27,20 +30,45 @@ class UserController extends Controller
     public function index()
     {
         $this->validar();
-        $persons = Person::join('doctors', 'doctors.id_person', 'persons.id')
-            ->join('patients', 'patients.id_person', 'persons.id')
-            ->get();
-        $persons = Person::orderBy('id')->get();
+        $persons = Person::join('users', 'users.id_person', 'persons.id')
+            ->select('persons.*', DB::raw('users.id as id_user'))
+            ->orderBy('id')->get();
         return view('admin.users.index', compact('persons'));
     }
 
     public function createAdmin()
     {
+        $this->validar();
         return view('admin.users.create-admin');
+    }
+
+    public function show(User $user)
+    {
+        $person = $user->getPerson();
+        $docs = null;
+        if ($person->isDoctor()) {
+            $person = Person::join('doctors', 'doctors.id_person', 'persons.id')
+                ->select('persons.*', 'doctors.reg_doctor', DB::raw('doctors.id as id_doctor'))
+                ->where('doctors.id_person', $person->id)
+                ->first();
+            $docs = Document::where('id_doctor', $person->id_doctor)->get();
+        } else if ($person->isAdmin()) {
+            $person = Person::join('admins', 'admins.id_person', 'persons.id')
+                ->select('persons.*', 'admins.profession')
+                ->where('admins.id_person', $person->id)
+                ->first();
+        } else {//Paciente
+            $person = Person::join('patients', 'patients.id_person', 'persons.id')
+                ->select('persons.*', 'patients.blood_type', 'patients.allergy')
+                ->where('patients.id_person', $person->id)
+                ->first();
+        }
+        return view('admin.users.show', compact('person', 'docs'));
     }
 
     public function storeAdmin(Request $request)
     {
+        $this->validar();
         $data = $request->validate([
             'name' => 'required|string|min:3',
             'last_name' => 'required|string',
@@ -74,8 +102,23 @@ class UserController extends Controller
         return redirect()->route('users.index')->with(['gestion' => 'Nuevo administrador registrado']);
     }
 
-    public function doctorRequests(){
-        $persons = Person::orderBy('id')->get();
-        return view('admin.users.doctor-requests', compact('persons'));
+    public function doctorRequests()
+    {
+        $this->validar();
+        $doctors = Doctor::join('persons', 'persons.id', 'doctors.id_person')
+            ->join('verifications', 'verifications.id_doctor', 'doctors.id')
+            ->select('persons.*', DB::raw('verifications.state'))
+            ->where('verified', false)->get();
+        return view('admin.users.doctor-requests', compact('doctors'));
+    }
+
+    public function doctorVerification(Person $person){
+        $person = Person::join('doctors', 'doctors.id_person', 'persons.id')
+            ->select('persons.*', 'doctors.reg_doctor', DB::raw('doctors.id as id_doctor'))
+            ->where('doctors.id_person', $person->id)
+            ->first();
+        $docs = Document::where('id_doctor', $person->id_doctor)->get();
+        //dd($docs);
+        return view('admin.users.doctor-verification', compact('person', 'docs'));
     }
 }

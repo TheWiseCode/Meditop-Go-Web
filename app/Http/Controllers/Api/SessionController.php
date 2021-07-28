@@ -104,7 +104,6 @@ class SessionController extends Controller
     public function getUser(Request $request)
     {
         $person = Person::where('email', $request->user()->email)->first();
-        //dd($request->user()->id);
         return $person;
     }
 

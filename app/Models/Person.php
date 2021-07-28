@@ -52,4 +52,15 @@ class Person extends Model
             ->first();
         return $admin != null && $admin->isOwner();
     }
+
+    public static function sexo($sex){
+        switch ($sex){
+            case 'M':
+                return 'Masculino';
+                case 'F':
+                return 'Femenino';
+            default:
+                return 'Otro';
+        }
+    }
 }
