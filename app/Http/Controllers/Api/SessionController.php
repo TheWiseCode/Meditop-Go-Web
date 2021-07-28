@@ -46,7 +46,7 @@ class SessionController extends Controller
                 'blood_type' => $data['type_blood'],
                 'allergy' => $data['allergies']
             ]);
-            $user = User::create([
+            User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
