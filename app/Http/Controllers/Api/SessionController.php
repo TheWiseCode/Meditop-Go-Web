@@ -79,14 +79,14 @@ class SessionController extends Controller
             ], 401);
         }
         $user = User::where('email', $person->email)->first();
-        if(!$user->verified_email_at){
-            return response([
-                'message' => 'Verifique su correo para poder ingresar',
-            ], 401);
-        }
         if (!Hash::check($data['password'], $user->password)) {
             return response([
                 'message' => 'Contraseña incorrecta',
+            ], 401);
+        }
+        if(!$user->verified_email_at){
+            return response([
+                'message' => 'Verifique su correo para poder ingresar',
             ], 401);
         }
         $token = $user->createToken($data['token_name'])->plainTextToken;
