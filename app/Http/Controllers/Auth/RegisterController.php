@@ -106,17 +106,19 @@ class RegisterController extends Controller
             'url' => $cur_url,
             'id_doctor' => $doctor->id
         ]);
-        for ($i = 0; $i < count($data['name_docs']); $i++) {
-            $name = $data['name_docs'][$i];
-            $doc = $data['docs'][$i];
-            $path = Storage::disk('s3')->put($url, $doc);
-            Storage::disk('s3')->setVisibility($path, 'public');
-            $doc_url = Storage::disk('s3')->url($path);
-            Document::create([
-                'name' => $name,
-                'url' => $doc_url,
-                'id_doctor' => $doctor->id
-            ]);
+        if(array_key_exists('name_docs', $data)) {
+            for ($i = 0; $i < count($data['name_docs']); $i++) {
+                $name = $data['name_docs'][$i];
+                $doc = $data['docs'][$i];
+                $path = Storage::disk('s3')->put($url, $doc);
+                Storage::disk('s3')->setVisibility($path, 'public');
+                $doc_url = Storage::disk('s3')->url($path);
+                Document::create([
+                    'name' => $name,
+                    'url' => $doc_url,
+                    'id_doctor' => $doctor->id
+                ]);
+            }
         }
         return $user;
     }

@@ -31,9 +31,10 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     public function getPerson(){
-        return Person::join('users', 'users.id_person', 'users.id')
-            ->where('users.id_person', $this->id)
+        $person =  Person::join('users', 'users.id_person', 'persons.id')
+            ->where('users.id', $this->id)
             ->first();
+        return $person;
     }
     public function isAdmin(){
         return $this->getPerson()->isAdmin();

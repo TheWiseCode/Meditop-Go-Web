@@ -21,6 +21,14 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+Route::group(["middleware" => ["auth:sanctum", "verified"]], function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+});
+
 Auth::routes();
 
 //----------VERIFICACION DE CORREO
@@ -39,8 +47,6 @@ Route::post('/email/verification-notification', function (Request $request) {
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 //-----------------------------
 
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('users', UserController::class)
