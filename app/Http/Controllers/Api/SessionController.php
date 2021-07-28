@@ -31,11 +31,6 @@ class SessionController extends Controller
             'token_name' => 'string'
         ]);
         try {
-            $user = User::create([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password'])
-            ]);
             $person = Person::create([
                 'name' => $data['name'],
                 'last_name' => $data['last_name'],
@@ -46,20 +41,23 @@ class SessionController extends Controller
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']), 'token_name' => 'string'
             ]);
-            $user->id_person = $person->id;
-            $user->save();
             Patient::create([
                 'id_person' => $person->id,
                 'blood_type' => $data['type_blood'],
                 'allergy' => $data['allergies']
             ]);
+            $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'id_person' => $person->id
+            ])->sendEmailVerificationNotification();
             /*$token = $user->createToken($data['token_name'])->plainTextToken;
             $response = [
                 'person' => $person,
                 'token' => $token
             ];*/
             //return response($response, 201);
-            $user()->sendEmailVerificationNotification();
             return response(['message' => 'Verifique su correo para poder ingresar a la app'], 201);
         } catch (Exception $e) {
             return response(['message' => 'Error registro no completado'],
