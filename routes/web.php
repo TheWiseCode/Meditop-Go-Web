@@ -67,4 +67,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/store-admin', [UserController::class, 'storeAdmin'])->name('store-admin');
     Route::get('/doctor-requests', [UserController::class, 'doctorRequests'])->name('doctor-requests');
     Route::get('/doctor-verification/{person}', [UserController::class, 'doctorVerification'])->name('doctor-verification');
+    Route::post('/doctor-verified-accept', [UserController::class, 'acceptVerification'])->name('accept-verification');
+    Route::post('/doctor-verified-denied', [UserController::class, 'deniedVerification'])->name('denied-verification');
 });

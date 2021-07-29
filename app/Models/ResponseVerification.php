@@ -12,6 +12,6 @@ class ResponseVerification extends Model
     protected $table = 'response_verifications';
 
     protected $fillable = [
-        'time', 'response', 'detail', 'id_verification'
+        'time', 'response', 'detail', 'id_verification', 'id_admin'
     ];
 }

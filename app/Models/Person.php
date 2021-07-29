@@ -37,6 +37,13 @@ class Person extends Model
         return $person != null;
     }
 
+    public function getDoctor(){
+        $doc = Doctor::join('persons', 'doctors.id_person', 'persons.id')
+            ->where('doctors.id_person', $this->id)
+            ->first();
+        return $doc;
+    }
+
     public function isPatient(): bool
     {
         $person = Person::join('patients', 'patients.id_person', 'persons.id')
@@ -49,8 +56,10 @@ class Person extends Model
     {
         $admin = Admin::join('persons', 'admins.id_person', 'persons.id')
             ->where('admins.id_person', $this->id)
+            ->where('admins.owner', true)
             ->first();
-        return $admin != null && $admin->isOwner();
+        return $admin != null;
+        //return $admin != null && $admin->isOwner();
     }
 
     public static function sexo($sex){

@@ -287,7 +287,7 @@
                                                class="col-md-4 col-form-label text-md-right">Curriculum</label>
                                         <div class="col-md-6">
                                             <input type="file" class="form-control" name="curriculum"
-                                                   required autocomplete="reg_medico" autofocus>
+                                                   required autocomplete="reg_medico" autofocus accept="application/pdf">
                                         </div>
                                         @error('curriculum')
                                         <span class="invalid-feedback" role="alert">
@@ -450,10 +450,10 @@
         $('#add-doc').click(function () {
             let hijo = '<div class="form-group row">';
             hijo += '<div class="col-md-6">';
-            hijo += '<input type="text" class="form-control" name="name_docs[]" autofocus placeholder="Tipo documento">';
+            hijo += '<input type="text" class="form-control" name="name_docs[]" autofocus placeholder="Tipo documento" required>';
             hijo += '</div>';
             hijo += '<div class="col-md-6">';
-            hijo += '<input type="file" class="form-control" name="docs[]" autofocus placeholder="Archivo">';
+            hijo += '<input type="file" class="form-control" name="docs[]" autofocus placeholder="Archivo" required>';
             hijo += '</div>';
             $('#card-docs').append(hijo);
         })

@@ -7,7 +7,11 @@ use App\Models\Admin;
 use App\Models\Doctor;
 use App\Models\Document;
 use App\Models\Person;
+use App\Models\ResponseVerification;
 use App\Models\User;
+use App\Models\Verification;
+use App\Notifications\TenantCreated;
+use App\Notifications\VerificationNotify;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -108,11 +112,13 @@ class UserController extends Controller
         $doctors = Doctor::join('persons', 'persons.id', 'doctors.id_person')
             ->join('verifications', 'verifications.id_doctor', 'doctors.id')
             ->select('persons.*', DB::raw('verifications.state'))
+            ->where('verifications.state', 'pendiente')
             ->where('verified', false)->get();
         return view('admin.users.doctor-requests', compact('doctors'));
     }
 
-    public function doctorVerification(Person $person){
+    public function doctorVerification(Person $person)
+    {
         $person = Person::join('doctors', 'doctors.id_person', 'persons.id')
             ->select('persons.*', 'doctors.reg_doctor', DB::raw('doctors.id as id_doctor'))
             ->where('doctors.id_person', $person->id)
@@ -120,5 +126,47 @@ class UserController extends Controller
         $docs = Document::where('id_doctor', $person->id_doctor)->get();
         //dd($docs);
         return view('admin.users.doctor-verification', compact('person', 'docs'));
+    }
+
+    public function acceptVerification(Request $request)
+    {
+        $user = auth()->user();
+        $person = $user->getPerson();
+        $admin = Admin::where('id_person', $person->id)->first();
+        $doc = Doctor::where('id_person', $request->person_id)->first();
+        $ver = Verification::where('id_doctor', $doc->id)
+            ->where('state', 'pendiente')->first();
+        ResponseVerification::create([
+            'response' => true,
+            'detail' => 'Verificacion valida, documentos validos',
+            'id_verification' => $ver->id,
+            'id_admin' => $admin->id
+        ]);
+        $ver->state = 'aceptada';
+        $ver->save();
+        $doc->verified = true;
+        $doc->save();
+        $user->notify(new VerificationNotify(true));
+        return redirect()->route('users.index')->with(['gestion' => 'Medico verificado']);
+    }
+
+    public function deniedVerification(Request $request)
+    {
+        $user = auth()->user();
+        $person = $user->getPerson();
+        $admin = Admin::where('id_person', $person->id)->first();
+        $doc = Doctor::where('id_person', $request->person_id)->first();
+        $ver = Verification::where('id_doctor', $doc->id)
+            ->where('state', 'pendiente')->first();
+        ResponseVerification::create([
+            'response' => false,
+            'detail' => $request->detail,
+            'id_verification' => $ver->id,
+            'id_admin' => $admin->id
+        ]);
+        $ver->state = 'rechazada';
+        $ver->save();
+        $user->notify(new VerificationNotify(false, $request->detail));
+        return redirect()->route('users.index')->with(['gestion' => 'Medico rechazado']);
     }
 }

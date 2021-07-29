@@ -38,6 +38,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $person;
     }
 
+    public function getDoctor(){
+        return $this->getPerson()->getDoctor();
+    }
+
     public function isAdmin(){
         return $this->getPerson()->isAdmin();
     }

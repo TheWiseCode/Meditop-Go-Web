@@ -17,7 +17,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="float-left">Lista de personas</h3>
-                        <a href="{{route('doctor-requests')}}" class="btn btn-primary float-right ml-2">Solicitudes de medicos</a>
+                        <a href="{{route('doctor-requests')}}" class="btn btn-primary float-right ml-2">Doctores no verificados</a>
                         @if(auth()->user()->isOwner())
                             <a href="{{route('create-admin')}}" class="btn btn-primary float-right">Registrar
                                 administrador</a>
