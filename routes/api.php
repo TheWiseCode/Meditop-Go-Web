@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Api\SessionController;
 use App\Http\Controllers\Api\VerificationController;
+use App\Http\Controllers\Web\SpecialtyController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +24,9 @@ Route::post('/login', [SessionController::class, 'login']);
 Route::get('/find-email', [SessionController::class, 'findEmail']);
 
 Route::post('/email/verification-notification', [VerificationController::class, 'resend']);
+
+
+Route::get('/specialties', [SpecialtyController::class, 'getAll']);
 
 //private routes
 Route::group(['middleware' => ['auth:sanctum']], function () {

@@ -44,7 +44,7 @@ class VerificationController extends Controller
         $user = User::where('email', $data['email'])->first();
         if($user) {
             $user->sendEmailVerificationNotification();
-            return response(['message' => 'Correo de verificiacion enviado'], 200);
+            return response(['message' => 'Correo de verificación enviado'], 200);
         }else{
             return response(['message' => 'Error correo no registrado'], 406);
         }
