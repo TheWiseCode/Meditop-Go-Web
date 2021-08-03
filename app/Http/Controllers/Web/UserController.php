@@ -95,6 +95,7 @@ class UserController extends Controller
             'id_person' => $person->id,
         ]);
         $user->markEmailAsVerified();
+        $user->assignRole('Administrador');
         Admin::create([
             'id_person' => $person->id,
             'profession' => $data['profession']
