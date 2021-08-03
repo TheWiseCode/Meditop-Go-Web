@@ -62,7 +62,6 @@
                                 </div>
                             </div>
                             @if($person->isAdmin())
-                                Administrador:
                             @elseif($person->isDoctor())
                                 <div class="row">
                                     <div class="col-md-12">
