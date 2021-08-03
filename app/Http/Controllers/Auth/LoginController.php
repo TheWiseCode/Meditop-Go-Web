@@ -53,7 +53,7 @@ class LoginController extends Controller
             //dd('bien');
             return $this->sendLoginResponse($request);
         }
-        dd('mal');
+        //dd('mal');
 
         $this->incrementLoginAttempts($request);
 
