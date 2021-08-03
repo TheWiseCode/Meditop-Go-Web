@@ -36,8 +36,17 @@ class VerificationController extends Controller
         return back()->with('message', 'Verification link sent!');
     }
 
-    public function resend()
+    public function resend(Request $request)
     {
-
+        $data = $request->validate([
+            'email' => 'required|email'
+        ]);
+        $user = User::where('email', $data['email'])->first();
+        if($user) {
+            $user->sendEmailVerificationNotification();
+            return response(['message' => 'Correo de verificiacion enviado'], 200);
+        }else{
+            return response(['message' => 'Error correo no registrado'], 406);
+        }
     }
 }

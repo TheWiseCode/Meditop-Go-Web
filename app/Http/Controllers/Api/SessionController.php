@@ -87,7 +87,7 @@ class SessionController extends Controller
         if($user->email_verified_at == null){
             return response([
                 'message' => 'Verifique su correo para poder ingresar',
-            ], 401);
+            ], 402);
         }
         $token = $user->createToken($data['token_name'])->plainTextToken;
         $response = [

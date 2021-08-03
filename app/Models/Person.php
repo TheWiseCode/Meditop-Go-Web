@@ -37,7 +37,8 @@ class Person extends Model
         return $person != null;
     }
 
-    public function getDoctor(){
+    public function getDoctor()
+    {
         $doc = Doctor::join('persons', 'doctors.id_person', 'persons.id')
             ->select('doctors.*')
             ->where('doctors.id_person', $this->id)
@@ -45,7 +46,8 @@ class Person extends Model
         return $doc;
     }
 
-    public function getAdmin(){
+    public function getAdmin()
+    {
         $doc = Admin::join('admins', 'admins.id_person', 'persons.id')
             ->select('admins.*')
             ->where('admins.id_person', $this->id)
@@ -71,11 +73,12 @@ class Person extends Model
         //return $admin != null && $admin->isOwner();
     }
 
-    public static function sexo($sex){
-        switch ($sex){
+    public static function sexo($sex)
+    {
+        switch ($sex) {
             case 'M':
                 return 'Masculino';
-                case 'F':
+            case 'F':
                 return 'Femenino';
             default:
                 return 'Otro';

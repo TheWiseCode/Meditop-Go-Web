@@ -103,8 +103,8 @@ class DoctorController extends Controller
         $off = OfferSpecialty::create([
             'id_specialty' => $data['specialty'],
             'id_doctor' => $doc->id,
-            'time_start' => $data['time-start'],
-            'time_end' => $data['time-end'],
+            'time_start' => $start,
+            'time_end' => $end,
         ]);
         foreach ($data['days'] as $day) {
             OfferDays::create([
@@ -112,6 +112,45 @@ class DoctorController extends Controller
                 'id_day' => $day
             ]);
         }
-        dd($start, $end);
+        return redirect()->route('doctor-schedule')->with(['gestion' => 'Nuevo horario registrado']);
+        //dd($start, $end);
+    }
+
+    public function editSchedule(OfferSpecialty $offer){
+        $specialties = Specialty::all();
+        $days = Day::all();
+        return view('doctor.schedule.edit', compact('offer', 'specialties', 'days'));
+    }
+
+    public function updateSchedule(Request $request, OfferSpecialty $offer){
+        $data = $request->validate([
+            'specialty' => 'required',
+            'days' => 'required|array|min:1',
+            'time-start' => 'required|string',
+            'time-end' => 'required|string',
+        ]);
+        $doc = auth()->user()->getDoctor();
+        $start = $this->getHourParsed($data['time-start']);
+        $end = $this->getHourParsed($data['time-end']);
+        $offer->update([
+            'id_specialty' => $data['specialty'],
+            'id_doctor' => $doc->id,
+            'time_start' => $start,
+            'time_end' => $end,
+        ]);
+        OfferDays::where('id_offer', $offer->id)->delete();
+        foreach ($data['days'] as $day) {
+            OfferDays::create([
+                'id_offer' => $offer->id,
+                'id_day' => $day
+            ]);
+        }
+        return redirect()->route('doctor-schedule')->with(['gestion' => 'Horario modificado']);
+    }
+
+    public function deleteSchedule(OfferSpecialty $offer){
+        OfferDays::where('id_offer', $offer->id)->delete();
+        $offer->delete();
+        return redirect()->route('doctor-schedule')->with(['gestion' => 'Horario eliminado']);
     }
 }

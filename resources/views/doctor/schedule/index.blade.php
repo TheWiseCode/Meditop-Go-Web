@@ -45,10 +45,10 @@
                                     <td>
                                         <div class="row">
                                             <a style="background-color: transparent; color: #136eff" class="btn mr-1"
-                                               href="#">
+                                               href="{{route('doctor-edit-schedule', $offers[$i]->id)}}">
                                                 <i id="" class="bi bi-pencil-fill"></i>
                                             </a>
-                                            <form action="#" method="post">
+                                            <form action="{{route('doctor-delete-schedule', $offers[$i]->id)}}" method="post">
                                                 @csrf
                                                 @method('delete')
                                                 <button type="submit"

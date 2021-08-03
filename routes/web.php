@@ -46,9 +46,6 @@ Route::post('/email/verification-notification', [VerificationController::class, 
     ->middleware(['auth:sanctum', 'throttle:6,1'])->name('verification.send');
 //-----------------------------
 
-Route::get('/mobile/email/resend', [VerificationController::class, 'resend'])
-    ->name('verification.resend.mobile');
-
 
 //-------------
 
@@ -70,5 +67,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         ->name('doctor-add-schedule');
     Route::post('/register-schedule', [DoctorController::class, 'registerSchedule'])
         ->name('doctor-register-schedule');
+    Route::get('/edit-schedule/{offer}', [DoctorController::class, 'editSchedule'])
+        ->name('doctor-edit-schedule');
+    Route::put('/update-schedule/{offer}', [DoctorController::class, 'updateSchedule'])
+        ->name('doctor-update-schedule');
+    Route::delete('/schedule/{offer}', [DoctorController::class, 'deleteSchedule'])
+        ->name('doctor-delete-schedule');
 
 });

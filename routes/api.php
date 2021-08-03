@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\Api\SessionController;
+use App\Http\Controllers\Api\VerificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +21,8 @@ Route::post('/register/user', [SessionController::class, 'registerPerson']);
 Route::post('/login', [SessionController::class, 'login']);
 
 Route::get('/find-email', [SessionController::class, 'findEmail']);
+
+Route::post('/email/verification-notification', [VerificationController::class, 'resend']);
 
 //private routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
