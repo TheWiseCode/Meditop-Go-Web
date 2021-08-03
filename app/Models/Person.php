@@ -39,7 +39,16 @@ class Person extends Model
 
     public function getDoctor(){
         $doc = Doctor::join('persons', 'doctors.id_person', 'persons.id')
+            ->select('doctors.*')
             ->where('doctors.id_person', $this->id)
+            ->first();
+        return $doc;
+    }
+
+    public function getAdmin(){
+        $doc = Admin::join('admins', 'admins.id_person', 'persons.id')
+            ->select('admins.*')
+            ->where('admins.id_person', $this->id)
             ->first();
         return $doc;
     }

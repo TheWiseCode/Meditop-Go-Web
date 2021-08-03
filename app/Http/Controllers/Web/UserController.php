@@ -130,6 +130,7 @@ class UserController extends Controller
 
     public function acceptVerification(Request $request)
     {
+        $userAccept = User::where('id_person', $request->person_id)->first();
         $user = auth()->user();
         $person = $user->getPerson();
         $admin = Admin::where('id_person', $person->id)->first();
@@ -146,7 +147,8 @@ class UserController extends Controller
         $ver->save();
         $doc->verified = true;
         $doc->save();
-        $user->notify(new VerificationNotify(true));
+        $userAccept->assignRole('Doctor');
+        $userAccept->notify(new VerificationNotify(true));
         return redirect()->route('users.index')->with(['gestion' => 'Medico verificado']);
     }
 

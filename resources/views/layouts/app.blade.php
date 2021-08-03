@@ -73,15 +73,17 @@
                             </li>
                         @endif
                     @else
-                        <li class="nav-item {{ request()->route()->getName() === "users.index" ? "active" : "" }}">
-                            <a class="nav-link" href="">{{ __('Inquilinos') }}</a>
-                        </li>
-                        @if(auth()->user()->isAdmin())
+                        @can('administrar horarios')
+                            <li class="nav-item {{ request()->route()->getName() === "doctor-schedule" ? "active" : "" }}">
+                                <a class="nav-link" href="{{route('doctor-schedule')}}">{{ __('Mis horarios') }}</a>
+                            </li>
+                        @endcan
+                        @can('ver usuarios')
                             <li class="nav-item {{ request()->route()->getName() === "users.index" ? "active" : "" }}">
                                 <a class="nav-link"
                                    href="{{route('users.index')}}">{{ __('Usuarios') }}</a>
                             </li>
-                        @endif
+                        @endcan
 
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
@@ -90,9 +92,7 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                @if(auth()->user()->getDoctor() != null)
-                                    <a class="dropdown-item" href="#">Perfil</a>
-                                @endif
+                                <a class="dropdown-item" href="#">Perfil</a>
 
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();

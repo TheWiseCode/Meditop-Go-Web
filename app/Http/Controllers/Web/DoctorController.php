@@ -3,84 +3,115 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
+use App\Models\Day;
 use App\Models\Doctor;
+use App\Models\OfferDays;
+use App\Models\OfferSpecialty;
+use App\Models\Specialty;
 use Illuminate\Http\Request;
 
 class DoctorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Doctor  $doctor
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(Doctor $doctor)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Doctor  $doctor
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Doctor $doctor)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Doctor  $doctor
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Doctor $doctor)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Doctor  $doctor
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Doctor $doctor)
     {
         //
+    }
+
+    public function schedule()
+    {
+        $doc = auth()->user()->getDoctor();
+        $offers = OfferSpecialty::join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
+            ->select('offer_specialties.id', 'time_start', 'time_end', 'name')
+            ->where('id_doctor', $doc->id)->get();
+        $schedules = [];
+        foreach ($offers as $offer) {
+            $sch = OfferDays::join('days', 'days.id', 'offer_days.id_day')
+                ->select('offer_days.id_day', 'days.name')
+                ->where('offer_days.id_offer', $offer->id)->get();
+            array_push($schedules, $sch);
+        }
+        return view('doctor.schedule.index', compact('offers', 'schedules'));
+    }
+
+    public function addSchedule()
+    {
+        $specialties = Specialty::all();
+        $days = Day::all();
+        return view('doctor.schedule.add', compact('specialties', 'days'));
+    }
+
+    public function getHourParsed($time)
+    {
+        $am = substr($time, strlen($time) - 2, 2);
+        $time = substr($time, 0, strlen($time) - 2);
+        $parts = explode(':', $time);
+        $parts = array_map(function ($x) {
+            return intval($x);
+        }, $parts);
+        if ($am == 'PM' && $parts[0] != 12) {
+            $parts[0] += 12;
+        }
+        return '' . sprintf("%'.02d", $parts[0]) . ':' . sprintf("%'.02d", $parts[1]);
+    }
+
+    public function registerSchedule(Request $request)
+    {
+        $data = $request->validate([
+            'specialty' => 'required',
+            'days' => 'required|array|min:1',
+            'time-start' => 'required|string',
+            'time-end' => 'required|string',
+        ]);
+        $doc = auth()->user()->getDoctor();
+        $start = $this->getHourParsed($data['time-start']);
+        $end = $this->getHourParsed($data['time-end']);
+        $off = OfferSpecialty::create([
+            'id_specialty' => $data['specialty'],
+            'id_doctor' => $doc->id,
+            'time_start' => $data['time-start'],
+            'time_end' => $data['time-end'],
+        ]);
+        foreach ($data['days'] as $day) {
+            OfferDays::create([
+                'id_offer' => $off->id,
+                'id_day' => $day
+            ]);
+        }
+        dd($start, $end);
     }
 }

@@ -7,10 +7,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens, HasRoles;
 
     protected $table = 'users';
 
@@ -40,6 +41,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getDoctor(){
         return $this->getPerson()->getDoctor();
+    }
+
+    public function getAdmin(){
+        return $this->getPerson()->getAdmin();
     }
 
     public function isAdmin(){

@@ -34,6 +34,7 @@ class UserSeeder extends Seeder
             'id_person' => $person->id,
             'email_verified_at' => now(),
         ]);
+        $user->syncRoles(['Administrador']);
         Admin::create([
             'id_person' => $person->id,
             'profession' => 'programmer',

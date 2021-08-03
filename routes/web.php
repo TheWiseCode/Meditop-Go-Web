@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\VerificationController;
+use App\Http\Controllers\Web\DoctorController;
 use App\Http\Controllers\Web\UserController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -36,24 +37,17 @@ Auth::routes();
 
 //----------VERIFICACION DE CORREO
 Route::get('/email/verify', [VerificationController::class, 'showVerify'])
-->middleware('auth:sanctum')->name('verification.notice');
+    ->middleware('auth:sanctum')->name('verification.notice');
 
 Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
-->middleware([ 'signed'])->name('verification.verify');
+    ->middleware(['signed'])->name('verification.verify');
 
 Route::post('/email/verification-notification', [VerificationController::class, 'notification'])
-->middleware(['auth:sanctum', 'throttle:6,1'])->name('verification.send');
+    ->middleware(['auth:sanctum', 'throttle:6,1'])->name('verification.send');
 //-----------------------------
 
 Route::get('/mobile/email/resend', [VerificationController::class, 'resend'])
-->name('verification.resend.mobile');
-
-
-
-
-
-
-
+    ->name('verification.resend.mobile');
 
 
 //-------------
@@ -69,4 +63,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/doctor-verification/{person}', [UserController::class, 'doctorVerification'])->name('doctor-verification');
     Route::post('/doctor-verified-accept', [UserController::class, 'acceptVerification'])->name('accept-verification');
     Route::post('/doctor-verified-denied', [UserController::class, 'deniedVerification'])->name('denied-verification');
+
+    Route::get('/schedule', [DoctorController::class, 'schedule'])
+        ->name('doctor-schedule');
+    Route::get('/add-schedule', [DoctorController::class, 'addSchedule'])
+        ->name('doctor-add-schedule');
+    Route::post('/register-schedule', [DoctorController::class, 'registerSchedule'])
+        ->name('doctor-register-schedule');
+
 });

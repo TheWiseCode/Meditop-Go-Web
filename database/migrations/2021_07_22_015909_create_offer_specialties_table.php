@@ -15,11 +15,11 @@ class CreateOfferSpecialtiesTable extends Migration
     {
         Schema::create('offer_specialties', function (Blueprint $table) {
             $table->id();
-            $table->string('schedule_days');//Abstraccion se guardará la inicial separada con |
-            //EJM: L|M|X|J|V|S|D|
-            $table->time('schedule_time');
+            $table->time('time_start');
+            $table->time('time_end');
             $table->foreignId('id_doctor')->references('id')->on('doctors');
-            $table->foreignId('id_disease')->references('id')->on('specialties');
+            $table->foreignId('id_specialty')->references('id')->on('specialties');
+            $table->unique(['id_doctor', 'id_specialty']);
             $table->timestamps();
         });
     }
