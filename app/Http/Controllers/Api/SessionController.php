@@ -26,10 +26,15 @@ class SessionController extends Controller
             'sex' => 'required|string|min:1|max:1',
             'allergies' => 'required',
             'type_blood' => 'required|string',
-            'email' => 'required|email|unique:users|unique:persons',
+            'email' => 'required|email',
             'password' => 'required|string|confirmed',
             'token_name' => 'string'
         ]);
+        $email = User::where('email', $data['email'])->first();
+        if ($email) {
+            return response(['message' => 'Error correo ya registrado'],
+                406);
+        }
         try {
             $person = Person::create([
                 'name' => $data['name'],
@@ -84,7 +89,7 @@ class SessionController extends Controller
                 'message' => 'Contraseña incorrecta',
             ], 401);
         }
-        if($user->email_verified_at == null){
+        if ($user->email_verified_at == null) {
             return response([
                 'message' => 'Verifique su correo para poder ingresar',
             ], 402);

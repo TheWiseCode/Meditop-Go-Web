@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             SpecialtySeeder::class
         ]);
-        Person::factory(10)->create();
+        //Person::factory(10)->create();
         // \App\Models\User::factory(10)->create();
     }
 }
