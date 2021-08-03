@@ -88,13 +88,13 @@ class UserController extends Controller
             'sex' => $data['sex'],
             'email' => $data['email'],
         ]);
-        User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['ci']),
             'id_person' => $person->id,
-            'email_verified_at' => now(),
         ]);
+        $user->markEmailAsVerified();
         Admin::create([
             'id_person' => $person->id,
             'profession' => $data['profession']
