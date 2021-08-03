@@ -51,6 +51,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->getPerson()->isAdmin();
     }
 
+    public function isDoctor(){
+        return $this->getPerson()->isDoctor();
+    }
+
     public function isOwner(){
         return $this->getPerson()->isOwner();
     }

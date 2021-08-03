@@ -14,6 +14,13 @@ use Illuminate\Http\Request;
 class DoctorController extends Controller
 {
 
+    public function validar()
+    {
+        if (!auth()->user()->isDoctor()) {
+            abort(401);
+        }
+    }
+
     public function index()
     {
         //
@@ -54,6 +61,7 @@ class DoctorController extends Controller
 
     public function schedule()
     {
+        $this->validar();
         $doc = auth()->user()->getDoctor();
         $offers = OfferSpecialty::join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
             ->select('offer_specialties.id', 'time_start', 'time_end', 'name')
@@ -70,6 +78,7 @@ class DoctorController extends Controller
 
     public function addSchedule()
     {
+        $this->validar();
         $specialties = Specialty::all();
         $days = Day::all();
         return view('doctor.schedule.add', compact('specialties', 'days'));
@@ -77,6 +86,7 @@ class DoctorController extends Controller
 
     public function getHourParsed($time)
     {
+        $this->validar();
         $am = substr($time, strlen($time) - 2, 2);
         $time = substr($time, 0, strlen($time) - 2);
         $parts = explode(':', $time);
@@ -91,6 +101,7 @@ class DoctorController extends Controller
 
     public function registerSchedule(Request $request)
     {
+        $this->validar();
         $data = $request->validate([
             'specialty' => 'required',
             'days' => 'required|array|min:1',
@@ -116,13 +127,17 @@ class DoctorController extends Controller
         //dd($start, $end);
     }
 
-    public function editSchedule(OfferSpecialty $offer){
+    public function editSchedule(OfferSpecialty $offer)
+    {
+        $this->validar();
         $specialties = Specialty::all();
         $days = Day::all();
         return view('doctor.schedule.edit', compact('offer', 'specialties', 'days'));
     }
 
-    public function updateSchedule(Request $request, OfferSpecialty $offer){
+    public function updateSchedule(Request $request, OfferSpecialty $offer)
+    {
+        $this->validar();
         $data = $request->validate([
             'specialty' => 'required',
             'days' => 'required|array|min:1',
@@ -148,7 +163,9 @@ class DoctorController extends Controller
         return redirect()->route('doctor-schedule')->with(['gestion' => 'Horario modificado']);
     }
 
-    public function deleteSchedule(OfferSpecialty $offer){
+    public function deleteSchedule(OfferSpecialty $offer)
+    {
+        $this->validar();
         OfferDays::where('id_offer', $offer->id)->delete();
         $offer->delete();
         return redirect()->route('doctor-schedule')->with(['gestion' => 'Horario eliminado']);

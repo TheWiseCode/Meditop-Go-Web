@@ -10,7 +10,6 @@ use App\Models\Person;
 use App\Models\ResponseVerification;
 use App\Models\User;
 use App\Models\Verification;
-use App\Notifications\TenantCreated;
 use App\Notifications\VerificationNotify;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,10 +18,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-
-    }
 
     public function validar()
     {
@@ -48,6 +43,7 @@ class UserController extends Controller
 
     public function show(User $user)
     {
+        $this->validar();
         $person = $user->getPerson();
         $docs = null;
         if ($person->isDoctor()) {
@@ -119,6 +115,7 @@ class UserController extends Controller
 
     public function doctorVerification(Person $person)
     {
+        $this->validar();
         $person = Person::join('doctors', 'doctors.id_person', 'persons.id')
             ->select('persons.*', 'doctors.reg_doctor', DB::raw('doctors.id as id_doctor'))
             ->where('doctors.id_person', $person->id)
@@ -130,6 +127,7 @@ class UserController extends Controller
 
     public function acceptVerification(Request $request)
     {
+        $this->validar();
         $userAccept = User::where('id_person', $request->person_id)->first();
         $user = auth()->user();
         $person = $user->getPerson();
@@ -154,6 +152,7 @@ class UserController extends Controller
 
     public function deniedVerification(Request $request)
     {
+        $this->validar();
         $user = auth()->user();
         $person = $user->getPerson();
         $admin = Admin::where('id_person', $person->id)->first();
