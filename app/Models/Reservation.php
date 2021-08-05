@@ -11,6 +11,6 @@ class Reservation extends Model
 
     protected $table = 'reservations';
     protected $fillable = [
-        'total', 'time_reservation', 'time_consult', 'state', 'id_offer'
+        'total', 'time_reservation', 'time_consult', 'state', 'id_offer', 'id_patient'
     ];
 }

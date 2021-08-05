@@ -58,4 +58,25 @@ class ReservationController extends Controller
         }
         return response(['message' => 'Horario disponible'], 200);
     }
+
+    public function doReservation(Request $request)
+    {
+        $data = $request->validate([
+            'id_patient' => 'required',
+            'id_offer' => 'required',
+            'datetime' => 'required|date',
+        ]);
+        $reserve = Reservation::join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')
+            ->where('time_consult', $data['datetime'])->first();
+        if ($reserve) {
+            return response(['message' => 'Horario no disponible'], 406);
+        }
+        $res = Reservation::create([
+            'state' => 'pendiente',
+            'time_consult' => $data['datetime'],
+            'id_offer' => $data['id_offer'],
+            'id_patient' => $data['id_patient'],
+        ]);
+        return response(['message' => 'Reservacion realizada'], 200);
+    }
 }

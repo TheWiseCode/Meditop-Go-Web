@@ -32,6 +32,7 @@ Route::get('/specialties', [SpecialtyController::class, 'getAll']);
 Route::post('/schedules', [OfferDaysController::class, 'getBySpecialty']);
 Route::post('/offers', [OfferDaysController::class, 'getDaysAvailable']);
 Route::post('/verified-reservation', [ReservationController::class, 'verifiedReservation']);
+Route::post('/do-reservation', [ReservationController::class, 'doReservation']);
 
 //private routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
