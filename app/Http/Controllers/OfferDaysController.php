@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Doctor;
 use App\Models\OfferDays;
+use App\Models\OfferSpecialty;
 use Illuminate\Http\Request;
 
 class OfferDaysController extends Controller
@@ -76,5 +77,17 @@ class OfferDaysController extends Controller
             array_push($response, $index);
         }
         return response($response, 200);
+    }
+
+    public function getOffersAvailable(Request $request)
+    {
+        $data = $request->validate([
+            'id_offer' => 'required|exists:offer_specialties,id'
+        ]);
+        $datos = OfferSpecialty::join('doctors', 'doctors.id', 'offer_specialties.id_doctor')
+            ->join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
+            ->select('doctors.reg_doctor')
+            ->get();
+        return response($datos, 200);
     }
 }

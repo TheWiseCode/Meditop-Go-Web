@@ -46,6 +46,8 @@ class SpecialtyController extends Controller
     public function getAll(){
         $specialties = Specialty::join('offer_specialties', 'offer_specialties.id_specialty', 'specialties.id')
             ->select('specialties.id', 'specialties.name')
+            ->groupby('specialties.id')
+            ->distinct()
             ->get();
         return response($specialties, 200);
     }
