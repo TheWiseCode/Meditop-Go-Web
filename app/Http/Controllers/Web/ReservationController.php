@@ -49,12 +49,10 @@ class ReservationController extends Controller
     {
         $data = $request->validate([
             'id_offer' => 'required|exists:offer_specialties,id',
-            'date' => 'required|date',
-            'time' => 'required|date_format:H:i'
+            'datetime' => 'required|date',
         ]);
-        $datetime = $data['date'] . ' ' . $data['time'] . ':00';
         $reserve = Reservation::join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')
-            ->where('time_consult', $datetime)->first();
+            ->where('time_consult', $data['datetime'])->first();
         if ($reserve) {
             return response(['message' => 'Horario no disponible'], 406);
         }
