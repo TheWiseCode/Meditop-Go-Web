@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Doctor;
 use App\Models\OfferDays;
 use App\Models\OfferSpecialty;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class OfferDaysController extends Controller
@@ -82,12 +83,19 @@ class OfferDaysController extends Controller
     public function getOffersAvailable(Request $request)
     {
         $data = $request->validate([
-            'id_offer' => 'required|exists:offer_specialties,id'
+            'id_offer' => 'required|exists:offer_specialties,id',
+            'date_reserve' => 'required|date',
+            'time_reserve' => 'required|date_format:H:i'
         ]);
         $datos = OfferSpecialty::join('doctors', 'doctors.id', 'offer_specialties.id_doctor')
             ->join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
             ->select('doctors.reg_doctor')
             ->get();
-        return response($datos, 200);
+        //$dt1 = Carbon::createFromFormat('Y-m-d H:i:s', $data['date_reserve']);
+        $date = Carbon::createFromFormat('Y-m-d', $data['date_reserve']);
+        $t1 = Carbon::createFromFormat('H:i', $data['time_reserve']);
+        $t2 = Carbon::createFromFormat('H:i', $data['time_reserve'])
+            ->modify('+30 minutes');
+        return response([$datos, $t1, $t2, Carbon::now()], 200);
     }
 }

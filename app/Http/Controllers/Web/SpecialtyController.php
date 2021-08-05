@@ -47,6 +47,7 @@ class SpecialtyController extends Controller
         $specialties = Specialty::join('offer_specialties', 'offer_specialties.id_specialty', 'specialties.id')
             ->select('specialties.id', 'specialties.name')
             ->groupby('specialties.id')
+            ->orderby('specialties.name')
             ->distinct()
             ->get();
         return response($specialties, 200);
