@@ -80,22 +80,28 @@ class OfferDaysController extends Controller
         return response($response, 200);
     }
 
-    public function getOffersAvailable(Request $request)
+    public function getDaysAvailable(Request $request)
     {
         $data = $request->validate([
             'id_offer' => 'required|exists:offer_specialties,id',
-            'date_reserve' => 'required|date',
-            'time_reserve' => 'required|date_format:H:i'
         ]);
-        $datos = OfferSpecialty::join('doctors', 'doctors.id', 'offer_specialties.id_doctor')
-            ->join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
-            ->select('doctors.reg_doctor')
+        $daysE = OfferDays::join('days', 'days.id', 'offer_days.id_day')
+            ->select('days.id')
+            ->where('offer_days.id_offer', $data['id_offer'])
             ->get();
-        //$dt1 = Carbon::createFromFormat('Y-m-d H:i:s', $data['date_reserve']);
-        $date = Carbon::createFromFormat('Y-m-d', $data['date_reserve']);
-        $t1 = Carbon::createFromFormat('H:i', $data['time_reserve']);
-        $t2 = Carbon::createFromFormat('H:i', $data['time_reserve'])
-            ->modify('+30 minutes');
-        return response([$datos, $t1, $t2, Carbon::now()], 200);
+        $days = [];
+        foreach ($daysE as $d)
+            array_push($days, $d->id);
+        $now = Carbon::now()->dayOfWeek + 1;
+        $disponibles = [];
+        for ($i = 0; $i <= 7; $i++) {
+            $day = ($now + $i) % 8;
+            if (in_array($day, $days)) {
+                $date = Carbon::now()->modify("+ ${i} day")
+                    ->format('Y-m-d');
+                array_push($disponibles, $date);
+            }
+        }
+        return response($disponibles, 200);
     }
 }

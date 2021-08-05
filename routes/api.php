@@ -29,7 +29,7 @@ Route::post('/email/verification-notification', [VerificationController::class, 
 
 Route::get('/specialties', [SpecialtyController::class, 'getAll']);
 Route::post('/schedules', [OfferDaysController::class, 'getBySpecialty']);
-Route::post('/offers', [OfferDaysController::class, 'getOffersAvailable']);
+Route::post('/offers', [OfferDaysController::class, 'getDaysAvailable']);
 
 //private routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
