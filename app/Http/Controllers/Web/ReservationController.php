@@ -31,7 +31,7 @@ class ReservationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -42,7 +42,7 @@ class ReservationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Reservation  $reservation
+     * @param \App\Models\Reservation $reservation
      * @return \Illuminate\Http\Response
      */
     public function show(Reservation $reservation)
@@ -53,7 +53,7 @@ class ReservationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Reservation  $reservation
+     * @param \App\Models\Reservation $reservation
      * @return \Illuminate\Http\Response
      */
     public function edit(Reservation $reservation)
@@ -64,8 +64,8 @@ class ReservationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Reservation  $reservation
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Reservation $reservation
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Reservation $reservation)
@@ -76,11 +76,27 @@ class ReservationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Reservation  $reservation
+     * @param \App\Models\Reservation $reservation
      * @return \Illuminate\Http\Response
      */
     public function destroy(Reservation $reservation)
     {
         //
+    }
+
+    public function verifiedReservation(Request $request)
+    {
+        $data = $request->validate([
+            'id_offer' => 'required|exists:offer_specialties,id',
+            'date' => 'required|date',
+            'time' => 'required|date_format:H:i'
+        ]);
+        $datetime = $data['date'] . ' ' . $data['time'] . ':00';
+        $reserve = Reservation::join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')
+            ->where('time_consult', $datetime)->get();
+        if ($reserve) {
+            return response(['message' => 'Horario no disponible'], 406);
+        }
+        return response(['message' => 'Horario disponible'], 200);
     }
 }

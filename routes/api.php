@@ -4,6 +4,7 @@
 use App\Http\Controllers\Api\SessionController;
 use App\Http\Controllers\Api\VerificationController;
 use App\Http\Controllers\OfferDaysController;
+use App\Http\Controllers\Web\ReservationController;
 use App\Http\Controllers\Web\SpecialtyController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,7 @@ Route::post('/email/verification-notification', [VerificationController::class, 
 Route::get('/specialties', [SpecialtyController::class, 'getAll']);
 Route::post('/schedules', [OfferDaysController::class, 'getBySpecialty']);
 Route::post('/offers', [OfferDaysController::class, 'getDaysAvailable']);
+Route::post('/verified-reservation', [ReservationController::class, 'verifiedReservation']);
 
 //private routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
