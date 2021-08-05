@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Person;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,7 +17,9 @@ class DatabaseSeeder extends Seeder
             DaySeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
-            SpecialtySeeder::class
+            SpecialtySeeder::class,
+            DoctorSeeder::class,
+            PatientSeeder::class,
         ]);
         //Person::factory(10)->create();
         // \App\Models\User::factory(10)->create();

@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Api\SessionController;
 use App\Http\Controllers\Api\VerificationController;
+use App\Http\Controllers\OfferDaysController;
 use App\Http\Controllers\Web\SpecialtyController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,7 @@ Route::post('/email/verification-notification', [VerificationController::class, 
 
 
 Route::get('/specialties', [SpecialtyController::class, 'getAll']);
+Route::get('/schedules', [OfferDaysController::class, 'getBySpecialty']);
 
 //private routes
 Route::group(['middleware' => ['auth:sanctum']], function () {

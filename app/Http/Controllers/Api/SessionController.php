@@ -44,7 +44,8 @@ class SessionController extends Controller
                 'birthday' => $data['birthday'],
                 'sex' => $data['sex'],
                 'email' => $data['email'],
-                'password' => Hash::make($data['password']), 'token_name' => 'string'
+                //'password' => Hash::make($data['password']),
+                //'token_name' => 'string'
             ]);
             Patient::create([
                 'id_person' => $person->id,
