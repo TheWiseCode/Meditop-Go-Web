@@ -92,12 +92,15 @@ class OfferDaysController extends Controller
         $days = [];
         foreach ($daysE as $d)
             array_push($days, $d->id);
-        $now = Carbon::now()->dayOfWeek + 1;
+        $dayNow = Carbon::now()->modify('+1 day')->dayOfWeek;
+        if ($dayNow == 0) $dayNow = 7;
         $disponibles = [];
-        for ($i = 0; $i <= 7; $i++) {
-            $day = ($now + $i) % 8;
+        for ($i = 0; $i < 7; $i++) {
+            $day = (($dayNow + $i) % 7);
+            $day = $day == 0 ? 7 : $day;
             if (in_array($day, $days)) {
-                $date = Carbon::now()->modify("+ ${i} day")
+                $k = $i + 1;
+                $date = Carbon::now()->modify("+${k} day")
                     ->format('Y-m-d');
                 array_push($disponibles, $date);
             }

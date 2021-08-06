@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Doctor;
+use App\Models\OfferSpecialty;
 use App\Models\Reservation;
-use Carbon\Carbon;
+use App\Notifications\ReservationNotify;
 use Illuminate\Http\Request;
 
 class ReservationController extends Controller
@@ -77,6 +79,9 @@ class ReservationController extends Controller
             'id_offer' => $data['id_offer'],
             'id_patient' => $data['id_patient'],
         ]);
+        $offer = OfferSpecialty::where('id', $data['id_offer'])->first();
+        $user = Doctor::getUser($offer->id_doctor);
+        $user->notify(new ReservationNotify());
         return response(['message' => 'Reservacion realizada'], 200);
     }
 }
