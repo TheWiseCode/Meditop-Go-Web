@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\VerificationController;
 use App\Http\Controllers\Web\DoctorController;
+use App\Http\Controllers\Web\ReservationController;
 use App\Http\Controllers\Web\UserController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -74,4 +75,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('/schedule/{offer}', [DoctorController::class, 'deleteSchedule'])
         ->name('doctor-delete-schedule');
 
+    Route::resource('reservations', ReservationController::class)->parameters(['reservation' => 'reservation'])
+        ->names('reservations');
+    Route::post('/doctor-reservation-accept', [ReservationController::class, 'acceptReservation'])->name('accept-reservation');
+    Route::post('/doctor-reservation-denied', [ReservationController::class, 'deniedReservation'])->name('denied-reservation');
 });

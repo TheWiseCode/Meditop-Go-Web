@@ -16,7 +16,7 @@ class CreateConsultsTable extends Migration
         Schema::create('consults', function (Blueprint $table) {
             $table->id();
             $table->dateTime('time');
-            $table->enum('state', ['cancelada', 'aceptada'])
+            $table->enum('state', ['cancelada', 'aceptada', 'concluida'])
                 ->default('aceptada');
             $table->string('url_jitsi');
             $table->unsignedInteger('min_duration');

@@ -43,7 +43,7 @@ class ReservationNotify extends Notification
         $url = env('APP_URL');
         $name = env('APP_NAME');
         return (new MailMessage)
-            ->line("{$name} Nueva reservacion solicitdad")
+            ->subject("{$name} Nueva reservacion solicitud")
             ->line('Tiene una nueva solicitud de consulta, entre a la pagina para confirmar la consulta')
             ->action('Acceder ahora', $url);
     }

@@ -73,6 +73,11 @@
                             </li>
                         @endif
                     @else
+                        {{--@can('administrar reservaciones')--}}
+                        <li class="nav-item {{ request()->route()->getName() === "reservations.index" ? "active" : "" }}">
+                            <a class="nav-link" href="{{route('reservations.index')}}">{{ __('Reservaciones') }}</a>
+                        </li>
+                        {{--@endcan--}}
                         @can('administrar horarios')
                             <li class="nav-item {{ request()->route()->getName() === "doctor-schedule" ? "active" : "" }}">
                                 <a class="nav-link" href="{{route('doctor-schedule')}}">{{ __('Mis horarios') }}</a>

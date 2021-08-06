@@ -16,7 +16,7 @@ class CreateActionReservationsTable extends Migration
         Schema::create('action_reservations', function (Blueprint $table) {
             $table->id();
             $table->string('detail');
-            $table->dateTime('action');
+            $table->dateTime('action')->default('now');
             $table->string('type');
             $table->foreignId('id_reservation')->references('id')->on('reservations');
             $table->timestamps();
