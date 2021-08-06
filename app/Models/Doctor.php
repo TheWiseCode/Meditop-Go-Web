@@ -20,7 +20,7 @@ class Doctor extends Model
     {
         return User::join('persons', 'persons.id', 'users.id_person')
             ->select('users.*')
-            ->join('doctors', 'doctors.id_persons', 'persons.id')
+            ->join('doctors', 'doctors.id_person', 'persons.id')
             ->where('doctors.id', $id)->first();
     }
 
