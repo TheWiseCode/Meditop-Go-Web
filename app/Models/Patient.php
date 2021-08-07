@@ -15,4 +15,19 @@ class Patient extends Model
         'blood_type',
         'allergy'
     ];
+
+    public static function getUser($id)
+    {
+        return User::join('persons', 'persons.id', 'users.id_person')
+            ->join('patients', 'patients.id_person', 'persons.id')
+            ->select('users.*')
+            ->where('patients.id', $id)->first();
+    }
+
+    public static function getPerson($id)
+    {
+        return Person::join('patients', 'patients.id_persons', 'persons.id')
+            ->select('persons.*')
+            ->where('patients.id', $id)->first();
+    }
 }

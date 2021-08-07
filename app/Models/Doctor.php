@@ -19,8 +19,8 @@ class Doctor extends Model
     public static function getUser($id)
     {
         return User::join('persons', 'persons.id', 'users.id_person')
-            ->select('users.*')
             ->join('doctors', 'doctors.id_person', 'persons.id')
+            ->select('users.*')
             ->where('doctors.id', $id)->first();
     }
 

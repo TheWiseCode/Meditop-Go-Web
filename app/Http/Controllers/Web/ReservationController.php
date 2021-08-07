@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\ActionReservation;
 use App\Models\Consult;
 use App\Models\Doctor;
+use App\Models\NotificationDevice;
 use App\Models\OfferSpecialty;
+use App\Models\Patient;
 use App\Models\Reservation;
 use App\Notifications\ReservationNotify;
 use Carbon\Carbon;
@@ -130,6 +132,22 @@ class ReservationController extends Controller
             'id_patient' => $res->id_patient,
             'id_reservation' => $data['id_reservation']
         ]);
+        $user = Patient::getUser($res->id_patient);
+        $devices = NotificationDevice::where('id_user', $user->id)->get();
+        foreach ($devices as $dev) {
+            $response = Http::withHeaders(
+                ['Authorization' => 'key=AAAAvsZFQWs:APA91bEL2A-l2JFHhBGhafWqvGsXo12VEhgBYfx8BOhlQR3Z8NsWxFKETJW9ynbGpp41jozURY-GQnB6fANYZUye4_tF7XUpQZadjTFCm12NWnP0dAGyOI5O0YgY3hbrsLWWc5GaC3jd']
+            )->post('https://fcm.googleapis.com/fcm/send?=', [
+                'to' => $dev->token,
+                'notification' => [
+                    'title' => 'Meditop Go',
+                    'body' => 'Reservacion aceptada'
+                ],
+                'data' => [
+                    'comida' => 'Su reservacion ha sido aceptada'
+                ]
+            ]);
+        }
         return redirect()->route('reservations.index')->with(['gestion' => 'Reservacion aceptada']);
     }
 
@@ -148,6 +166,22 @@ class ReservationController extends Controller
         $res = Reservation::find($data['id_reservation']);
         $res->state = 'rechazada';
         $res->save();
+        $user = Patient::getUser($res->id_patient);
+        $devices = NotificationDevice::where('id_user', $user->id)->get();
+        foreach ($devices as $dev) {
+            $response = Http::withHeaders(
+                ['Authorization' => 'key=AAAAvsZFQWs:APA91bEL2A-l2JFHhBGhafWqvGsXo12VEhgBYfx8BOhlQR3Z8NsWxFKETJW9ynbGpp41jozURY-GQnB6fANYZUye4_tF7XUpQZadjTFCm12NWnP0dAGyOI5O0YgY3hbrsLWWc5GaC3jd']
+            )->post('https://fcm.googleapis.com/fcm/send?=', [
+                'to' => $dev->token,
+                'notification' => [
+                    'title' => 'Meditop Go',
+                    'body' => 'Reservacion rechazada'
+                ],
+                'data' => [
+                    'comida' => 'Su reservacion ha sido rechazada'
+                ]
+            ]);
+        }
         return redirect()->route('reservations.index')->with(['gestion' => 'Reservacion rechazada']);
     }
 
