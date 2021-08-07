@@ -9,9 +9,9 @@ class NotificationDevice extends Model
 {
     use HasFactory;
 
-    protected $table = 'notifications_devices';
+    protected $table = 'notification_devices';
 
     protected $fillable = [
-        'name_device', 'token'
+        'name_device', 'token', 'id_user'
     ];
 }

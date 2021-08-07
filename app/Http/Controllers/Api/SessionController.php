@@ -77,8 +77,8 @@ class SessionController extends Controller
         $data = $request->validate([
             'email' => 'required|email',
             'password' => 'required|string',
-            'token_name' => 'string',
-            'token_firebase' => 'string'
+            'token_name' => 'required|string',
+            'token_firebase' => 'required|string'
         ]);
         $person = Person::where('email', $data['email'])->first();
         if (!$person) {
