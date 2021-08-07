@@ -117,7 +117,7 @@ class SessionController extends Controller
     public function getUser(Request $request)
     {
         $person = Person::join('patients', 'patients.id_person', 'persons.id')
-            ->join('users', 'users.id_persons', 'persons.id')
+            ->join('users', 'users.id_person', 'persons.id')
             ->select('patients.id as id_patient', 'persons.*', 'users.id as id_user')
             ->where('email', $request->user()->email)->first();
         return $person;
