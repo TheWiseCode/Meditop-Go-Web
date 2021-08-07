@@ -128,6 +128,7 @@ class SessionController extends Controller
         $data = $request->validate([
             'token_firebase' => 'required'
         ]);
+        NotificationDevice::where('token_firebase', $data['token_firebase'])->delete();
         $user = $request->user();
         $user->currentAccessToken()->delete();
         return [
