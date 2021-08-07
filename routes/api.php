@@ -34,6 +34,8 @@ Route::post('/offers', [OfferDaysController::class, 'getDaysAvailable']);
 Route::post('/verified-reservation', [ReservationController::class, 'verifiedReservation']);
 Route::post('/do-reservation', [ReservationController::class, 'doReservation']);
 
+Route::post('/test', [ReservationController::class, 'test']);
+
 //private routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user', [SessionController::class, 'getUser']);

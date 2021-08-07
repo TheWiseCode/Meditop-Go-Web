@@ -12,6 +12,7 @@ use App\Notifications\ReservationNotify;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 class ReservationController extends Controller
@@ -148,5 +149,22 @@ class ReservationController extends Controller
         $res->state = 'rechazada';
         $res->save();
         return redirect()->route('reservations.index')->with(['gestion' => 'Reservacion rechazada']);
+    }
+
+    public function test(Request $request)
+    {
+        $response = Http::withHeaders(
+            ['Authorization' => 'key=AAAAvsZFQWs:APA91bEL2A-l2JFHhBGhafWqvGsXo12VEhgBYfx8BOhlQR3Z8NsWxFKETJW9ynbGpp41jozURY-GQnB6fANYZUye4_tF7XUpQZadjTFCm12NWnP0dAGyOI5O0YgY3hbrsLWWc5GaC3jd']
+        )->post('https://fcm.googleapis.com/fcm/send?=', [
+            'to' => 'ctNc7X3ITgmdJFqj3MSgRe:APA91bEiDtnaCcBAhOmW3P2qwYrSdAJLR1C86buYukMsnn0MBhv-MfRNfXLeIC90LzCKMJdpW2Q3WjgK4BY3b7tAjTmEUmSn3i0aFno5-S07D0Rq7QmIefPtOLNnFz5jtz6QgmEcZTtQ',
+            'notification' => [
+                'title' => 'Postman',
+                'body' => 'Body desde postman'
+            ],
+            'data' => [
+                'comida' => 'Comida desde postman'
+            ]
+        ]);
+        return $response;
     }
 }

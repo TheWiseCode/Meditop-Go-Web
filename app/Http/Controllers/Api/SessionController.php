@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\NotificationDevice;
 use App\Models\Patient;
 use App\Models\Person;
 use App\Models\User;
@@ -76,7 +77,8 @@ class SessionController extends Controller
         $data = $request->validate([
             'email' => 'required|email',
             'password' => 'required|string',
-            'token_name' => 'string'
+            'token_name' => 'string',
+            'token_firebase' => 'string'
         ]);
         $person = Person::where('email', $data['email'])->first();
         if (!$person) {
@@ -95,6 +97,11 @@ class SessionController extends Controller
                 'message' => 'Verifique su correo para poder ingresar',
             ], 402);
         }
+        NotificationDevice::create([
+            'name_device' => $data['token_name'],
+            'token' => $data['token_firebase'],
+            'id_user' => $user->id
+        ]);
         $token = $user->createToken($data['token_name'])->plainTextToken;
         $response = [
             'person' => $person,
@@ -110,13 +117,17 @@ class SessionController extends Controller
     public function getUser(Request $request)
     {
         $person = Person::join('patients', 'patients.id_person', 'persons.id')
-            ->select('patients.id as id_patient', 'persons.*')
+            ->join('users', 'users.id_persons', 'persons.id')
+            ->select('patients.id as id_patient', 'persons.*', 'users.id as id_user')
             ->where('email', $request->user()->email)->first();
         return $person;
     }
 
     public function logout(Request $request)
     {
+        $data = $request->validate([
+            'token_firebase' => 'required'
+        ]);
         $user = $request->user();
         $user->currentAccessToken()->delete();
         return [
