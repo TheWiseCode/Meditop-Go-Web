@@ -201,6 +201,7 @@ class ReservationController extends Controller
             ->where('reservations.time_consult', '>', Carbon::now())
             ->where('patients.id', $pat->id)
             ->where('reservations.state', 'pendiente')
+            ->orderby('reservations.time_consult')
             ->get();
         return response($res, 200);
     }
@@ -222,6 +223,7 @@ class ReservationController extends Controller
             )
             ->where('consults.state', 'aceptada')
             ->where('consults.time', '>', Carbon::now())
+            ->orderby('consults.time')
             ->get();
         return response($con, 200);
     }
