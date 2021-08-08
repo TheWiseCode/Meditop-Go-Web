@@ -47,10 +47,6 @@ Route::post('/email/verification-notification', [VerificationController::class, 
     ->middleware(['auth:sanctum', 'throttle:6,1'])->name('verification.send');
 //-----------------------------
 
-
-//-------------
-
-
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('users', UserController::class)
         ->parameters(['users' => 'user'])->names('users');

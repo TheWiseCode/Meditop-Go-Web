@@ -1,66 +1,65 @@
-@extends('layouts.app')
+@extends('adminlte::page')
+
+@section('title', 'Reservaciones')
+
+@section('content_header')
+@stop
 
 @section('content')
-    <div class="content-wrapper" style="min-width: 729px; height: auto;">
-        <div class="content">
-            <div class="container-fluid col-md-10">
-                @if (session('gestion'))
-                    <div class="alert alert-success" role="alert">
-                        {{session('gestion')}}
-                    </div>
-                @endif
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="float-left">Solicitudes de consulta</h3>
-                        {{--<a href="{{route('doctor-add-schedule')}}" class="btn btn-primary float-right ml-2">Registrar
-                            nuevo horario</a>--}}
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-bordered table-responsive-md" id="table">
-                            <thead style="background-color: #6fbfff">
-                            <tr class="font-weight-bold">
-                                <td>Especialidad</td>
-                                <td>Paciente</td>
-                                <td>Fecha y Hora Consulta</td>
-                                <td>Fecha y Hora Solicitud</td>
-                                <td>Opciones</td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @for($i = 0; $i < count($reservations); $i++)
-                                <tr>
-                                    <td>{{$reservations[$i]->name_specialty}}{{$reservations[$i]->id}}</td>
-                                    <td>{{$reservations[$i]->name_complete}}</td>
-                                    <td>
-                                        {{\Carbon\Carbon::createFromFormat( 'Y-m-d H:i:s', $reservations[$i]->time_consult)->format('d/m/Y H:i:s')}}
-                                    </td>
-                                    <td>
-                                        {{\Carbon\Carbon::createFromFormat( 'Y-m-d H:i:s', $reservations[$i]->time_reservation)->format('d/m/Y H:i:s')}}
-                                    </td>
-                                    <td>
-                                        <div class="row">
-                                            <form action="{{route('accept-reservation')}}"
-                                                  method="post">
-                                                @csrf
-                                                <input type="hidden" name="id_reservation" value="{{$reservations[$i]->id}}">
-                                                <button type="submit" class="btn btn-success mx-2">
-                                                    Aceptar
-                                                </button>
-                                            </form>
-                                            <button type="button" class="btn btn-danger"
-                                                    onclick="loadIdDenied({{$reservations[$i]->id}})"
-                                                    data-toggle="modal"
-                                                    data-target="#exampleModal" data-whatever="@mdo">Rechazar
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endfor
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    @if (session('gestion'))
+        <div class="alert alert-success" role="alert">
+            {{session('gestion')}}
+        </div>
+    @endif
+    <div class="card">
+        <div class="card-header">
+            <h3 class="float-left">Solicitudes de consulta</h3>
+            {{--<a href="{{route('doctor-add-schedule')}}" class="btn btn-primary float-right ml-2">Registrar
+                nuevo horario</a>--}}
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-responsive-md" id="table">
+                <thead style="background-color: #6fbfff">
+                <tr class="font-weight-bold">
+                    <td>Especialidad</td>
+                    <td>Paciente</td>
+                    <td>Fecha y Hora Consulta</td>
+                    <td>Fecha y Hora Solicitud</td>
+                    <td>Opciones</td>
+                </tr>
+                </thead>
+                <tbody>
+                @for($i = 0; $i < count($reservations); $i++)
+                    <tr>
+                        <td>{{$reservations[$i]->name_specialty}}{{$reservations[$i]->id}}</td>
+                        <td>{{$reservations[$i]->name_complete}}</td>
+                        <td>
+                            {{\Carbon\Carbon::createFromFormat( 'Y-m-d H:i:s', $reservations[$i]->time_consult)->format('d/m/Y H:i:s')}}
+                        </td>
+                        <td>
+                            {{\Carbon\Carbon::createFromFormat( 'Y-m-d H:i:s', $reservations[$i]->time_reservation)->format('d/m/Y H:i:s')}}
+                        </td>
+                        <td>
+                            <div class="row">
+                                <form action="{{route('accept-reservation')}}"
+                                      method="post">
+                                    @csrf
+                                    <input type="hidden" name="id_reservation" value="{{$reservations[$i]->id}}">
+                                    <button type="submit" class="btn btn-success mx-2">
+                                        Aceptar
+                                    </button>
+                                </form>
+                                <button type="button" class="btn btn-danger"
+                                        onclick="loadIdDenied({{$reservations[$i]->id}})"
+                                        data-toggle="modal"
+                                        data-target="#exampleModal" data-whatever="@mdo">Rechazar
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                @endfor
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -100,9 +99,13 @@
             </div>
         </div>
     </div>
-@endsection
+@stop
 
-@section('scripts')
+@section('css')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+@stop
+
+@section('js')
     <script>
         function loadIdDenied(id) {
             $('#deniedIdRes').val(id);
@@ -128,8 +131,8 @@
             value += "</select>";
             value += " registros por pagina";
             $("#table").DataTable({
-                responsive: true,
-                autoWidth: true,
+                responsive: false,
+                autoWidth: false,
                 "language": {
                     "lengthMenu": value,
                     "zeroRecords":
@@ -153,8 +156,4 @@
             })
         })
     </script>
-@endsection
-
-@section('styles')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-@endsection
+@stop

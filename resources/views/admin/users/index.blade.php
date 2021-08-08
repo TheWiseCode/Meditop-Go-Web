@@ -1,70 +1,65 @@
-@extends('layouts.app')
+@extends('adminlte::page')
+
+@section('title', 'Usuarios')
+
+@section('content_header')
+@stop
 
 @section('content')
-    <div class="content-wrapper" style="min-width: 729px; height: auto;">
-        {{--<div class="content-header" style="height: 60px;">
-            <div class="container-fluid">
-                <a href="" class="btn btn-primary float-right">Registrar administrador</a>
-            </div>
-        </div>--}}
-        <div class="content">
-            <div class="container-fluid col-md-10">
-                @if (session('gestion'))
-                    <div class="alert alert-success" role="alert">
-                        {{session('gestion')}}
-                    </div>
-                @endif
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="float-left">Lista de personas</h3>
-                        <a href="{{route('doctor-requests')}}" class="btn btn-primary float-right ml-2">Doctores no verificados</a>
-                        @if(auth()->user()->isOwner())
-                            <a href="{{route('create-admin')}}" class="btn btn-primary float-right">Registrar
-                                administrador</a>
-                        @endif
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-bordered table-responsive-md" id="table">
-                            <thead style="background-color: #6fbfff">
-                            <tr class="font-weight-bold">
-                                <td>Nombre</td>
-                                <td>Apellido</td>
-                                <td>Celular</td>
-                                <td>Corre-o</td>
-                                <td>Tipo</td>
-                                <td>Opciones</td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($persons as $pers)
-                                <tr>
-                                    <td>{{$pers->name}}</td>
-                                    <td>{{$pers->last_name}}</td>
-                                    <td>{{$pers->cellphone}}</td>
-                                    <td>{{$pers->email}}</td>
-                                    <td>@if($pers->isAdmin())
-                                            Admin
-                                        @elseif($pers->isPatient())
-                                            Paciente
-                                        @else
-                                            Doctor
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <a href="{{route('users.show', $pers->id_user)}}" class="btn btn-sm btn-secondary">Ver datos</a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    @if (session('gestion'))
+        <div class="alert alert-success" role="alert">
+            {{session('gestion')}}
+        </div>
+    @endif
+    <div class="card">
+        <div class="card-header">
+            <h3 class="float-left">Lista de personas</h3>
+            <a href="{{route('doctor-requests')}}" class="btn btn-primary float-right ml-2">Doctores no verificados</a>
+            @if(auth()->user()->isOwner())
+                <a href="{{route('create-admin')}}" class="btn btn-primary float-right">Registrar
+                    administrador</a>
+            @endif
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-responsive-md" id="table">
+                <thead style="background-color: #6fbfff">
+                <tr class="font-weight-bold">
+                    <td>Nombre</td>
+                    <td>Apellido</td>
+                    <td>Celular</td>
+                    <td>Corre-o</td>
+                    <td>Tipo</td>
+                    <td>Opciones</td>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($persons as $pers)
+                    <tr>
+                        <td>{{$pers->name}}</td>
+                        <td>{{$pers->last_name}}</td>
+                        <td>{{$pers->cellphone}}</td>
+                        <td>{{$pers->email}}</td>
+                        <td>@if($pers->isAdmin())
+                                Admin
+                            @elseif($pers->isPatient())
+                                Paciente
+                            @else
+                                Doctor
+                            @endif
+                        </td>
+                        <td>
+                            <a href="{{route('users.show', $pers->id_user)}}" class="btn btn-sm btn-secondary">Ver
+                                datos</a>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 @endsection
 
-@section('scripts')
+@section('js')
     <script>
         $(document).ready(function () {
             let value = "Mostrar "
@@ -104,6 +99,6 @@
     </script>
 @endsection
 
-@section('styles')
+@section('css')
 
 @endsection
