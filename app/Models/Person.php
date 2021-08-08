@@ -37,6 +37,15 @@ class Person extends Model
         return $person != null;
     }
 
+    public function getPatient()
+    {
+        $pat = Patient::join('persons', 'patients.id_person', 'persons.id')
+            ->select('patients.*')
+            ->where('patients.id_person', $this->id)
+            ->first();
+        return $pat;
+    }
+
     public function getDoctor()
     {
         $doc = Doctor::join('persons', 'doctors.id_person', 'persons.id')

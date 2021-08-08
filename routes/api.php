@@ -33,6 +33,7 @@ Route::post('/schedules', [OfferDaysController::class, 'getBySpecialty']);
 Route::post('/offers', [OfferDaysController::class, 'getDaysAvailable']);
 Route::post('/verified-reservation', [ReservationController::class, 'verifiedReservation']);
 Route::post('/do-reservation', [ReservationController::class, 'doReservation']);
+//Route::post('/get-pending', [ReservationController::class, 'getPending']);
 
 Route::post('/test', [ReservationController::class, 'test']);
 
@@ -41,6 +42,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user', [SessionController::class, 'getUser']);
     Route::delete('/logout', [SessionController::class, 'logout']);
 
+    Route::get('/get-pending', [ReservationController::class, 'getPending']);
     /*Route::post('/account/open', [AccountController::class, 'abrir']);
     Route::get('/accounts', [AccountController::class, 'getCuentas']);
     Route::post('/transaction/deposit', [TransactionController::class, 'abonar']);

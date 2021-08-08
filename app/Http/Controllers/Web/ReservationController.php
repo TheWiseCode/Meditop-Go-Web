@@ -185,6 +185,25 @@ class ReservationController extends Controller
         return redirect()->route('reservations.index')->with(['gestion' => 'Reservacion rechazada']);
     }
 
+    public function getPending(Request $request){
+        $pat = $request->user()->getPatient();
+        $res = Reservation::join('patients', 'patients.id', 'reservations.id_patient')
+            ->join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')
+            ->join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
+            ->join('doctors', 'doctors.id', 'offer_specialties.id_doctor')
+            ->join('persons', 'persons.id' ,'doctors.id_person')
+            ->select(
+                'reservations.id as id_reservation',
+                DB::raw("concat(persons.name, ' ', persons.last_name) as name_doctor"),
+                'specialties.name as name_specialty',
+                'reservations.time_consult'
+            )
+            ->where('patients.id', $pat->id)
+            ->where('reservations.state', 'pendiente')
+            ->get();
+        return response($res, 200);
+    }
+
     public function test(Request $request)
     {
         $response = Http::withHeaders(
