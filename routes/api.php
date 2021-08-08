@@ -43,6 +43,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('/logout', [SessionController::class, 'logout']);
 
     Route::get('/get-pending', [ReservationController::class, 'getPending']);
+    Route::get('/get-scheduled', [ReservationController::class, 'getScheduled']);
     /*Route::post('/account/open', [AccountController::class, 'abrir']);
     Route::get('/accounts', [AccountController::class, 'getCuentas']);
     Route::post('/transaction/deposit', [TransactionController::class, 'abonar']);
