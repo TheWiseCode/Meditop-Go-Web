@@ -80,4 +80,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::resource('consults', ConsultController::class)->parameters(['consult' => 'consult'])
         ->names('consults');
+    Route::post('/consult-cancel', [ConsultController::class, 'cancelConsult'])->name('consult.cancel');
 });

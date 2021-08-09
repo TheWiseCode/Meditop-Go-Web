@@ -35,20 +35,16 @@
                         </td>
                         <td>
                             <div class="row">
-                                <a href="{{route('consults.show', $consults[$i]->id)}}" class="btn btn-primary mr-2">Entrar</a>
-                                {{--<form action="{{route('accept-reservation')}}"
-                                      method="post">
-                                    @csrf
-                                    <input type="hidden" name="id_reservation" value="{{$reservations[$i]->id}}">
-                                    <button type="submit" class="btn btn-success mx-2">
-                                        Aceptar
+                                @if(\Carbon\Carbon::createFromFormat( 'Y-m-d H:i:s', $consults[$i]->time)->modify('-10 minutes')->lte($now))
+                                    <a href="{{route('consults.show', $consults[$i]->id)}}"
+                                       class="btn btn-primary mr-2">Entrar</a>
+                                @else
+                                    <button type="button" class="btn btn-danger"
+                                            onclick="loadIdConsult({{$consults[$i]->id}})"
+                                            data-toggle="modal"
+                                            data-target="#exampleModal" data-whatever="@mdo">Cancelar
                                     </button>
-                                </form>--}}
-                                <button type="button" class="btn btn-danger"
-                                        onclick="loadIdDenied({{$consults[$i]->id}})"
-                                        data-toggle="modal"
-                                        data-target="#exampleModal" data-whatever="@mdo">Cancelar
-                                </button>
+                                @endif
                             </div>
                         </td>
                     </tr>
@@ -71,12 +67,12 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{route('denied-reservation')}}"
+                <form action="{{route('consult.cancel')}}"
                       method="post">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
-                            <input id="deniedIdRes" type="hidden" name="id_reservation" value="">
+                            <input id="consultId" type="hidden" name="id_consult" value="">
                             <label for="recipient-name" class="col-form-label">Motivo
                                 cancelacion</label>
                             <textarea class="form-control" id="message-text"
@@ -101,7 +97,12 @@
 @stop
 
 @section('js')
+
     <script>
+        function loadIdConsult(id) {
+            $('#consultId').val(id);
+        }
+
         $(document).ready(function () {
             let value = "Mostrar "
             value += "<select class='custom-select custom-select-sm form-control form-control-sm'>";
