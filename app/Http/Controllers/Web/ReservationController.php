@@ -19,6 +19,43 @@ use Illuminate\Support\Str;
 
 class ReservationController extends Controller
 {
+    public function getByFilter(Request $request){
+        $data = $request->validate([
+            'state' => 'required|string'
+        ]);
+        if($data['state'] == 'todas'){
+            $reservations = Reservation::join('patients', 'patients.id', 'reservations.id_patient')
+                ->join('persons', 'persons.id', 'patients.id_person')
+                ->join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')
+                ->join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
+                ->select(
+                    'reservations.id', 'specialties.name as name_specialty',
+                    DB::raw("concat(persons.name,' ', persons.last_name) as name_complete"),
+                    DB::raw("reservations.time_consult"),
+                    'reservations.time_reservation',
+                    'reservations.state'
+                )
+                ->orderby('time_reservation', 'asc')
+                ->get();
+        }else{
+            $reservations = Reservation::join('patients', 'patients.id', 'reservations.id_patient')
+                ->join('persons', 'persons.id', 'patients.id_person')
+                ->join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')
+                ->join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
+                ->select(
+                    'reservations.id', 'specialties.name as name_specialty',
+                    DB::raw("concat(persons.name,' ', persons.last_name) as name_complete"),
+                    DB::raw("reservations.time_consult"),
+                    'reservations.time_reservation',
+                    'reservations.state'
+                )
+                ->where('state', $data['state'])
+                ->orderby('time_reservation', 'asc')
+                ->get();
+        }
+        return json_encode($reservations);
+    }
+
     public function index()
     {
         $reservations = Reservation::join('patients', 'patients.id', 'reservations.id_patient')
@@ -29,10 +66,12 @@ class ReservationController extends Controller
                 'reservations.id', 'specialties.name as name_specialty',
                 DB::raw("concat(persons.name,' ', persons.last_name) as name_complete"),
                 DB::raw("reservations.time_consult"),
-                'reservations.time_reservation'
+                'reservations.time_reservation',
+                'reservations.state'
             )
-            ->where('state', 'pendiente')
-            ->orderby('time_reservation')
+            //->where('state', 'pendiente')
+            //->orderby('state', 'desc')
+            ->orderby('time_reservation', 'asc')
             ->get();
         return view('doctor.reservations.index', compact('reservations'));
     }

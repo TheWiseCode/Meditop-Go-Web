@@ -246,59 +246,83 @@ return [
             'url' => 'admin/blog',
             'can' => 'manage-blog',
         ],
-        [
+        /*[
             'text' => 'pages',
             'url' => 'admin/pages',
             'icon' => 'far fa-fw fa-file',
             'label' => 4,
             'label_color' => 'success',
-        ],
-        ['header' => 'Reservaciones y consultas'],
+        ],*/
+        ['header' => 'Reservaciones y consultas',
+            'can' => 'administrar reservaciones'],
         [
+            'can' => 'administrar reservaciones',
             'text' => 'Reservaciones',
             'icon' => 'fas fa-fw fa-user',
             'submenu' => [
                 [
+                    'can' => 'administrar reservaciones',
                     'text' => 'Ver reservaciones',
                     'route' => 'reservations.index',
                 ],
             ],
+        ],[
+            'can' => 'administrar reservaciones',
+            'text' => 'Consultas',
+            'icon' => 'fas fa-fw fa-user',
+            'submenu' => [
+                [
+                    'can' => 'administrar reservaciones',
+                    'text' => 'Ver consultas',
+                    'route' => 'consults.index',
+                ],
+            ],
         ],
-        ['header' => 'Horarios de consulta'],
+        ['header' => 'Horarios de consulta',
+            'can' => 'administrar horarios'],
         [
+            'can' => 'administrar horarios',
             'text' => 'Horarios',
             'icon' => 'fas fa-fw fa-user',
             'submenu' => [
                 [
+                    'can' => 'administrar horarios',
                     'text' => 'Ver horarios',
                     'route' => 'doctor-schedule',
                 ],
                 [
+                    'can' => 'administrar horarios',
                     'text' => 'Nuevo horario',
                     'route' => 'doctor-add-schedule',
                 ],
             ],
         ],
-        ['header' => 'Usuarios'],
+        ['header' => 'Usuarios',
+            'can' => 'ver usuarios'],
         [
-            'text' => 'Usuarios',
+            'can' => 'ver usuarios',
+            'text' => 'Personas',
             'icon' => 'fas fa-fw fa-user',
             'submenu' => [
                 [
-                    'text' => 'Ver usuarios',
+                    'can' => 'ver usuarios',
+                    'text' => 'Ver personas',
                     'route' => 'users.index',
                 ],
                 [
+                    'can' => 'ver usuarios',
                     'text' => 'Nuevo administrador',
                     'route' => 'create-admin',
                 ],
             ],
         ],
         [
+            'can' => 'verificar doctores',
             'text' => 'Doctores',
             'icon' => 'fas fa-fw fa-user',
             'submenu' => [
                 [
+                    'can' => 'verificar doctores',
                     'text' => 'Ver doctores no verificados',
                     'route' => 'doctor-requests',
                 ],
@@ -309,65 +333,6 @@ return [
             'text' => 'profile',
             'url' => 'admin/settings',
             'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
-        [
-            'text' => 'multilevel',
-            'icon' => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
-            ],
-        ],
-        ['header' => 'labels'],
-        [
-            'text' => 'important',
-            'icon_color' => 'red',
-            'url' => '#',
-        ],
-        [
-            'text' => 'warning',
-            'icon_color' => 'yellow',
-            'url' => '#',
-        ],
-        [
-            'text' => 'information',
-            'icon_color' => 'cyan',
-            'url' => '#',
         ],
     ],
 

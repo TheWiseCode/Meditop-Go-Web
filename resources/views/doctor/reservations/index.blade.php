@@ -14,8 +14,15 @@
     <div class="card">
         <div class="card-header">
             <h3 class="float-left">Solicitudes de consulta</h3>
-            {{--<a href="{{route('doctor-add-schedule')}}" class="btn btn-primary float-right ml-2">Registrar
-                nuevo horario</a>--}}
+{{--
+            <select name="reservations_state" id="state" class="form-control float-right col-md-2">
+                <option value="todas">Todas</option>
+                <option value="pendiente">Pendientes</option>
+                <option value="aceptada">Aceptadas</option>
+                <option value="rechazada">Rechazadas</option>
+                <option value="cancelada">Canceladas</option>
+            </select>
+            <label for="" class="float-right mr-3">Estado de reservacion</label>--}}
         </div>
         <div class="card-body">
             <table class="table table-bordered table-responsive-md" id="table">
@@ -25,13 +32,14 @@
                     <td>Paciente</td>
                     <td>Fecha y Hora Consulta</td>
                     <td>Fecha y Hora Solicitud</td>
+                    <td>Estado</td>
                     <td>Opciones</td>
                 </tr>
                 </thead>
                 <tbody>
                 @for($i = 0; $i < count($reservations); $i++)
                     <tr>
-                        <td>{{$reservations[$i]->name_specialty}}{{$reservations[$i]->id}}</td>
+                        <td>{{$reservations[$i]->name_specialty}}</td>
                         <td>{{$reservations[$i]->name_complete}}</td>
                         <td>
                             {{\Carbon\Carbon::createFromFormat( 'Y-m-d H:i:s', $reservations[$i]->time_consult)->format('d/m/Y H:i:s')}}
@@ -40,21 +48,26 @@
                             {{\Carbon\Carbon::createFromFormat( 'Y-m-d H:i:s', $reservations[$i]->time_reservation)->format('d/m/Y H:i:s')}}
                         </td>
                         <td>
-                            <div class="row">
-                                <form action="{{route('accept-reservation')}}"
-                                      method="post">
-                                    @csrf
-                                    <input type="hidden" name="id_reservation" value="{{$reservations[$i]->id}}">
-                                    <button type="submit" class="btn btn-success mx-2">
-                                        Aceptar
+                            {{$reservations[$i]->state}}
+                        </td>
+                        <td>
+                            @if($reservations[$i]->state == 'pendiente')
+                                <div class="row">
+                                    <form action="{{route('accept-reservation')}}"
+                                          method="post">
+                                        @csrf
+                                        <input type="hidden" name="id_reservation" value="{{$reservations[$i]->id}}">
+                                        <button type="submit" class="btn btn-success mx-2">
+                                            Aceptar
+                                        </button>
+                                    </form>
+                                    <button type="button" class="btn btn-danger"
+                                            onclick="loadIdDenied({{$reservations[$i]->id}})"
+                                            data-toggle="modal"
+                                            data-target="#exampleModal" data-whatever="@mdo">Rechazar
                                     </button>
-                                </form>
-                                <button type="button" class="btn btn-danger"
-                                        onclick="loadIdDenied({{$reservations[$i]->id}})"
-                                        data-toggle="modal"
-                                        data-target="#exampleModal" data-whatever="@mdo">Rechazar
-                                </button>
-                            </div>
+                                </div>
+                            @endif
                         </td>
                     </tr>
                 @endfor
@@ -107,6 +120,48 @@
 
 @section('js')
     <script>
+        $(document).ready(function () {
+            /*$("#state").change(function () {
+                let value = $("#state").val();
+                $.ajax({
+                    url: '/reservations-filter',
+                    method: 'GET',
+                    data: {
+                        state: value
+                    }
+                }).done(function (response) {
+                    let reservations = JSON.parse(response);
+                    console.log(reservations);
+                    $('#table tbody').empty();
+                    for (let i = 0; i < reservations.length; i++) {
+                        let row = '<tr>'
+                        row += `<td> ${reservations[i]['name_specialty']} </td>`;
+                        row += `<td> ${reservations[i]['name_complete']} </td>`;
+                        row += `<td> ${reservations[i]['time_consult']} </td>`;
+                        row += `<td> ${reservations[i]['time_reservation']} </td>`;
+                        row += `<td> ${reservations[i]['state']} </td>`;
+                        row += '<td>';
+                        if (reservations[i]['state'] === 'pendiente') {
+                            row += '<div class="row">';
+                            row += '<form action="{{route('accept-reservation')}}" method="post"> @csrf';
+                            row += `<input type="hidden" name="id_reservation" value="${reservations[i]['id']}">`;
+                            row += '<button type="submit" class="btn btn-success mx-2">Aceptar</button>';
+                            row += '</form>';
+                            row += '<button type="button" class="btn btn-danger"';
+                            row += `onclick="loadIdDenied(${reservations[i]['id']})`;
+                            row += 'data-toggle="modal"';
+                            row += 'data-target="#exampleModal" data-whatever="@mdo">Rechazar';
+                            row += '</button>';
+                            row += '</div>';
+                        }
+                        row += '</td>';
+                        row += '</tr>';
+                        $('#table tbody').append(row);
+                    }
+                });
+            });*/
+        });
+
         function loadIdDenied(id) {
             $('#deniedIdRes').val(id);
         }
