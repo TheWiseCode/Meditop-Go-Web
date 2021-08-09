@@ -40,7 +40,7 @@ class ReservationNotify extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = env('APP_URL');
+        $url = env('APP_URL') . '/reservations';
         $name = env('APP_NAME');
         return (new MailMessage)
             ->subject("{$name} Nueva reservacion solicitud")
