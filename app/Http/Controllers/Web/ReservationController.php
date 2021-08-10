@@ -183,7 +183,7 @@ class ReservationController extends Controller
                     'body' => 'Reservacion aceptada'
                 ],
                 'data' => [
-                    'message' => 'Su reservacion ha sido aceptada'
+                    'message' => `Su reservacion para $res->time_consult ha sido aceptada\nEspecialidad: \nDoctor: `
                 ]
             ]);
         }
@@ -217,7 +217,7 @@ class ReservationController extends Controller
                     'body' => 'Reservacion rechazada'
                 ],
                 'data' => [
-                    'message' => 'Su reservacion ha sido rechazada'
+                    'message' => `Su reservacion  para $res->time_consult ha sido cancelada\nEspecialidad: \nDoctor: \nMotivo: ` . $data['detail']
                 ]
             ]);
         }
