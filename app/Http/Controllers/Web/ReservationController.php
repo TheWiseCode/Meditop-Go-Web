@@ -175,7 +175,8 @@ class ReservationController extends Controller
         $dat = OfferSpecialty::join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
             ->join('reservations', 'reservations.id_offer', 'offer_specialties.id')
             ->join('doctors', 'doctors.id', 'offer_specialties.id_doctor')
-            ->select('doctors.name as name_doctor', 'specialties.name as name_specialty')
+            ->join('persons', 'persons.id', 'doctors.id_person')
+            ->select('persons.name as name_doctor', 'specialties.name as name_specialty')
             ->where('reservations.id', $res->id)->get();
         $user = Patient::getUser($res->id_patient);
         $devices = NotificationDevice::where('id_user', $user->id)->get();
@@ -216,7 +217,8 @@ class ReservationController extends Controller
         $dat = OfferSpecialty::join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
             ->join('reservations', 'reservations.id_offer', 'offer_specialties.id')
             ->join('doctors', 'doctors.id', 'offer_specialties.id_doctor')
-            ->select('doctors.name as name_doctor', 'specialties.name as name_specialty')
+            ->join('persons', 'persons.id', 'doctors.id_person')
+            ->select('persons.name as name_doctor', 'specialties.name as name_specialty')
             ->where('reservations.id', $res->id)->get();
         $user = Patient::getUser($res->id_patient);
         $devices = NotificationDevice::where('id_user', $user->id)->get();
