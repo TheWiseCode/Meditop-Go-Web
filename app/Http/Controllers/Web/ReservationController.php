@@ -19,11 +19,12 @@ use Illuminate\Support\Str;
 
 class ReservationController extends Controller
 {
-    public function getByFilter(Request $request){
+    public function getByFilter(Request $request)
+    {
         $data = $request->validate([
             'state' => 'required|string'
         ]);
-        if($data['state'] == 'todas'){
+        if ($data['state'] == 'todas') {
             $reservations = Reservation::join('patients', 'patients.id', 'reservations.id_patient')
                 ->join('persons', 'persons.id', 'patients.id_person')
                 ->join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')
@@ -37,7 +38,7 @@ class ReservationController extends Controller
                 )
                 ->orderby('time_reservation', 'asc')
                 ->get();
-        }else{
+        } else {
             $reservations = Reservation::join('patients', 'patients.id', 'reservations.id_patient')
                 ->join('persons', 'persons.id', 'patients.id_person')
                 ->join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')
@@ -183,7 +184,7 @@ class ReservationController extends Controller
                     'body' => 'Reservacion aceptada'
                 ],
                 'data' => [
-                    'message' => `Su reservacion para $res->time_consult ha sido aceptada\nEspecialidad: \nDoctor: `
+                    'message' => 'Su reservacion para ' . $res->time_consult . ' ha sido aceptada\nEspecialidad: \nDoctor: '
                 ]
             ]);
         }
@@ -217,20 +218,21 @@ class ReservationController extends Controller
                     'body' => 'Reservacion rechazada'
                 ],
                 'data' => [
-                    'message' => `Su reservacion  para $res->time_consult ha sido cancelada\nEspecialidad: \nDoctor: \nMotivo: ` . $data['detail']
+                    'message' => 'Su reservacion  para ' . $res->time_consult . ' ha sido cancelada\nEspecialidad: \nDoctor: \nMotivo: ' . $data['detail']
                 ]
             ]);
         }
         return redirect()->route('reservations.index')->with(['gestion' => 'Reservacion rechazada']);
     }
 
-    public function getPending(Request $request){
+    public function getPending(Request $request)
+    {
         $pat = $request->user()->getPatient();
         $res = Reservation::join('patients', 'patients.id', 'reservations.id_patient')
             ->join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')
             ->join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
             ->join('doctors', 'doctors.id', 'offer_specialties.id_doctor')
-            ->join('persons', 'persons.id' ,'doctors.id_person')
+            ->join('persons', 'persons.id', 'doctors.id_person')
             ->select(
                 'reservations.id as id_reservation',
                 DB::raw("concat(persons.name, ' ', persons.last_name) as name_doctor"),
@@ -245,14 +247,15 @@ class ReservationController extends Controller
         return response($res, 200);
     }
 
-    public function getScheduled(Request $request){
+    public function getScheduled(Request $request)
+    {
         $pat = $request->user()->getPatient();
         $con = Consult::join('patients', 'patients.id', 'consults.id_patient')
             ->join('reservations', 'reservations.id', 'consults.id_reservation')
             ->join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')
             ->join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
             ->join('doctors', 'doctors.id', 'consults.id_doctor')
-            ->join('persons', 'persons.id' ,'doctors.id_person')
+            ->join('persons', 'persons.id', 'doctors.id_person')
             ->select(
                 'consults.id as id_consult',
                 DB::raw("concat(persons.name, ' ', persons.last_name) as name_doctor"),
@@ -268,14 +271,15 @@ class ReservationController extends Controller
         return response($con, 200);
     }
 
-    public function getPast(Request $request){
+    public function getPast(Request $request)
+    {
         $pat = $request->user()->getPatient();
         $con = Consult::join('patients', 'patients.id', 'consults.id_patient')
             ->join('reservations', 'reservations.id', 'consults.id_reservation')
             ->join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')
             ->join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
             ->join('doctors', 'doctors.id', 'consults.id_doctor')
-            ->join('persons', 'persons.id' ,'doctors.id_person')
+            ->join('persons', 'persons.id', 'doctors.id_person')
             ->select(
                 'consults.id as id_consult',
                 DB::raw("concat(persons.name, ' ', persons.last_name) as name_doctor"),
