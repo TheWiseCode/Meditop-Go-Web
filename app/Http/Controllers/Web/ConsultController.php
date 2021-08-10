@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ActionReservation;
 use App\Models\Consult;
 use App\Models\NotificationDevice;
+use App\Models\OfferSpecialty;
 use App\Models\Patient;
 use App\Models\Reservation;
 use Carbon\Carbon;
@@ -86,6 +87,11 @@ class ConsultController extends Controller
             'type' => 'Cancelacion de consulta',
             'id_reservation' => $con->id_reservation
         ]);
+        $dat = OfferSpecialty::join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
+            ->join('reservations', 'reservations.id_offer', 'offer_specialties.id')
+            ->join('doctors', 'doctors.id', 'offer_specialties.id_doctor')
+            ->select('doctors.name as name_doctor', 'specialties.name as name_specialty')
+            ->where('reservations.id', $res->id)->get();
         $user = Patient::getUser($res->id_patient);
         $devices = NotificationDevice::where('id_user', $user->id)->get();
         foreach ($devices as $dev) {
@@ -98,7 +104,10 @@ class ConsultController extends Controller
                     'body' => 'Consulta cancelada'
                 ],
                 'data' => [
-                    'message' => 'Su consulta agendada para ' . $con->time . "\nEspecialidad: \nDoctor: \nMotivo: " . $data['detail']
+                    'message' => 'Su consulta para ' . $con->time . " ha sido cancelada\n" .
+                        "Especialidad: " . $dat['name_specialty'] .
+                        "\nDoctor: " . $dat['name_doctor'] .
+                        "\nMotivo: " . $data['detail']
                 ]
             ]);
         }

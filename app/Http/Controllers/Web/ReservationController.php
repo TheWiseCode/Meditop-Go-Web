@@ -172,6 +172,11 @@ class ReservationController extends Controller
             'id_patient' => $res->id_patient,
             'id_reservation' => $data['id_reservation']
         ]);
+        $dat = OfferSpecialty::join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
+            ->join('reservations', 'reservations.id_offer', 'offer_specialties.id')
+            ->join('doctors', 'doctors.id', 'offer_specialties.id_doctor')
+            ->select('doctors.name as name_doctor', 'specialties.name as name_specialty')
+            ->where('reservations.id', $res->id)->get();
         $user = Patient::getUser($res->id_patient);
         $devices = NotificationDevice::where('id_user', $user->id)->get();
         foreach ($devices as $dev) {
@@ -184,7 +189,9 @@ class ReservationController extends Controller
                     'body' => 'Reservacion aceptada'
                 ],
                 'data' => [
-                    'message' => 'Su reservacion para ' . $res->time_consult . " ha sido aceptada\nEspecialidad: \nDoctor: "
+                    'message' => 'Su reservacion para ' . $res->time_consult . " ha sido aceptada\n" .
+                        "Especialidad: " . $dat['name_specialty'] .
+                        "\nDoctor: " . $dat['name_doctor']
                 ]
             ]);
         }
@@ -206,6 +213,11 @@ class ReservationController extends Controller
         $res = Reservation::find($data['id_reservation']);
         $res->state = 'rechazada';
         $res->save();
+        $dat = OfferSpecialty::join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
+            ->join('reservations', 'reservations.id_offer', 'offer_specialties.id')
+            ->join('doctors', 'doctors.id', 'offer_specialties.id_doctor')
+            ->select('doctors.name as name_doctor', 'specialties.name as name_specialty')
+            ->where('reservations.id', $res->id)->get();
         $user = Patient::getUser($res->id_patient);
         $devices = NotificationDevice::where('id_user', $user->id)->get();
         foreach ($devices as $dev) {
@@ -218,7 +230,10 @@ class ReservationController extends Controller
                     'body' => 'Reservacion rechazada'
                 ],
                 'data' => [
-                    'message' => 'Su reservacion  para ' . $res->time_consult . " ha sido cancelada\nEspecialidad: \nDoctor: \nMotivo: " . $data['detail']
+                    'message' => 'Su reservacion para ' . $res->time_consult . " ha sido cancelada\n" .
+                        "Especialidad: " . $dat['name_specialty'] .
+                        "\nDoctor: " . $dat['name_doctor'] .
+                        "\nMotivo: " . $data['detail']
                 ]
             ]);
         }
@@ -235,7 +250,7 @@ class ReservationController extends Controller
             ->join('persons', 'persons.id', 'doctors.id_person')
             ->select(
                 'reservations.id as id_reservation',
-                DB::raw("concat(persons.name, ' ', persons.last_name) as name_doctor"),
+                DB::raw("concat(persons . name, ' ', persons . last_name) as name_doctor"),
                 'specialties.name as name_specialty',
                 'reservations.time_consult'
             )
@@ -258,7 +273,7 @@ class ReservationController extends Controller
             ->join('persons', 'persons.id', 'doctors.id_person')
             ->select(
                 'consults.id as id_consult',
-                DB::raw("concat(persons.name, ' ', persons.last_name) as name_doctor"),
+                DB::raw("concat(persons . name, ' ', persons . last_name) as name_doctor"),
                 'specialties.name as name_specialty',
                 'consults.time',
                 'consults.url_jitsi'
@@ -282,7 +297,7 @@ class ReservationController extends Controller
             ->join('persons', 'persons.id', 'doctors.id_person')
             ->select(
                 'consults.id as id_consult',
-                DB::raw("concat(persons.name, ' ', persons.last_name) as name_doctor"),
+                DB::raw("concat(persons . name, ' ', persons . last_name) as name_doctor"),
                 'specialties.name as name_specialty',
                 'consults.time',
             )
