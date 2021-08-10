@@ -183,7 +183,7 @@ class ReservationController extends Controller
                     'body' => 'Reservacion aceptada'
                 ],
                 'data' => [
-                    'comida' => 'Su reservacion ha sido aceptada'
+                    'message' => 'Su reservacion ha sido aceptada'
                 ]
             ]);
         }
@@ -217,7 +217,7 @@ class ReservationController extends Controller
                     'body' => 'Reservacion rechazada'
                 ],
                 'data' => [
-                    'comida' => 'Su reservacion ha sido rechazada'
+                    'message' => 'Su reservacion ha sido rechazada'
                 ]
             ]);
         }

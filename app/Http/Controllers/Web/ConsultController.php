@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\ActionReservation;
 use App\Models\Consult;
+use App\Models\NotificationDevice;
+use App\Models\Patient;
 use App\Models\Reservation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class ConsultController extends Controller
 {
@@ -83,6 +86,22 @@ class ConsultController extends Controller
             'type' => 'Cancelacion de consulta',
             'id_reservation' => $con->id_reservation
         ]);
+        $user = Patient::getUser($res->id_patient);
+        $devices = NotificationDevice::where('id_user', $user->id)->get();
+        foreach ($devices as $dev) {
+            $response = Http::withHeaders(
+                ['Authorization' => 'key=AAAAvsZFQWs:APA91bEL2A-l2JFHhBGhafWqvGsXo12VEhgBYfx8BOhlQR3Z8NsWxFKETJW9ynbGpp41jozURY-GQnB6fANYZUye4_tF7XUpQZadjTFCm12NWnP0dAGyOI5O0YgY3hbrsLWWc5GaC3jd']
+            )->post('https://fcm.googleapis.com/fcm/send?=', [
+                'to' => $dev->token,
+                'notification' => [
+                    'title' => 'Meditop Go',
+                    'body' => 'Consulta cancelada'
+                ],
+                'data' => [
+                    'message' => 'Su consulta ha sido cancelada'
+                ]
+            ]);
+        }
         return redirect()->route('consults.index')->with(['gestion' => 'Consulta cancelada']);
     }
 }
