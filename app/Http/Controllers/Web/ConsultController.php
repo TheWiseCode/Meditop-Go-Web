@@ -106,8 +106,8 @@ class ConsultController extends Controller
                 ],
                 'data' => [
                     'message' => 'Su consulta para ' . $con->time . " ha sido cancelada\n" .
-                        "Especialidad: " . $dat['name_specialty'] .
-                        "\nDoctor: " . $dat['name_doctor'] .
+                        "Especialidad: " . $dat->name_specialty .
+                        "\nDoctor: " . $dat->name_doctor .
                         "\nMotivo: " . $data['detail']
                 ]
             ]);

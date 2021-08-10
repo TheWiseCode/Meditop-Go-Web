@@ -191,8 +191,8 @@ class ReservationController extends Controller
                 ],
                 'data' => [
                     'message' => 'Su reservacion para ' . $res->time_consult . " ha sido aceptada\n" .
-                        "Especialidad: " . $dat['name_specialty'] .
-                        "\nDoctor: " . $dat['name_doctor']
+                        "Especialidad: " . $dat->name_specialty .
+                        "\nDoctor: " . $dat->name_doctor
                 ]
             ]);
         }
@@ -233,8 +233,8 @@ class ReservationController extends Controller
                 ],
                 'data' => [
                     'message' => 'Su reservacion para ' . $res->time_consult . " ha sido cancelada\n" .
-                        "Especialidad: " . $dat['name_specialty'] .
-                        "\nDoctor: " . $dat['name_doctor'] .
+                        "Especialidad: " . $dat->name_specialty .
+                        "\nDoctor: " . $dat->name_doctor .
                         "\nMotivo: " . $data['detail']
                 ]
             ]);
