@@ -92,7 +92,7 @@ class ConsultController extends Controller
             ->join('doctors', 'doctors.id', 'offer_specialties.id_doctor')
             ->join('persons', 'persons.id', 'doctors.id_person')
             ->select(
-                DB::raw("concat(persons.name,' ',persons.last_name)"),
+                DB::raw("concat(persons.name,' ',persons.last_name) as name_doctor"),
                 'specialties.name as name_specialty')
             ->where('reservations.id', $res->id)->first();
         $user = Patient::getUser($res->id_patient);
