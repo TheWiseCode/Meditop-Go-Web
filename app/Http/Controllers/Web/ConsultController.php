@@ -98,7 +98,7 @@ class ConsultController extends Controller
                     'body' => 'Consulta cancelada'
                 ],
                 'data' => [
-                    'message' => 'Su consulta ha sido cancelada'
+                    'message' => `Su consulta agendada para $con->time\nEspecialidad: \nDoctor: \nMotivo: ` . $data['detail']
                 ]
             ]);
         }
