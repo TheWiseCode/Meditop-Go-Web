@@ -75,8 +75,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('reservations', ReservationController::class)->parameters(['reservation' => 'reservation'])
         ->names('reservations');
     Route::get('/reservations-filter', [ReservationController::class, 'getByFilter']);
+    Route::get('/admin-reservations-filter', [ReservationController::class, 'adminByFilter']);
     Route::post('/doctor-reservation-accept', [ReservationController::class, 'acceptReservation'])->name('accept-reservation');
     Route::post('/doctor-reservation-denied', [ReservationController::class, 'deniedReservation'])->name('denied-reservation');
+    Route::post('/doctor-reservation-cancel', [ReservationController::class, 'cancelReservation'])->name('cancel-reservation');
+
+    Route::get('/admin-reservations', [ReservationController::class, 'viewReservations'])->name('admin.reservations');
 
     Route::resource('consults', ConsultController::class)->parameters(['consult' => 'consult'])
         ->names('consults');

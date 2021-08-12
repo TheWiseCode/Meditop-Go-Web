@@ -57,6 +57,50 @@ class ReservationController extends Controller
         return json_encode($reservations);
     }
 
+    public function adminByFilter(Request $request)
+    {
+        $data = $request->validate([
+            'state' => 'required|string'
+        ]);
+        if ($data['state'] == 'todas') {
+            $reservations = Reservation::join('patients', 'patients.id', 'reservations.id_patient')
+                ->join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')
+                ->join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
+                ->join('doctors', 'doctors.id', 'offer_specialties.id_doctor')
+                ->join('persons as p1', 'p1.id', 'patients.id_person')
+                ->join('persons as p2', 'p2.id', 'doctors.id_person')
+                ->select(
+                    'reservations.id', 'specialties.name as name_specialty',
+                    DB::raw("concat(p1.name,' ', p1.last_name) as name_patient"),
+                    DB::raw("concat(p2.name,' ', p2.last_name) as name_doctor"),
+                    DB::raw("reservations.time_consult"),
+                    'reservations.time_reservation',
+                    'reservations.state'
+                )
+                ->orderby('time_reservation', 'asc')
+                ->get();
+        }else{
+            $reservations = Reservation::join('patients', 'patients.id', 'reservations.id_patient')
+                ->join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')
+                ->join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
+                ->join('doctors', 'doctors.id', 'offer_specialties.id_doctor')
+                ->join('persons as p1', 'p1.id', 'patients.id_person')
+                ->join('persons as p2', 'p2.id', 'doctors.id_person')
+                ->select(
+                    'reservations.id', 'specialties.name as name_specialty',
+                    DB::raw("concat(p1.name,' ', p1.last_name) as name_patient"),
+                    DB::raw("concat(p2.name,' ', p2.last_name) as name_doctor"),
+                    DB::raw("reservations.time_consult"),
+                    'reservations.time_reservation',
+                    'reservations.state'
+                )
+                ->where('state', $data['state'])
+                ->orderby('time_reservation', 'asc')
+                ->get();
+        }
+        return json_encode($reservations);
+    }
+
     public function index()
     {
         $reservations = Reservation::join('patients', 'patients.id', 'reservations.id_patient')
@@ -246,6 +290,53 @@ class ReservationController extends Controller
         return redirect()->route('reservations.index')->with(['gestion' => 'Reservacion rechazada']);
     }
 
+    public function cancelReservation(Request $request){
+        $data = $request->validate([
+            'id_reservation' => 'required',
+            'detail' => 'required'
+        ]);
+        $res = Reservation::find($data['id_reservation']);
+        $res->state = 'cancelada';
+        $res->save();
+        $con = Consult::where('id_reservation', $res->id)->first();
+        $con->state = 'cancelada';
+        $con->save();
+        ActionReservation::create([
+            'detail' => $data['detail'],
+            'action' => Carbon::now(),
+            'type' => 'Cancelacion de consulta',
+            'id_reservation' => $con->id_reservation
+        ]);
+        $dat = OfferSpecialty::join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
+            ->join('reservations', 'reservations.id_offer', 'offer_specialties.id')
+            ->join('doctors', 'doctors.id', 'offer_specialties.id_doctor')
+            ->join('persons', 'persons.id', 'doctors.id_person')
+            ->select(
+                DB::raw("concat(persons.name,' ',persons.last_name) as name_doctor"),
+                'specialties.name as name_specialty')
+            ->where('reservations.id', $res->id)->first();
+        $user = Patient::getUser($res->id_patient);
+        $devices = NotificationDevice::where('id_user', $user->id)->get();
+        foreach ($devices as $dev) {
+            $response = Http::withHeaders(
+                ['Authorization' => 'key=AAAAvsZFQWs:APA91bEL2A-l2JFHhBGhafWqvGsXo12VEhgBYfx8BOhlQR3Z8NsWxFKETJW9ynbGpp41jozURY-GQnB6fANYZUye4_tF7XUpQZadjTFCm12NWnP0dAGyOI5O0YgY3hbrsLWWc5GaC3jd']
+            )->post('https://fcm.googleapis.com/fcm/send?=', [
+                'to' => $dev->token,
+                'notification' => [
+                    'title' => 'Meditop Go',
+                    'body' => 'Consulta cancelada'
+                ],
+                'data' => [
+                    'message' => 'Su consulta para ' . $con->time . " ha sido cancelada\n" .
+                        "Especialidad: " . $dat->name_specialty .
+                        "\nDoctor: " . $dat->name_doctor .
+                        "\nMotivo: " . $data['detail']
+                ]
+            ]);
+        }
+        return redirect()->route('reservations.index')->with(['gestion' => 'Reservacion cancelada']);
+    }
+
     public function getPending(Request $request)
     {
         $pat = $request->user()->getPatient();
@@ -313,6 +404,26 @@ class ReservationController extends Controller
             ->orderby('consults.time')
             ->get();
         return response($con, 200);
+    }
+
+    public function viewReservations(){
+        $reservations = Reservation::join('patients', 'patients.id', 'reservations.id_patient')
+            ->join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')
+            ->join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
+            ->join('doctors', 'doctors.id', 'offer_specialties.id_doctor')
+            ->join('persons as p1', 'p1.id', 'patients.id_person')
+            ->join('persons as p2', 'p2.id', 'doctors.id_person')
+            ->select(
+                'reservations.id', 'specialties.name as name_specialty',
+                DB::raw("concat(p1.name,' ', p1.last_name) as name_patient"),
+                DB::raw("concat(p2.name,' ', p2.last_name) as name_doctor"),
+                DB::raw("reservations.time_consult"),
+                'reservations.time_reservation',
+                'reservations.state'
+            )
+            ->orderby('time_reservation', 'asc')
+            ->get();
+        return view('admin.reservations', compact('reservations'));
     }
 
     public function test(Request $request)

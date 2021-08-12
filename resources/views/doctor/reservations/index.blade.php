@@ -13,7 +13,7 @@
     @endif
     <div class="card">
         <div class="card-header">
-            <h3 class="float-left">Solicitudes de consulta</h3>
+            <h3 class="float-left">Reservaciones</h3>
             <select name="reservations_state" id="state" class="form-control float-right col-md-2">
                 <option value="todas">Todas</option>
                 <option value="pendiente">Pendientes</option>
@@ -66,6 +66,12 @@
                                             data-target="#exampleModal" data-whatever="@mdo">Rechazar
                                     </button>
                                 </div>
+                            @elseif($reservations[$i]->state == 'aceptada')
+                                <button type="button" class="btn btn-danger"
+                                        onclick="loadIdCancel({{$reservations[$i]->id}})"
+                                        data-toggle="modal"
+                                        data-target="#exampleModal1" data-whatever="@mdo">Cancelar
+                                </button>
                             @endif
                         </td>
                     </tr>
@@ -94,6 +100,43 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <input id="deniedIdRes" type="hidden" name="id_reservation" value="">
+                            <label for="recipient-name" class="col-form-label">Motivo
+                                rechazo</label>
+                            <textarea class="form-control" id="message-text"
+                                      name="detail" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">Cerrar
+                        </button>
+                        <button type="submit" class="btn btn-primary">Enviar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cancelar
+                        reservacion</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{route('cancel-reservation')}}"
+                      method="post">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input id="cancelIdRes" type="hidden" name="id_reservation" value="">
                             <label for="recipient-name" class="col-form-label">Motivo
                                 rechazo</label>
                             <textarea class="form-control" id="message-text"
@@ -160,6 +203,10 @@
                 });
             });
         });
+
+        function loadIdCancel(id) {
+            $('#cancelIdRes').val(id);
+        }
 
         function loadIdDenied(id) {
             $('#deniedIdRes').val(id);

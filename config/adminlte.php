@@ -328,6 +328,22 @@ return [
                 ],
             ],
         ],
+        ['header' => 'Reservaciones',
+            'can' => 'ver reservaciones'
+        ],
+        [
+            'can' => 'ver reservaciones',
+            'text' => 'Reservaciones',
+            'icon' => 'fas fa-fw fa-user',
+            'route' => 'admin.reservations'
+            /*'submenu' => [
+                [
+                    'can' => 'verificar doctores',
+                    'text' => 'Ver doctores no verificados',
+                    'route' => 'doctor-requests',
+                ],
+            ],*/
+        ],
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
