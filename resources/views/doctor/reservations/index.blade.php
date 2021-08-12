@@ -14,7 +14,6 @@
     <div class="card">
         <div class="card-header">
             <h3 class="float-left">Solicitudes de consulta</h3>
-{{--
             <select name="reservations_state" id="state" class="form-control float-right col-md-2">
                 <option value="todas">Todas</option>
                 <option value="pendiente">Pendientes</option>
@@ -22,7 +21,7 @@
                 <option value="rechazada">Rechazadas</option>
                 <option value="cancelada">Canceladas</option>
             </select>
-            <label for="" class="float-right mr-3">Estado de reservacion</label>--}}
+            <label for="" class="float-right mr-3">Estado de reservacion</label>
         </div>
         <div class="card-body">
             <table class="table table-bordered table-responsive-md" id="table">
@@ -121,7 +120,7 @@
 @section('js')
     <script>
         $(document).ready(function () {
-            /*$("#state").change(function () {
+            $("#state").change(function () {
                 let value = $("#state").val();
                 $.ajax({
                     url: '/reservations-filter',
@@ -159,7 +158,7 @@
                         $('#table tbody').append(row);
                     }
                 });
-            });*/
+            });
         });
 
         function loadIdDenied(id) {
