@@ -426,7 +426,7 @@ class ReservationController extends Controller
                 )
                 ->where('reservations.time_consult', '>', Carbon::now())
                 ->where('patients.id', $pat->id)
-                ->orderby('reservations.time_consult')
+                ->orderby('reservations.time_reservation')
                 ->get();
         }else {
             $pat = $request->user()->getPatient();
@@ -445,7 +445,7 @@ class ReservationController extends Controller
                 ->where('reservations.time_consult', '>', Carbon::now())
                 ->where('patients.id', $pat->id)
                 ->where('reservations.state', $data['filtro'])
-                ->orderby('reservations.time_consult')
+                ->orderby('reservations.time_reservation')
                 ->get();
         }
         return response($res, 200);
