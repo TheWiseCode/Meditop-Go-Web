@@ -406,6 +406,49 @@ class ReservationController extends Controller
         return response($con, 200);
     }
 
+    public function byFilter(Request $request){
+        $data = $request->validate([
+            'filtro' => 'required|string'
+        ]);
+        if($data['filtro'] == 'todas'){
+            $pat = $request->user()->getPatient();
+            $res = Reservation::join('patients', 'patients.id', 'reservations.id_patient')
+                ->join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')
+                ->join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
+                ->join('doctors', 'doctors.id', 'offer_specialties.id_doctor')
+                ->join('persons', 'persons.id', 'doctors.id_person')
+                ->select(
+                    'reservations.id as id_reservation',
+                    DB::raw("concat(persons . name, ' ', persons . last_name) as name_doctor"),
+                    'specialties.name as name_specialty',
+                    'reservations.time_consult'
+                )
+                ->where('reservations.time_consult', '>', Carbon::now())
+                ->where('patients.id', $pat->id)
+                ->orderby('reservations.time_consult')
+                ->get();
+        }else {
+            $pat = $request->user()->getPatient();
+            $res = Reservation::join('patients', 'patients.id', 'reservations.id_patient')
+                ->join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')
+                ->join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
+                ->join('doctors', 'doctors.id', 'offer_specialties.id_doctor')
+                ->join('persons', 'persons.id', 'doctors.id_person')
+                ->select(
+                    'reservations.id as id_reservation',
+                    DB::raw("concat(persons . name, ' ', persons . last_name) as name_doctor"),
+                    'specialties.name as name_specialty',
+                    'reservations.time_consult'
+                )
+                ->where('reservations.time_consult', '>', Carbon::now())
+                ->where('patients.id', $pat->id)
+                ->where('reservations.state', $data['filtro'])
+                ->orderby('reservations.time_consult')
+                ->get();
+        }
+        return response($res, 200);
+    }
+
     public function viewReservations(){
         $reservations = Reservation::join('patients', 'patients.id', 'reservations.id_patient')
             ->join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')

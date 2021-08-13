@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user', [SessionController::class, 'getUser']);
     Route::delete('/logout', [SessionController::class, 'logout']);
 
+    Route::get('/get-by-filter', [ReservationController::class, 'byFilter']);
     Route::get('/get-pending', [ReservationController::class, 'getPending']);
     Route::get('/get-scheduled', [ReservationController::class, 'getScheduled']);
     Route::get('/get-past', [ReservationController::class, 'getPast']);
