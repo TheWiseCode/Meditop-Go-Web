@@ -421,7 +421,8 @@ class ReservationController extends Controller
                     'reservations.id as id_reservation',
                     DB::raw("concat(persons . name, ' ', persons . last_name) as name_doctor"),
                     'specialties.name as name_specialty',
-                    'reservations.time_consult'
+                    'reservations.time_consult',
+                    'reservations.state'
                 )
                 ->where('reservations.time_consult', '>', Carbon::now())
                 ->where('patients.id', $pat->id)
@@ -438,7 +439,8 @@ class ReservationController extends Controller
                     'reservations.id as id_reservation',
                     DB::raw("concat(persons . name, ' ', persons . last_name) as name_doctor"),
                     'specialties.name as name_specialty',
-                    'reservations.time_consult'
+                    'reservations.time_consult',
+                    'reservations.state'
                 )
                 ->where('reservations.time_consult', '>', Carbon::now())
                 ->where('patients.id', $pat->id)
