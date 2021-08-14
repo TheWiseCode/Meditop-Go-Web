@@ -46,7 +46,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/consult-in', [ConsultController::class, 'consultIn']);
     Route::post('/get-by-filter', [ReservationController::class, 'byFilter']);
     Route::get('/get-pending', [ReservationController::class, 'getPending']);
-    Route::get('/get-scheduled', [ReservationController::class, 'getScheduled']);
+    Route::get('/get-scheduled', [ConsultController::class, 'getScheduled']);
     Route::get('/get-past', [ReservationController::class, 'getPast']);
 
     /*Route::post('/account/open', [AccountController::class, 'abrir']);

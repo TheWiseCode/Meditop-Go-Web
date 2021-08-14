@@ -130,4 +130,28 @@ class ConsultController extends Controller
             return response(['message' => 'Consulta en proceso'], 200);
         }
     }
+
+    public function getScheduled(Request $request)
+    {
+        $pat = $request->user()->getPatient();
+        $con = Consult::join('patients', 'patients.id', 'consults.id_patient')
+            ->join('reservations', 'reservations.id', 'consults.id_reservation')
+            ->join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')
+            ->join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
+            ->join('doctors', 'doctors.id', 'consults.id_doctor')
+            ->join('persons', 'persons.id', 'doctors.id_person')
+            ->select(
+                'consults.id as id_consult',
+                DB::raw("concat(persons . name, ' ', persons . last_name) as name_doctor"),
+                'specialties.name as name_specialty',
+                'consults.time',
+                'consults.url_jitsi'
+            )
+            ->where('patients.id', $pat->id)
+            ->where('consults.state', 'in', ['aceptada', 'proceso'])
+            ->where('consults.time', '>', Carbon::now())
+            ->orderby('consults.time')
+            ->get();
+        return response($con, 200);
+    }
 }
