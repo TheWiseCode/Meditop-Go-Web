@@ -69,11 +69,11 @@ class ConsultController extends Controller
             $link = $consult->url_jitsi;
             $room = substr($link, strlen("https://meet.jit.si/"));
             //dd($room, $link);
-            $consult = Consult::join('patients', 'patients.id', 'consults.id_patient')
+            $consult = Consult::join('doctors', 'doctors.id', 'consults.id_doctor')
                 ->join('reservations', 'reservations.id', 'consults.id_reservation')
                 ->join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')
                 ->join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
-                ->join('persons', 'persons.id', 'patients.id_person')
+                ->join('persons', 'persons.id', 'doctors.id_person')
                 ->select(
                     DB::raw("concat(persons.name, ' ', persons.last_name) as name_patient"),
                     'specialties.name as name_specialty',
