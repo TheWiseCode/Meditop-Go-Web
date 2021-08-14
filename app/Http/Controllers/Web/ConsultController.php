@@ -116,4 +116,15 @@ class ConsultController extends Controller
         }
         return redirect()->route('consults.index')->with(['gestion' => 'Consulta cancelada']);
     }
+
+    public function consultIn(Request $request)
+    {
+        $data = $request->validate([
+            'id_consult' => 'required'
+        ]);
+        $con = Consult::find($data['id_consult']);
+        if($con->state == 'proceso'){
+            return response(['message' => 'Consulta en proceso'], 200);
+        }
+    }
 }

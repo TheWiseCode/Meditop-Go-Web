@@ -4,6 +4,7 @@
 use App\Http\Controllers\Api\SessionController;
 use App\Http\Controllers\Api\VerificationController;
 use App\Http\Controllers\OfferDaysController;
+use App\Http\Controllers\Web\ConsultController;
 use App\Http\Controllers\Web\ReservationController;
 use App\Http\Controllers\Web\SpecialtyController;
 use Illuminate\Support\Facades\Route;
@@ -42,6 +43,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user', [SessionController::class, 'getUser']);
     Route::delete('/logout', [SessionController::class, 'logout']);
 
+    Route::post('/consult-in', [ConsultController::class, 'consultIn']);
     Route::post('/get-by-filter', [ReservationController::class, 'byFilter']);
     Route::get('/get-pending', [ReservationController::class, 'getPending']);
     Route::get('/get-scheduled', [ReservationController::class, 'getScheduled']);
