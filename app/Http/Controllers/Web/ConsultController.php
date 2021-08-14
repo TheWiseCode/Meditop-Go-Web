@@ -148,11 +148,11 @@ class ConsultController extends Controller
                 'consults.url_jitsi'
             )
             ->where('patients.id', $pat->id)
-            ->where(function ($query) {
-                $query->where('consults.state', 'aceptada');
-                $query->or_where('consults.state', 'proceso');
-            })
-            //->where('consults.state', 'in', ['aceptada', 'proceso'])
+            /*->where(function ($query) {
+                $query->where('consults.state', 'aceptada')
+                    ->or_where('consults.state', 'proceso');
+            })*/
+            ->whereIn('consults.state', ['aceptada', 'proceso'])
             ->where('consults.time', '>', Carbon::now())
             ->orderby('consults.time')
             ->get();
