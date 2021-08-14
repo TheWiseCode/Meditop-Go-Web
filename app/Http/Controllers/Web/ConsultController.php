@@ -123,10 +123,10 @@ class ConsultController extends Controller
             'id_consult' => 'required'
         ]);
         $con = Consult::find($data['id_consult']);
-        if($con->state == 'aceptada'){
+        if ($con->state == 'aceptada') {
             return response(['message' => 'Consulta todavia no iniciada'], 201);
         }
-        if($con->state == 'proceso'){
+        if ($con->state == 'proceso') {
             return response(['message' => 'Consulta en proceso'], 200);
         }
     }
@@ -148,7 +148,11 @@ class ConsultController extends Controller
                 'consults.url_jitsi'
             )
             ->where('patients.id', $pat->id)
-            ->where('consults.state', 'in', ['aceptada', 'proceso'])
+            ->where(function ($query) {
+                $query->where('consults.state', 'aceptada');
+                $query->or_where('consults.state', 'proceso');
+            })
+            //->where('consults.state', 'in', ['aceptada', 'proceso'])
             ->where('consults.time', '>', Carbon::now())
             ->orderby('consults.time')
             ->get();
