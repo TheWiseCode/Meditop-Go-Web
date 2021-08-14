@@ -35,9 +35,11 @@
                         </td>
                         <td>
                             <div class="row">
-                                @if(\Carbon\Carbon::createFromFormat( 'Y-m-d H:i:s', $consults[$i]->time)->modify('-10 minutes')->lte($now))
-                                    <a href="{{route('consults.show', $consults[$i]->id)}}"
-                                       class="btn btn-primary mr-2">Entrar</a>
+                                @if($timeValidos[$i] || $consults[$i]->state == 'proceso')
+                                    <form action="{{route('consult.start', $consults[$i]->id)}}" method="post">
+                                        @csrf
+                                        <button type="submit" class="btn btn-primary mr-2">Entrar</button>
+                                    </form>
                                 @else
                                     <button type="button" class="btn btn-danger"
                                             onclick="loadIdConsult({{$consults[$i]->id}})"

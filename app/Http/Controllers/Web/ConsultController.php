@@ -18,7 +18,6 @@ class ConsultController extends Controller
 {
     public function index()
     {
-        $now = Carbon::now();
         $doc = auth()->user()->getDoctor();
         $consults = Consult::join('reservations', 'reservations.id', 'consults.id_reservation')
             ->join('patients', 'patients.id', 'reservations.id_patient')
@@ -29,47 +28,108 @@ class ConsultController extends Controller
             ->select(
                 'consults.id', 'specialties.name as name_specialty',
                 DB::raw("concat(persons.name,' ', persons.last_name) as name_complete"),
-                'consults.time'
+                'consults.time',
+                'consults.state'
             )
             ->where('doctors.id', $doc->id)
-            ->where('consults.state', 'aceptada')
+            ->whereIn('consults.state', ['aceptada', 'proceso'])
             ->orderby('consults.time')
             ->get();
-        //dd($consults);
-        return view('doctor.consults.index', compact('consults', 'now'));
+        $now = Carbon::now();
+        $timeValidos = [];
+        foreach ($consults as $con) {
+            $antes = Carbon::createFromFormat('Y-m-d H:i:s', $con->time)->modify('-10 minutes');
+            $va = $antes->lte($now);
+            $despues = Carbon::createFromFormat('Y-m-d H:i:s', $con->time)->modify('+30 minutes');
+            $vd = $despues->gte($now);
+            $valido = $va && $vd;
+            array_push($timeValidos, $valido);
+        }
+        return view('doctor.consults.index', compact('consults', 'now', 'timeValidos'));
     }
 
-    public function create()
+    public
+    function create()
     {
         //
     }
 
-    public function store(Request $request)
+    public
+    function store(Request $request)
+    {
+        dd($request->request);
+    }
+
+    public
+    function startConsult(Request $request, Consult $consult)
+    {
+        if ($consult->state == 'aceptada' || $consult->state == 'proceso') {
+            $consult->state = 'proceso';
+            $consult->save();
+            $link = $consult->url_jitsi;
+            $room = substr($link, strlen("https://meet.jit.si/"));
+            //dd($room, $link);
+            $consult = Consult::join('patients', 'patients.id', 'consults.id_patient')
+                ->join('reservations', 'reservations.id', 'consults.id_reservation')
+                ->join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')
+                ->join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
+                ->join('persons', 'persons.id', 'patients.id_person')
+                ->select(
+                    DB::raw("concat(persons.name, ' ', persons.last_name) as name_patient"),
+                    'specialties.name as name_specialty',
+                    'persons.email as email_patient',
+                    'consults.*'
+                )
+                ->where('consults.id', $consult->id)
+                ->first();
+            return view('doctor.consults.show', compact('consult', 'room'));
+        }
+    }
+
+    public
+    function show(Consult $consult)
+    {
+        if ($consult->state == 'aceptada' || $consult->state == 'proceso') {
+            $link = $consult->url_jitsi;
+            $room = substr($link, strlen("https://meet.jit.si/"));
+            //dd($room, $link);
+            $consult = Consult::join('patients', 'patients.id', 'consults.id_patient')
+                ->join('reservations', 'reservations.id', 'consults.id_reservation')
+                ->join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')
+                ->join('specialties', 'specialties.id', 'offer_specialties.id_specialty')
+                ->join('persons', 'persons.id', 'patients.id_person')
+                ->select(
+                    DB::raw("concat(persons.name, ' ', persons.last_name) as name_patient"),
+                    'specialties.name as name_specialty',
+                    'persons.email as email_patient',
+                    'consults.*'
+                )
+                ->where('consults.id', $consult->id)
+                ->first();
+            return view('doctor.consults.show', compact('consult', 'room'));
+        }
+    }
+
+    public
+    function edit(Consult $consult)
     {
         //
     }
 
-    public function show(Consult $consult)
-    {
-        return view('doctor.consults.show', compact('consult'));
-    }
-
-    public function edit(Consult $consult)
+    public
+    function update(Request $request, Consult $consult)
     {
         //
     }
 
-    public function update(Request $request, Consult $consult)
+    public
+    function destroy(Consult $consult)
     {
         //
     }
 
-    public function destroy(Consult $consult)
-    {
-        //
-    }
-
-    public function cancelConsult(Request $request)
+    public
+    function cancelConsult(Request $request)
     {
         $data = $request->validate([
             'id_consult' => 'required',
@@ -117,7 +177,8 @@ class ConsultController extends Controller
         return redirect()->route('consults.index')->with(['gestion' => 'Consulta cancelada']);
     }
 
-    public function consultIn(Request $request)
+    public
+    function consultIn(Request $request)
     {
         $data = $request->validate([
             'id_consult' => 'required'
@@ -131,7 +192,8 @@ class ConsultController extends Controller
         }
     }
 
-    public function getScheduled(Request $request)
+    public
+    function getScheduled(Request $request)
     {
         $pat = $request->user()->getPatient();
         $con = Consult::join('patients', 'patients.id', 'consults.id_patient')

@@ -17,6 +17,7 @@ class CreateTreatmentsTable extends Migration
             $table->id();
             $table->foreignId('id_medicine')->references('id')->on('medicines');
             $table->foreignId('id_prescription')->references('id')->on('prescriptions');
+            $table->string('detail')->nullable();
             $table->unsignedInteger('schedule');
             $table->unsignedInteger('days');
             $table->unsignedInteger('amount');
