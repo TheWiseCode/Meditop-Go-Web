@@ -425,7 +425,7 @@ class ReservationController extends Controller
                     'reservations.state'
                 )
                 ->where('patients.id', $pat->id)
-                ->orderby('reservations.time_reservation')
+                ->orderby('reservations.time_reservation', 'desc')
                 ->get();
         }else {
             $pat = $request->user()->getPatient();
@@ -443,7 +443,7 @@ class ReservationController extends Controller
                 )
                 ->where('patients.id', $pat->id)
                 ->where('reservations.state', $data['filtro'])
-                ->orderby('reservations.time_reservation')
+                ->orderby('reservations.time_reservation', 'desc')
                 ->get();
         }
         return response($res, 200);
