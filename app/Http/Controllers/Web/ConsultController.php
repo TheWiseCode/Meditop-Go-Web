@@ -123,6 +123,9 @@ class ConsultController extends Controller
             'id_consult' => 'required'
         ]);
         $con = Consult::find($data['id_consult']);
+        if($con->state == 'aceptada'){
+            return response(['message' => 'Consulta todavia no iniciada'], 201);
+        }
         if($con->state == 'proceso'){
             return response(['message' => 'Consulta en proceso'], 200);
         }
