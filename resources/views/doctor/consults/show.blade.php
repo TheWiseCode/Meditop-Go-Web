@@ -66,7 +66,6 @@
         </div>
     </div>
     <form action="{{route('consults.store')}}" method="post">
-        {{$consult->id}}
         @csrf
         <div class="div" style="display: none">
             <input type="text" value="{{$consult->id}}" name="id_consult">

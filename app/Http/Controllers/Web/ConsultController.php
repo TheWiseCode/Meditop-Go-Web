@@ -7,6 +7,7 @@ use App\Models\ActionReservation;
 use App\Models\Analysis;
 use App\Models\Consult;
 use App\Models\Diagnostic;
+use App\Models\Doctor;
 use App\Models\Medicine;
 use App\Models\NotificationDevice;
 use App\Models\OfferSpecialty;
@@ -14,10 +15,12 @@ use App\Models\Patient;
 use App\Models\Prescription;
 use App\Models\Reservation;
 use App\Models\Treatment;
+use App\Notifications\RecetaNotify;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use PDF;
 
 class ConsultController extends Controller
 {
@@ -62,7 +65,8 @@ class ConsultController extends Controller
     public
     function store(Request $request)
     {
-        $data = $request->validate([
+        //dd($request->request);
+        /*$data = $request->validate([
             'id_consult' => 'required',
             'diagnostic' => 'required',
             'receta' => 'required',
@@ -74,45 +78,56 @@ class ConsultController extends Controller
             'generico' => 'array',
             'dosis' => 'array',
             'concentracion' => 'array',
-        ]);
-        $con = Consult::find($data['id_consult']);
+        ]);*/
+        //dd($data);
+        $con = Consult::find($request->input('id_consult'));
         $con->state = 'concluida';
         $con->save();
         $diag = Diagnostic::create([
-            'id_consult' => $data['id_consult'],
-            'detail' => $data['detail_diagnostic'],
+            'id_consult' => $request->input('id_consult'),
+            'detail' => $request->input('detail_diagnostic'),
             //'time' => Carbon::now()
         ]);
-        if ($data['analisis'] == 1) {
+        if ($request->input('analisis') == 1) {
             $anl = Analysis::create([
-                'id_consult' => $data['id_consult'],
-                'detail' => $data['detail_analisis']
+                'id_consult' => $request->input('id_consult'),
+                'detail' => $request->input('detail_analisis')
             ]);
         }
-        if ($data['receta'] == 1) {
-            $c = count($data['medicamento']);
+        if ($request->input('receta') == 1) {
+            $c = count($request->input('medicamento'));
             $pres = Prescription::create([
-                'id_consult' => $data['id_consult']
+                'id_consult' => $request->input('id_consult')
             ]);
             for ($i = 0; $i < $c; $i++) {
-                $med = Medicine::where('name', $data['medicamento'][$i])
-                    ->where('name_generic', $data['generico'][$i])
-                    ->where('dose', $data['dosis'][$i])
-                    ->where('concentration', $data['concentracion'][$i])->first();
+                $med = Medicine::where('name', $request->input('medicamento')[$i])
+                    ->where('name_generic', $request->input('generico')[$i])
+                    ->where('dose', $request->input('dosis')[$i])
+                    ->where('concentration', $request->input('concentracion')[$i])->first();
                 if ($med == null) {
                     $med = Medicine::create([
-                        'name' => $data['medicamento'][$i],
-                        'name_generic' => $data['generico'][$i],
-                        'dose' => $data['dosis'][$i],
-                        'concentration' => $data['concentracion'][$i]
+                        'name' => $request->input('medicamento')[$i],
+                        'name_generic' => $request->input('generico')[$i],
+                        'dose' => $request->input('dosis')[$i],
+                        'concentration' => $request->input('concentracion')[$i]
                     ]);
                 }
                 Treatment::create([
                     'id_medicine' => $med->id,
                     'id_prescription' => $pres->id,
-                    'detail' => $data['detail_receta'][$i]
+                    'detail' => $request->input('detail_receta')[$i]
                 ]);
             }
+            $doctor = Doctor::getPerson($con->id_doctor);
+            $receta = Treatment::join('prescriptions', 'prescriptions.id', 'treatments.id_prescription')
+                ->join('consults', 'consults.id', 'prescriptions.id_consult')
+                ->join('medicines', 'medicines.id', 'treatments.id_medicine')
+                ->select('treatments.detail', 'medicines.*', 'prescriptions.time')
+                ->where('prescriptions.id_consult', $con->id)->get();
+            $pdf = PDF::loadView('doctor.receta.print', compact('receta', 'doctor'))->setOptions(['defaultFont' => 'sans-serif']);
+            $file = $pdf->setPaper('a4')->output();
+            $user = Patient::getUser($con->id_patient);
+            $user->notify(new RecetaNotify($file));
         }
         return redirect()->route('consults.index')->with(['gestion' => 'Consulta finalizada']);
     }
@@ -139,6 +154,17 @@ class ConsultController extends Controller
                 )
                 ->where('consults.id', $consult->id)
                 ->first();
+            /*$doctor = Doctor::getPerson($consult->id_doctor);
+            $receta = Treatment::join('prescriptions', 'prescriptions.id', 'treatments.id_prescription')
+                ->join('consults', 'consults.id', 'prescriptions.id_consult')
+                ->join('medicines', 'medicines.id', 'treatments.id_medicine')
+                ->select('treatments.detail', 'medicines.*', 'prescriptions.time')
+                ->where('prescriptions.id_consult', $consult->id)->get();
+            $pdf = PDF::loadView('doctor.receta.print', compact('receta', 'doctor'))->setOptions(['defaultFont' => 'sans-serif']);
+            $file = $pdf->setPaper('a4')->output();
+            $user = Patient::getUser($consult->id_patient);
+            $user->notify(new RecetaNotify($file));
+            dd($user);*/
             return view('doctor.consults.show', compact('consult', 'room'));
         }
     }
@@ -149,7 +175,6 @@ class ConsultController extends Controller
         if ($consult->state == 'aceptada' || $consult->state == 'proceso') {
             $link = $consult->url_jitsi;
             $room = substr($link, strlen("https://meet.jit.si/"));
-            //dd($room, $link);
             $consult = Consult::join('patients', 'patients.id', 'consults.id_patient')
                 ->join('reservations', 'reservations.id', 'consults.id_reservation')
                 ->join('offer_specialties', 'offer_specialties.id', 'reservations.id_offer')

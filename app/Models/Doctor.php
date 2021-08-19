@@ -26,7 +26,7 @@ class Doctor extends Model
 
     public static function getPerson($id)
     {
-        return Person::join('doctors', 'doctors.id_persons', 'persons.id')
+        return Person::join('doctors', 'doctors.id_person', 'persons.id')
             ->select('persons.*')
             ->where('doctors.id', $id)->first();
     }
