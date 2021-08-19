@@ -31,8 +31,10 @@
                             <div class="row">
                                 <label for="">Paciente</label>
                                 <input type="text" value="{{$consult->name_patient}}" readonly class="form-control">
-                                <button type="button" class="form-control btn btn-secondary">Ver historial médico
-                                </button>
+                                <a href="{{route('patient.historial', $consult->id_patient)}}" target="_blank"
+                                   class="form-control btn btn-secondary">
+                                    Ver historial médico
+                                </a>
                             </div>
                             <div class="row">
                                 <label for="">Diagnostico</label>
@@ -42,7 +44,9 @@
                             </div>
                             <div class="row">
                                 <label for="">Recetas</label>
-                                <button type="button" class="form-control btn btn-secondary">Realizar receta</button>
+                                <button type="button" class="btn btn-secondary form-control" data-toggle="modal"
+                                        data-target="#modalReceta" data-whatever="@mdo">Realizar receta
+                                </button>
                             </div>
                             <div class="row">
                                 <label for="">Analisis</label>
@@ -62,7 +66,11 @@
         </div>
     </div>
     <form action="{{route('consults.store')}}" method="post">
+        {{$consult->id}}
         @csrf
+        <div class="div" style="display: none">
+            <input type="text" value="{{$consult->id}}" name="id_consult">
+        </div>
         <input type="hidden" value=0 name="diagnostic" id="diagnostic">
         <input type="hidden" value=0 name="receta" id="receta">
         <input type="hidden" value=0 name="analisis" id="analisis">
@@ -83,7 +91,7 @@
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Detalle</label>
                             <textarea class="form-control" id="detail_consult"
-                                      name="detail_consult"></textarea>
+                                      name="detail_diagnostic"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -91,6 +99,36 @@
                                 data-dismiss="modal">Cerrar
                         </button>
                         <button type="button" class="btn btn-primary" onclick="regDiagnostic()">Registrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modalReceta" tabindex="-1" role="dialog"
+             aria-labelledby="modalRecetaLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Receta</h5>
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="medicamentos">
+                        </div>
+                        <button id="add-med" type="button" class="btn btn-secondary float-right"
+                                onclick="addMedicamento()">
+                            Añadir medicamento
+                        </button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">Cerrar
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="regReceta()">Registrar
                         </button>
                     </div>
                 </div>
@@ -174,6 +212,49 @@
             }
             $('#analisis').val(1);
             $('#modalAnalisis').modal('hide');
+        }
+
+        function regReceta() {
+            /*let detail = $('#detail_consult').val();
+            if (detail === '') {
+                $.alert({
+                    title: 'Ordenar analisis',
+                    content: 'El detalle del analisis no debe estar vacio',
+                });
+                return;
+            }*/
+            $('#receta').val(1);
+            $('#modalReceta').modal('hide');
+        }
+
+        var meds = 0;
+
+        function delMedicamento(med) {
+            $('#med' + med).remove();
+        }
+
+        function addMedicamento() {
+            let hijo = '<div class="form-group row" id="med' + meds + '">'
+            hijo += '<label class="font-weight-bold col-md-6">Medicamento</label><br>'
+            hijo += '<button type="button" class="btn" style="background-color: transparent" onclick="delMedicamento(' + meds + ')"><i class="fas fa-times"></i></button>';
+            hijo += '<div class="col-md-6">'
+            hijo += '<input type="text" class="form-control" name="medicamento[]" autofocus placeholder="Nombre Medicamento">'
+            hijo += '</div>'
+            hijo += '<div class="col-md-6">'
+            hijo += '<input type="text" class="form-control" name="generico[]" autofocus placeholder="Nombre generico">'
+            hijo += '</div>'
+            hijo += '<div class="col-md-6">'
+            hijo += '<input type="text" class="form-control" name="dosis[]" autofocus placeholder="Dosis">'
+            hijo += '</div>'
+            hijo += '<div class="col-md-6">'
+            hijo += '<input type="text" class="form-control" name="concentracion[]" autofocus placeholder="Concentracion">'
+            hijo += '</div>'
+            hijo += '<div class="col-md-12">'
+            hijo += '<textarea name="detail_receta[]" id="" cols="30" rows="3" placeholder="Detalle receta" class="form-control" style="resize: none;"></textarea>'
+            hijo += '</div>'
+            hijo += '</div>';
+            meds++;
+            $('#medicamentos').append(hijo);
         }
 
         function endConsult() {

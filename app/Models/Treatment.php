@@ -11,6 +11,6 @@ class Treatment extends Model
 
     protected $table = 'treatments';
     protected $fillable = [
-        'id_medicine', 'id_prescription', 'schedule', 'days', 'amount'
+        'id_medicine', 'id_prescription', 'schedule', 'days', 'amount', 'detail'
     ];
 }

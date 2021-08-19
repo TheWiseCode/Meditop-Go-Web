@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\VerificationController;
 use App\Http\Controllers\Web\ConsultController;
 use App\Http\Controllers\Web\DoctorController;
+use App\Http\Controllers\Web\PacientController;
 use App\Http\Controllers\Web\ReservationController;
 use App\Http\Controllers\Web\UserController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -84,6 +85,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::resource('consults', ConsultController::class)->parameters(['consult' => 'consult'])
         ->names('consults');
-    Route::post('/consult-star/{consult}', [ConsultController::class, 'startConsult'])->name('consult.start');
+    Route::post('/consult-start/{consult}', [ConsultController::class, 'startConsult'])->name('consult.start');
     Route::post('/consult-cancel', [ConsultController::class, 'cancelConsult'])->name('consult.cancel');
+
+    Route::get('/medical-history/{patient}', [PacientController::class, 'historial'])
+        ->name('patient.historial');
 });

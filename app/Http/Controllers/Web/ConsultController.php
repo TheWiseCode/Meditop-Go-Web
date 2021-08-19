@@ -4,11 +4,16 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\ActionReservation;
+use App\Models\Analysis;
 use App\Models\Consult;
+use App\Models\Diagnostic;
+use App\Models\Medicine;
 use App\Models\NotificationDevice;
 use App\Models\OfferSpecialty;
 use App\Models\Patient;
+use App\Models\Prescription;
 use App\Models\Reservation;
+use App\Models\Treatment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -57,7 +62,59 @@ class ConsultController extends Controller
     public
     function store(Request $request)
     {
-        dd($request->request);
+        $data = $request->validate([
+            'id_consult' => 'required',
+            'diagnostic' => 'required',
+            'receta' => 'required',
+            'analisis' => 'required',
+            'detail_diagnostic' => 'required',
+            'detail_analisis' => 'string',
+            'detail_receta' => 'array',
+            'medicamento' => 'array',
+            'generico' => 'array',
+            'dosis' => 'array',
+            'concentracion' => 'array',
+        ]);
+        $con = Consult::find($data['id_consult']);
+        $con->state = 'concluida';
+        $con->save();
+        $diag = Diagnostic::create([
+            'id_consult' => $data['id_consult'],
+            'detail' => $data['detail_diagnostic'],
+            //'time' => Carbon::now()
+        ]);
+        if ($data['analisis'] == 1) {
+            $anl = Analysis::create([
+                'id_consult' => $data['id_consult'],
+                'detail' => $data['detail_analisis']
+            ]);
+        }
+        if ($data['receta'] == 1) {
+            $c = count($data['medicamento']);
+            $pres = Prescription::create([
+                'id_consult' => $data['id_consult']
+            ]);
+            for ($i = 0; $i < $c; $i++) {
+                $med = Medicine::where('name', $data['medicamento'][$i])
+                    ->where('name_generic', $data['generico'][$i])
+                    ->where('dose', $data['dosis'][$i])
+                    ->where('concentration', $data['concentracion'][$i])->first();
+                if ($med == null) {
+                    $med = Medicine::create([
+                        'name' => $data['medicamento'][$i],
+                        'name_generic' => $data['generico'][$i],
+                        'dose' => $data['dosis'][$i],
+                        'concentration' => $data['concentracion'][$i]
+                    ]);
+                }
+                Treatment::create([
+                    'id_medicine' => $med->id,
+                    'id_prescription' => $pres->id,
+                    'detail' => $data['detail_receta'][$i]
+                ]);
+            }
+        }
+        return redirect()->route('consults.index')->with(['gestion' => 'Consulta finalizada']);
     }
 
     public
@@ -203,6 +260,7 @@ class ConsultController extends Controller
             ->join('doctors', 'doctors.id', 'consults.id_doctor')
             ->join('persons', 'persons.id', 'doctors.id_person')
             ->select(
+                'patients.id as id_patient',
                 'consults.id as id_consult',
                 DB::raw("concat(persons . name, ' ', persons . last_name) as name_doctor"),
                 'specialties.name as name_specialty',

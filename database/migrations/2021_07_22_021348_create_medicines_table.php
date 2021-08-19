@@ -18,7 +18,7 @@ class CreateMedicinesTable extends Migration
             $table->string('name');
             $table->string('name_generic');
             $table->string('dose');//dosis
-            $table->unsignedFloat('concentration');
+            $table->string('concentration');
             $table->timestamps();
         });
     }
