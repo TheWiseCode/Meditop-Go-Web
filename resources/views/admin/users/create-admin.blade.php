@@ -84,9 +84,14 @@
                             @enderror
                         </div>
                         <div class="col-md-6">
-                            <label for="">Profesion</label>
-                            <input type="text" value="{{old('profession')}}" name="profession"
-                                   class="form-control" required minlength="3">
+                            <label for="">Genero</label>
+                            <select name="profession" id="" class="form-control" required>
+                                <option value="" selected disabled>Seleccione su profesion</option>
+                                @foreach($profesiones as $prof)
+                                    <option value="{{$prof->name}}" @if(old('profession')==$prof->name) selected @endif>
+                                        {{$prof->name}}</option>
+                                @endforeach
+                            </select>
                             @error('profession')
                             <small class="text-danger"><strong>*{{$message}}</strong></small>
                             @enderror

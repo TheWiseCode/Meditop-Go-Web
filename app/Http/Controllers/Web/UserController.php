@@ -7,6 +7,7 @@ use App\Models\Admin;
 use App\Models\Doctor;
 use App\Models\Document;
 use App\Models\Person;
+use App\Models\Profession;
 use App\Models\ResponseVerification;
 use App\Models\User;
 use App\Models\Verification;
@@ -38,7 +39,8 @@ class UserController extends Controller
     public function createAdmin()
     {
         $this->validar();
-        return view('admin.users.create-admin');
+        $profesiones = Profession::all();
+        return view('admin.users.create-admin', compact('profesiones'));
     }
 
     public function show(User $user)
@@ -137,6 +139,7 @@ class UserController extends Controller
         $ver = Verification::where('id_doctor', $doc->id)
             ->where('state', 'pendiente')->first();
         ResponseVerification::create([
+            'time' => Carbon::now(),
             'response' => true,
             'detail' => 'Verificacion valida, documentos validos',
             'id_verification' => $ver->id,

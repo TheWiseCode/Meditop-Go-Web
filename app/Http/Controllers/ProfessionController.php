@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Day;
+use App\Models\Profession;
 use Illuminate\Http\Request;
 
-class DayController extends Controller
+class ProfessionController extends Controller
 {
     public function index()
     {
@@ -22,22 +22,22 @@ class DayController extends Controller
         //
     }
 
-    public function show(Day $day)
+    public function show(Profession $profession)
     {
         //
     }
 
-    public function edit(Day $day)
+    public function edit(Profession $profession)
     {
         //
     }
 
-    public function update(Request $request, Day $day)
+    public function update(Request $request, Profession $profession)
     {
         //
     }
 
-    public function destroy(Day $day)
+    public function destroy(Profession $profession)
     {
         //
     }

@@ -181,6 +181,7 @@ class ReservationController extends Controller
         $res = Reservation::create([
             'state' => 'pendiente',
             'time_consult' => $data['datetime'],
+            'time_reservation' => Carbon::now(),
             'id_offer' => $data['id_offer'],
             'id_patient' => $data['id_patient'],
         ]);

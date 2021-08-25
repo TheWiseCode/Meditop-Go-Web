@@ -86,18 +86,20 @@ class ConsultController extends Controller
         $diag = Diagnostic::create([
             'id_consult' => $request->input('id_consult'),
             'detail' => $request->input('detail_diagnostic'),
-            //'time' => Carbon::now()
+            'time' => Carbon::now()
         ]);
         if ($request->input('analisis') == 1) {
             $anl = Analysis::create([
                 'id_consult' => $request->input('id_consult'),
-                'detail' => $request->input('detail_analisis')
+                'detail' => $request->input('detail_analisis'),
+                //'time' => Carbon::now()
             ]);
         }
         if ($request->input('receta') == 1) {
             $c = count($request->input('medicamento'));
             $pres = Prescription::create([
-                'id_consult' => $request->input('id_consult')
+                'id_consult' => $request->input('id_consult'),
+                'time' => Carbon::now()
             ]);
             for ($i = 0; $i < $c; $i++) {
                 $med = Medicine::where('name', $request->input('medicamento')[$i])
