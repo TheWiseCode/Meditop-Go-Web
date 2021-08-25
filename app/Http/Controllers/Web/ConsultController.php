@@ -86,7 +86,7 @@ class ConsultController extends Controller
         $diag = Diagnostic::create([
             'id_consult' => $request->input('id_consult'),
             'detail' => $request->input('detail_diagnostic'),
-            //'time' => Carbon::now()
+            'time' => Carbon::now()
         ]);
         if ($request->input('analisis') == 1) {
             $anl = Analysis::create([
