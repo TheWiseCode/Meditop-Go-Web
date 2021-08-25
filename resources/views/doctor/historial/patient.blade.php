@@ -17,74 +17,49 @@
             <span><strong>Tipo de sangre: </strong>{{$patient->blood_type}}</span><br>
             <span><strong>Alergias: </strong>{{$patient->allergy}}</span><br><br>
             <label class="h5">Consultas</label><br>
+            <input type="hidden" value="{{old('tabnro', 1)}}" name="tabnro" id="tabnro">
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home"
-                       role="tab" aria-controls="pills-home" aria-selected="true">Diagnosticos</a>
+                    <a class="nav-link" id="pills-diagnosticos-tab" data-toggle="pill" href="#pills-diagnosticos"
+                       role="tab" aria-controls="pills-diagnosticos" aria-selected="false">Diagnosticos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile"
-                       role="tab" aria-controls="pills-profile" aria-selected="false">Recetas</a>
+                    <a class="nav-link" id="pills-recetas-tab" data-toggle="pill" href="#pills-recetas"
+                       role="tab" aria-controls="pills-recetas" aria-selected="false">Recetas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact"
-                       role="tab" aria-controls="pills-contact" aria-selected="false">Analisis</a>
+                    <a class="nav-link" id="pills-analisis-tab" data-toggle="pill" href="#pills-analisis"
+                       role="tab" aria-controls="pills-analisis" aria-selected="false">Analisis</a>
                 </li>
             </ul>
-            @for($i = 0;$i < count($diagnostics); $i++)
-                <ul class="list-group list-group-flush">
-                    {{--<li class="list-group-item"><strong>Fecha diagnostico: </strong>{{$diagnostics[$i]->time}}</li>--}}
-                    {{--<li class="list-group-item"><strong>Diagnostico: </strong>{{$diagnostics[$i]->detail}}</li>--}}
-                    {{--<li class="list-group-item">
-                        <label for="">Medicamentos recetados</label><br>
-                        <ul class="list-group list-group-flush">
-                            @foreach($recetas[$i] as $rec)
-                                <li class="list-group-item">{{$rec->name}}, {{$rec->dose}}
-                                    {{$rec->concentration}}, {{$rec->detail}}
-                                    --}}{{--, {{$rec->name_generic}}--}}{{--</li>
-                            @endforeach
-                        </ul>
-                    </li>--}}
-                    {{--<li class="list-group-item">
-                        <label for="">Analisis ordenados</label><br>
-                        <ul class="list-group list-group-flush">
-                            @foreach($analisis[$i] as $anl)
-                                <li class="list-group-item">{{$anl->detail}}</li>
-                            @endforeach
-                        </ul>
-                    </li>--}}
-                </ul>
-                <div class="tab-content" id="pills-tabContent">
-                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
-                         aria-labelledby="pills-home-tab">
-                        <strong>Fecha diagnostico: </strong>{{$diagnostics[$i]->time}}<br>
-                        <strong>Diagnostico: </strong>{{$diagnostics[$i]->detail}}
-                    </div>
-                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                        {{--<label for="">Medicamentos recetados</label><br>--}}
-                        <strong>Fecha recetado: </strong>{{$recetas[$i][0]->time}}
-                        <ul class="list-group list-group-flush">
-                            @foreach($recetas[$i] as $rec)
-                                <li class="list-group-item">{{$rec->name}}, {{$rec->dose}}
-                                    {{$rec->concentration}}, {{$rec->detail}}
-                                    {{--, {{$rec->name_generic}}--}}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                        {{--<label for="">Analisis ordenados</label><br>--}}
-                        <strong>Fecha orden: </strong>{{$analisis[$i][0]->time}}
-                        <ul class="list-group list-group-flush">
-                            @foreach($analisis[$i] as $anl)
-                                <li class="list-group-item">{{$anl->detail}}</li>
-                            @endforeach
-                        </ul>
-                    </div>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade" id="pills-diagnosticos" role="tabpanel"
+                     aria-labelledby="pills-diagnosticos-tab">
+                    @foreach($diagnostics as $diag)
+                        <strong>Fecha diagnostico: </strong>{{$diag->time}}<br>
+                        <strong>Detalle diagnostico: </strong>{{$diag->detail}}<br>
+                        <hr style="height:1px;border-width:0;color:gray;background-color:gray">
+                    @endforeach
+                    {{$diagnostics->links("pagination::bootstrap-4")}}
                 </div>
-                <hr style="height:2px;border-width:0;color:gray;background-color:gray">
-            @endfor
-            {{$diagnostics->count()}}
-
+                <div class="tab-pane fade" id="pills-recetas" role="tabpanel" aria-labelledby="pills-recetas-tab">
+                    @foreach($recetas as $rec)
+                        <strong>Fecha recetado: </strong>{{$rec->time}}<br>
+                        <strong>Detalle: </strong>{{$rec->name}}, {{$rec->dose}}
+                        {{$rec->concentration}}, {{$rec->detail}}, {{$rec->name_generic}}<br>
+                        <hr style="height:1px;border-width:0;color:gray;background-color:gray">
+                    @endforeach
+                    {{$recetas->links("pagination::bootstrap-4")}}
+                </div>
+                <div class="tab-pane fade" id="pills-analisis" role="tabpanel" aria-labelledby="pills-analisis-tab">
+                    @foreach($analisis as $anl)
+                        <strong>Fecha orden: </strong>{{$anl->time}}<br>
+                        <strong>Detalle: </strong>{{$anl->detail}}<br>
+                        <hr style="height:1px;border-width:0;color:gray;background-color:gray">
+                    @endforeach
+                    {{$analisis->links("pagination::bootstrap-4")}}
+                </div>
+            </div>
         </div>
     </div>
 @stop
@@ -101,15 +76,33 @@
         }
 
         $(document).ready(function () {
-            /*$('#myTab a').on('click', function (e) {
-                e.preventDefault()
-                $(this).tab('show')
-            })*/
+            let tabpage = $('#tabnro').val();
+            if (tabpage == '1') {
+                $('#pills-diagnosticos-tab').addClass('active').attr('aria-selected', true);
+                $('#pills-diagnosticos').addClass('show active');
+            } else if (tabpage == '2') {
+                $('#pills-recetas-tab').addClass('active').attr('aria-selected', true);
+                $('#pills-recetas').addClass('show active');
+            } else {
+                $('#pills-analisis-tab').addClass('active').attr('aria-selected', true);
+                $('#pills-analisis').addClass('show active');
+            }
 
-            /*$('#myTab a[href="#profile"]').tab('show') // Select tab by name
-            $('#myTab li:first-child a').tab('show') // Select first tab
-            $('#myTab li:last-child a').tab('show') // Select last tab
-            $('#myTab li:nth-child(3) a').tab('show') //*/
+            $('#pills-tab li:nth-child(1) a').on('click', function (e) {
+                e.preventDefault()
+                $('#tabnro').val(1);
+                $(this).tab('show')
+            })
+            $('#pills-tab li:nth-child(2) a').on('click', function (e) {
+                e.preventDefault()
+                $('#tabnro').val(2);
+                $(this).tab('show')
+            })
+            $('#pills-tab li:nth-child(3) a').on('click', function (e) {
+                e.preventDefault()
+                $('#tabnro').val(3);
+                $(this).tab('show')
+            })
 
             let value = "Mostrar "
             value += "<select class='custom-select custom-select-sm form-control form-control-sm'>";
