@@ -15,7 +15,8 @@ class CreateVerificationsTable extends Migration
     {
         Schema::create('verifications', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('time')->default('now');
+            //$table->dateTime('time')->default('now');
+            $table->dateTime('time')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->enum('state', ['pendiente', 'rechazada', 'aceptada'])->default('pendiente');
             $table->foreignId('id_doctor')->references('id')->on('doctors');
             $table->timestamps();

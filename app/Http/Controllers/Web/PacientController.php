@@ -69,8 +69,6 @@ class PacientController extends Controller
             array_push($recetas, $rec);
             array_push($analisis, $anl);
         }
-        $now = Carbon::now();
-        dd($now);
         return view('doctor.historial.patient',
             compact('patient', 'diagnostics', 'recetas', 'analisis'));
     }

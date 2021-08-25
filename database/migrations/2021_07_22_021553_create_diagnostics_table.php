@@ -17,7 +17,8 @@ class CreateDiagnosticsTable extends Migration
             $table->id();
             $table->foreignId('id_consult')->references('id')->on('consults');
             $table->string('detail');
-            $table->dateTime('time')->default('now');
+            //$table->dateTime('time')->default('now');
+            $table->dateTime('time')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();
         });
     }

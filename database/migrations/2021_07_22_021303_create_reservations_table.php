@@ -16,7 +16,8 @@ class CreateReservationsTable extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->unsignedFloat('total')->default(0);
-            $table->dateTime('time_reservation')->default('now');
+            //$table->dateTime('time_reservation')->default('now');
+            $table->dateTime('time_reservation')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->dateTime('time_consult');
             $table->enum('state', ['pendiente', 'rechazada', 'cancelada', 'aceptada'])
                 ->default('pendiente');
